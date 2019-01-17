@@ -245,8 +245,13 @@ void tool_vcmd::v_jump(vssd & myvssd, std::string & jumpto)
 void tool_vcmd::vsave(vssd & myvssd, std::string & jumpto)
 {
 	//获取文件指针
-	//FILE *file;  
-	//myvssd.puttorealfile(file);
+	FILE *file= nullptr;  
+	myvssd.puttorealfile(file);
+
+
+
+
+
 }
 
 void tool_vcmd::vload(vssd & myvssd, std::string & jumpto)
