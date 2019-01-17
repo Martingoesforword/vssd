@@ -44,7 +44,7 @@ vssd_foldertop * vssd::findtop(std::string & aname)
 {
 	for (int i = 0; i < tops.size(); i++)
 	{
-		if (aname == tops[i]->root->getname() ) {
+		if (aname == tops[i ]-> root->getname() ) {
 			return tops[i];
 		}
 	}
@@ -60,7 +60,19 @@ void vssd::getfromrealfile(FILE * d)
 {
 	//按照文档上的格式读取二进制
 }
- 
+
+void vssd::serialize(std::vector<unsigned char> &byte) {
+	
+	//数据长度
+	vssd_tool::push(0, byte);
+	unsigned int lengthpoint = byte.size() - 4;
+
+
+	//数据内容
+
+
+
+}
 
 vssd::~vssd()
 {

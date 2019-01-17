@@ -13,5 +13,7 @@ public:
 	vssd_foldertop(vssd_folder* root, vssd_folder * genius);
 	void newroot(vssd_folder* root);
 	vssd_folder* find(tool_path &apath); 
+
+
 	~vssd_foldertop();
 }; 

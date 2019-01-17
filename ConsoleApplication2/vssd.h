@@ -18,6 +18,7 @@ public:
 	void puttorealfile(FILE *d);
 	void getfromrealfile(FILE *d);
 
+	void serialize(std::vector<unsigned char> &byte);
 	~vssd();
 };
  

@@ -19,4 +19,13 @@ public:
 		}
 
 	}
+	//输入：四字节整形数据 一个字节型vector引用   目的：将四字节整形数据按大端放入引用中
+	static void push(unsigned int uint4, std::vector<unsigned char> &byte) {
+		 
+		byte.push_back((uint4 >> 24) && 0x0FF);
+		byte.push_back((uint4 >> 16) && 0x0FF);
+		byte.push_back((uint4 >> 8) && 0x0FF);
+		byte.push_back((uint4) && 0x0FF); 
+		return;
+	}
 };
