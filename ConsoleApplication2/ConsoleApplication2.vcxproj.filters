@@ -33,9 +33,6 @@
     <ClInclude Include="vssd_tool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vssd_canbelinked.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="tool_vcmd.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -48,9 +45,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vssd_folder.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="canbelinked.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vssd_foldertop.cpp">

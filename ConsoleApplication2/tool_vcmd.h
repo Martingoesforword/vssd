@@ -1,8 +1,7 @@
 #pragma once
-class tool_vcmd
+static class tool_vcmd
 {
-private:
-
+ 
 public:
 	static void comein(vssd & myvssd, std::string &command); 
 	static void vdir(vssd_foldertop* top);
@@ -24,7 +23,6 @@ public:
 	static void vdel(vssd & myvssd, std::string & delcommand);
 	static void vcopy(vssd & myvssd , std::string & src, std::string & dis); 
 	static void vmklink(vssd & myvssd, std::string & src, std::string & dis);
-	tool_vcmd();
-	~tool_vcmd();
+	 
 };
 

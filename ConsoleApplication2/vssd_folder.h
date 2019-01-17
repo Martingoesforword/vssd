@@ -1,5 +1,7 @@
 #pragma once 
-class vssd_folder :public vssd_canbelinked
+
+
+class vssd_folder  
 {
 private:
 	

@@ -152,7 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="vssd_canbelinked.h" />
     <ClInclude Include="tool_vcmd.h" />
     <ClInclude Include="vssd_foldertop.h" />
     <ClInclude Include="vssd_folder.h" />
@@ -162,7 +161,6 @@
     <ClInclude Include="vssd_tool.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="canbelinked.cpp" />
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="tool_vcmd.cpp" />
     <ClCompile Include="vssd_foldertop.cpp" />

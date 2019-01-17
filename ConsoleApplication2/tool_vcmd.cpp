@@ -490,12 +490,4 @@ void tool_vcmd::comein(vssd & myvssd, std::string & cmdcommand)
 	  
 }
 
-
-tool_vcmd::tool_vcmd()
-{
-}
-
-
-tool_vcmd::~tool_vcmd()
-{
-}
+ 
