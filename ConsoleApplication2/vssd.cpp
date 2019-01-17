@@ -33,7 +33,7 @@ vssd::vssd(vssd_foldertop * Now, vssd_folder * agenius, std::string aname)
 	name = aname;
 	genius = agenius;
 }
-
+ 
  
 vssd::vssd()
 {
