@@ -3,6 +3,7 @@ static class tool_vcmd
 {
  
 public:
+	
 	static void comein(vssd & myvssd, std::string &command); 
 	static void vdir(vssd_foldertop* top);
 	static void vrd(vssd & myvssd, std::string & dircommand);

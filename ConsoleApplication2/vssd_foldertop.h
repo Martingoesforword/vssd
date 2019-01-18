@@ -12,7 +12,9 @@ public:
 	void shownowposition();
 	vssd_foldertop(vssd_folder* root, vssd_folder * genius);
 	void newroot(vssd_folder* root);
-	vssd_folder* find(tool_path &apath); 
+	vssd_folder* find(tool_path &apath);
+	void serialize(std::vector<unsigned char> &byte_toptable);
+
 
 
 	~vssd_foldertop();

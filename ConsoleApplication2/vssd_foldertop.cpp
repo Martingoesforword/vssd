@@ -56,6 +56,13 @@ vssd_folder * vssd_foldertop::find(tool_path & apath)
 
 }
  
+void vssd_foldertop::serialize(std::vector<unsigned char> &byte_toptable)
+{
+	//Ô¤Áô´æ·ÅrootfolderÖ¸Õë£¨index£©
+	vssd_tool::pushstring(root->name, byte_toptable);
+	vssd_tool::push0toNspace(4 - root->name.size(), byte_toptable);
+
+}
 
  
 

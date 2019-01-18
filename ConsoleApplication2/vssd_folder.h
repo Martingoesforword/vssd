@@ -32,6 +32,10 @@ public:
 	bool isFile();
 	void setcontent(unsigned char byte);
 	void setcontentstring(std::string str);
-	unsigned char readcontent();
+	unsigned char readcontent(); 
+	int serialize(std::vector<unsigned char>& byte_foldertable, std::vector<unsigned char>& byte_contenttable, int & indexinit);
+	void parmsave(std::vector<unsigned char>& byte_foldertable, int a);
+	void contentsave(std::vector<unsigned char>& byte_foldertable, int a);
+
 	~vssd_folder();
 };

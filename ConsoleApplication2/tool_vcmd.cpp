@@ -244,22 +244,22 @@ void tool_vcmd::v_jump(vssd & myvssd, std::string & jumpto)
 
 void tool_vcmd::vsave(vssd & myvssd, std::string & jumpto)
 {
+	std::vector<unsigned char> a;
 	//获取文件指针
-	FILE *file= nullptr;  
-	myvssd.puttorealfile(file);
-
-
-
-
-
-
+	//FILE *file= nullptr;  
+	//myvssd.puttorealfile(file);
+	std::vector<unsigned char> byte_vssd;
+	
+	myvssd.serialize(myvssd.serial); 
 }
 
-void tool_vcmd::vload(vssd & myvssd, std::string & jumpto)
+void tool_vcmd::vload(vssd & myvssd, std::string & getfrom)
 {
+	std::vector<unsigned char> a;
 	//获取文件指针
 	//FILE *file;
 	//myvssd.getfromrealfile(file);
+	myvssd.deserialize(myvssd.serial); 
 }
 
 void tool_vcmd::vdel(vssd & myvssd, std::string & delcommand)
@@ -354,6 +354,16 @@ void tool_vcmd::comein(vssd & myvssd, std::string & cmdcommand)
 		vssd_tool::trim(rear);
 		 
 		vsave(myvssd, rear);
+
+	}
+	//load命令解析
+	else if (cmdcommand.length() > 4 && cmdcommand.substr(0, 4).compare("load") == 0) {
+
+
+		rear = cmdcommand.substr(4, cmdcommand.length() - 4);
+		vssd_tool::trim(rear);
+
+		vload(myvssd, rear);
 
 	}
 	//mklink命令解析

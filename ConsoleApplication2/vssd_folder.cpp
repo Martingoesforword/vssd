@@ -262,6 +262,70 @@ unsigned char vssd_folder::readcontent()			//返回NULL 和 下一个字符
 	}
 }
 
+int vssd_folder::serialize(std::vector<unsigned char>& byte_foldertable, std::vector<unsigned char>& byte_contenttable,int &indexinit)
+{
+	int p = byte_foldertable.size();
+	indexinit++;
+	//存属性
+	parmsave(byte_foldertable, indexinit);
+	//存文件内容
+	contentsave(byte_contenttable, indexinit);
+	
+	//预留4+子文件夹个数的空间
+	vssd_tool::push4Buint(subfolders.size(), byte_foldertable);
+	vssd_tool::push0toNspace(subfolders.size() * 4, byte_foldertable);
+	
+	//递归存
+	for (int i = 0; i < subfolders.size(); i++)
+	{ 
+		int ps = subfolders.at(i)->serialize(byte_foldertable, byte_contenttable, indexinit);
+		std::vector<unsigned char>::iterator it = byte_foldertable.begin();
+		it = it + p + 48 + i*4;
+		vssd_tool::set4Buint(it, ps); 
+	}
+
+
+	return p;
+
+}
+void vssd_folder::parmsave(std::vector<unsigned char>& byte_foldertable,int index) 
+{
+	//需要32+4+4+4 = 44B
+	 
+	vssd_tool::pushstring(name, byte_foldertable);
+	vssd_tool::push0toNspace(32-name.length(), byte_foldertable);
+
+	vssd_tool::push4Buint(vssdtypecode, byte_foldertable);
+
+	vssd_tool::push4Buint(content.size(),byte_foldertable);
+	//内容指针（index）
+	if (vssdtypecode != 0) {
+		vssd_tool::push4Buint(0xffffffff, byte_foldertable);
+	} 
+	else {
+		vssd_tool::push4Buint(index, byte_foldertable);
+	}
+
+
+}
+void vssd_folder::contentsave(std::vector<unsigned char>& byte_contenttable, int index)
+{
+	if (vssdtypecode != 0) return;
+
+
+	//需要4+4+content.size()长度
+	 
+	vssd_tool::push4Buint(content.size(), byte_contenttable);
+	vssd_tool::push4Buint(index, byte_contenttable);
+ 
+	//存放内容
+	for (int i = 0; i < content.size(); i++)
+	{
+		byte_contenttable.push_back(content.at(i));
+	}
+ 
+
+}
 vssd_folder::~vssd_folder()
 {
 }
