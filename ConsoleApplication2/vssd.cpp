@@ -48,12 +48,17 @@ vssd_foldertop * vssd::findtop(std::string & aname)
 			return tops[i];
 		}
 	}
-	return nullptr; 
+	return nullptr;
+
 }
 
 void vssd::puttorealfile(FILE * d)
 {
+
+
 	//按照文档上的格式保存二进制
+
+
 }
 
 void vssd::getfromrealfile(FILE * d)
@@ -64,12 +69,36 @@ void vssd::deserialize(std::vector<unsigned char> &byte_vssd) {
 	std::string dname = SPACE32;
 	std::vector<unsigned char>::iterator it = byte_vssd.begin();
 	
-	vssd_tool::popstring(dname, 32, it);
+	vssd_tool::getstring(byte_vssd, 0, 32, dname);
 	
-	//获取folder，通过递归创建
+	name = dname;
+	unsigned int topindex = 0;
+	vssd_tool::get4Buint(byte_vssd, 32, topindex);
+	unsigned int toptablepoint = 0;
+	vssd_tool::get4Buint(byte_vssd, 36, toptablepoint);
+	unsigned int geniusindex = 0;
+	vssd_tool::get4Buint(byte_vssd, 40, geniusindex);
+	unsigned int foldertablepoint = 0;
+	vssd_tool::get4Buint(byte_vssd, 44, foldertablepoint);
+	//调用top的de方法，创建top数组，返回指针tops
+
+	static vssd_folder *genius = new vssd_folder("",0);
+	 
 
 
-	//
+	//调用folder的de方法，递归创建folder
+	genius->deserialize(byte_vssd, foldertablepoint);
+
+
+
+
+
+	//析构vssd里的全部属性，保留本身
+
+
+	//建立与新属性的链接，并赋值给vssd的nowtop和tops
+
+	 
 
 }
 
@@ -127,8 +156,8 @@ void vssd::serialize(std::vector<unsigned char> &byte_vssd) {
 
 	int contenttablepos = toptablepos+ byte_toptable.size();
 	std::vector<unsigned char>::iterator it1 = byte_vssd.begin();
-	it1 += 44;
-	vssd_tool::set4Buint(it, contenttablepos);
+	it1 += 48;
+	vssd_tool::set4Buint(it1, contenttablepos);
 	 
 
 	vssd_tool::copyappend(byte_foldertable, byte_vssd);

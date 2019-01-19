@@ -29,20 +29,25 @@ public:
 		byte.push_back((uint4) & 0x0FF); 
 		return;
 	}
-	static unsigned int get4Buint(std::vector<unsigned char>::iterator & it) {
+	static unsigned int get4Buint(const std::vector<unsigned char>& byte_vssd, int pos, unsigned int &num) {
 		unsigned int a = 0;
-		a += *(it + 3) * 1;
+		a += byte_vssd.at(pos + 3);
 
-		a += *(it + 2) * 128;
-		a += *(it + 1) * 128 * 128;
-		a += *(it + 0) * 128 * 128 * 128;
-		return a;
+		a += byte_vssd.at(pos + 2) * 256;
+		a += byte_vssd.at(pos + 1) * 256 * 256;
+		a += byte_vssd.at(pos + 0) * 256 * 256 * 256;
+		num = a;
+		return 1;
 	}
-	static void popstring(std::string  &str,int size,const std::vector<unsigned char>::iterator & it) {
-		for (int i = 0; i < size && *(it + i); i++)
+	static void getstring(const std::vector<unsigned char>& byte_vssd,int pos,int length, std::string &str) {
+
+		int i = 0;
+		char ch;
+		for (; i < length && (ch = byte_vssd.at(pos + i)); i++)
 		{
-			str[i] = *(it+i) ;
+			str[i] = ch;
 		}
+		str[i] = '\0';
 		return;
 	}
 	 

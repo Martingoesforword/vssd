@@ -8,7 +8,7 @@ private:
 	 
 
 public: 
-	std::string name; 
+	std::string name = SPACE32; 
 	std::vector<vssd_folder *>subfolders;   
 	 
 	 
@@ -27,13 +27,14 @@ public:
 	vssd_folder *find(std::string &folder);//搜索本目录下文件
 	vssd_folder *find(tool_path * apath,int pathpos);//搜索本目录下包括子目录文件
 	std::string vssdtypename[3] = { "FILE","FOLDER", "LINK" };
-	int vssdtypecode;    //0 file 1 folder 2 link
+	unsigned int vssdtypecode;    //0 file 1 folder 2 link
 	std::vector<unsigned char> content;		//文件内容 
 	bool isFile();
 	void setcontent(unsigned char byte);
 	void setcontentstring(std::string str);
 	unsigned char readcontent(); 
 	int serialize(std::vector<unsigned char>& byte_foldertable, std::vector<unsigned char>& byte_contenttable, int & indexinit);
+	void deserialize(std::vector<unsigned char>& byte_vssd, int pos);
 	void parmsave(std::vector<unsigned char>& byte_foldertable, int a);
 	void contentsave(std::vector<unsigned char>& byte_foldertable, int a);
 

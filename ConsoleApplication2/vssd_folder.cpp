@@ -281,11 +281,65 @@ int vssd_folder::serialize(std::vector<unsigned char>& byte_foldertable, std::ve
 		int ps = subfolders.at(i)->serialize(byte_foldertable, byte_contenttable, indexinit);
 		std::vector<unsigned char>::iterator it = byte_foldertable.begin();
 		it = it + p + 48 + i*4;
-		vssd_tool::set4Buint(it, ps); 
+		vssd_tool::set4Buint(it, ps+52); 
 	}
 
 
 	return p;
+
+}
+void vssd_folder::deserialize(std::vector<unsigned char>& byte_vssd, int pos)
+{
+
+	vssd_tool::getstring(byte_vssd, pos, 32, name);   pos += 32;
+
+	vssd_tool::get4Buint(byte_vssd, pos, vssdtypecode);   pos += 4;
+
+	
+	if (vssdtypecode != 0) {
+		pos += 4 * 2;  //跳过文件内容描述
+		unsigned int subnum;
+		vssd_tool::get4Buint(byte_vssd, pos, subnum);    pos += 4;
+		for (int i = 0; i < subnum; i++)
+		{
+			vssd_folder *f1 = new vssd_folder(SPACE32, 0);
+			vssd_folder_link(f1);
+			unsigned int subpos = 0;
+			vssd_tool::get4Buint(byte_vssd, pos, subpos);
+			f1->deserialize(byte_vssd, subpos);
+			pos += 4;
+		}
+	}
+	//连接content
+	else {
+
+		unsigned int contentlength = 0;
+		vssd_tool::get4Buint(byte_vssd, pos, contentlength);  pos += 4;
+		unsigned int contentindex = 0;
+		vssd_tool::get4Buint(byte_vssd, pos, contentindex);
+
+		unsigned int contentpoint = 0;
+		vssd_tool::get4Buint(byte_vssd, 48, contentpoint);  //content指针
+
+		int contentindexx = 0;
+		for (int  i = 0; i < FILEMAXSIZE; i++)
+		{
+			 
+			unsigned int contentindex1 = 0;
+			vssd_tool::get4Buint(byte_vssd, contentpoint, contentindex1);
+			if (contentindex1 == contentindex) {
+				//读文件
+				std::string str1;
+				vssd_tool::getstring(byte_vssd, contentpoint, contentlength, str1);
+				setcontentstring(str1); 
+				
+				break;
+			}
+		}
+
+		
+	}
+
 
 }
 void vssd_folder::parmsave(std::vector<unsigned char>& byte_foldertable,int index) 
@@ -313,10 +367,11 @@ void vssd_folder::contentsave(std::vector<unsigned char>& byte_contenttable, int
 	if (vssdtypecode != 0) return;
 
 
-	//需要4+4+content.size()长度
-	 
-	vssd_tool::push4Buint(content.size(), byte_contenttable);
+	
 	vssd_tool::push4Buint(index, byte_contenttable);
+	//需要4+4+content.size()长度
+	vssd_tool::push4Buint(content.size(), byte_contenttable);
+	
  
 	//存放内容
 	for (int i = 0; i < content.size(); i++)
