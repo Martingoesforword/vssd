@@ -11,7 +11,7 @@ public:
 	std::vector<unsigned char> serial;
 	vssd_foldertop *getnowtop();
 	vssd_folder *getgenius();
-	void setnowtop(vssd_foldertop * afoldertop);
+	void setnowtop(vssd_foldertop * afoldertop); 
 	void linktop(vssd_foldertop *anowtop);
 	vssd(vssd_foldertop * Now, vssd_folder * agenius, std::string aname);
 

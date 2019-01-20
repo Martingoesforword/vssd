@@ -8,7 +8,7 @@ private:
 	 
 
 public: 
-	std::string name = SPACE32; 
+	std::string name ; 
 	std::vector<vssd_folder *>subfolders;   
 	 
 	 

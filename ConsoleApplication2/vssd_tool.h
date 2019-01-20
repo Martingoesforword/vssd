@@ -45,12 +45,20 @@ public:
 		char ch;
 		for (; i < length && (ch = byte_vssd.at(pos + i)); i++)
 		{
-			str[i] = ch;
-		}
-		str[i] = '\0';
+			str.push_back(byte_vssd[pos + i]);
+		} 
 		return;
 	}
-	 
+	static void getstringand0(const std::vector<unsigned char>& byte_vssd, int pos, int length, std::string &str) {
+
+		int i = 0;
+		char ch = '0';
+		for (; i < length; i++)
+		{
+			str.push_back(byte_vssd[pos+i]);
+		}
+		return;
+	}
 	static void set4Buint(std::vector<unsigned char>::iterator & it, unsigned int uint4) {
 		 
 		*it = (unsigned char)((uint4 >> 24) & 0x0FF);

@@ -44,7 +44,7 @@ vssd_foldertop * vssd::findtop(std::string & aname)
 {
 	for (int i = 0; i < tops.size(); i++)
 	{
-		if (aname == tops[i ]-> root->getname() ) {
+		if (aname.compare(tops[i]-> root->getname()) == 0 ) {
 			return tops[i];
 		}
 	}
@@ -66,12 +66,10 @@ void vssd::getfromrealfile(FILE * d)
 	//按照文档上的格式读取二进制
 }
 void vssd::deserialize(std::vector<unsigned char> &byte_vssd) {
-	std::string dname = SPACE32;
+	 
 	std::vector<unsigned char>::iterator it = byte_vssd.begin();
 	
-	vssd_tool::getstring(byte_vssd, 0, 32, dname);
-	
-	name = dname;
+	vssd_tool::getstring(byte_vssd, 0, 32, name);  
 	unsigned int topindex = 0;
 	vssd_tool::get4Buint(byte_vssd, 32, topindex);
 	unsigned int toptablepoint = 0;
@@ -80,16 +78,27 @@ void vssd::deserialize(std::vector<unsigned char> &byte_vssd) {
 	vssd_tool::get4Buint(byte_vssd, 40, geniusindex);
 	unsigned int foldertablepoint = 0;
 	vssd_tool::get4Buint(byte_vssd, 44, foldertablepoint);
+	unsigned int contenttablepoint = 0;
+	vssd_tool::get4Buint(byte_vssd, 48, contenttablepoint);
 	//调用top的de方法，创建top数组，返回指针tops
 
-	static vssd_folder *genius = new vssd_folder("",0);
-	 
-
-
+	vssd_folder *geniusnow = new vssd_folder("",0); 
 	//调用folder的de方法，递归创建folder
-	genius->deserialize(byte_vssd, foldertablepoint);
+	geniusnow->deserialize(byte_vssd, foldertablepoint);
 
 
+	genius = geniusnow;
+	 
+	tops.clear();
+	for (int i = 0; i < genius->subfolders.size(); i++)
+	{
+		vssd_foldertop *pan = new vssd_foldertop(genius->subfolders[i], genius);
+		tops.push_back(pan);
+	}
+
+	setnowtop(tops[tops.size()-1]);
+
+	 
 
 
 

@@ -150,7 +150,7 @@ void tool_vcmd::vren(vssd & myvssd, std::string & rencommand) {
 
 
 	if (!myvssd.getnowtop()->nowpath.realfolders.at(myvssd.getnowtop()->nowpath.realfolders.size() - 2)->find(rencommand)) {
-		if (myvssd.getnowtop()->getnowposition()->getname() != myvssd.getnowtop()->root->getname())
+		if (myvssd.getnowtop()->getnowposition()->getname().compare(myvssd.getnowtop()->root->getname()) != 0)
 			myvssd.getnowtop()->getnowposition()->setname(rencommand);
 	}
 	else {

@@ -96,7 +96,7 @@ void vssd_folder::deletone(vssd_folder * deletfolder)
 			}
 		}
 
-		if (subfolders.at(j)->getname() == deletfolder->getname()) {
+		if (subfolders.at(j)->getname().compare(deletfolder->getname()) == 0) {
 			subfolders.at(j)->deletevery();
 			subfolders.at(j)->~vssd_folder();
 			std::vector<vssd_folder *>::iterator it = subfolders.begin();
@@ -127,7 +127,7 @@ void vssd_folder::offone(vssd_folder * deletfolder)
 			}
 		}
 
-		if (subfolders.at(j)->getname() == deletfolder->getname()) { 
+		if (subfolders.at(j)->getname().compare(deletfolder->getname()) == 0) {
 			std::vector<vssd_folder*>::iterator it = subfolders.begin(); 
 			subfolders.erase(it + j); 
 			return;
@@ -189,7 +189,7 @@ vssd_folder * vssd_folder::find(std::string & folder)
 	{  
 		 
 		if (subfolders.at(j) != NULL) {
-			if (subfolders.at(j)->getname() == folder) {
+			if (subfolders.at(j)->getname().compare(folder) == 0) {
 
 				return subfolders.at(j);
 			}
@@ -290,9 +290,8 @@ int vssd_folder::serialize(std::vector<unsigned char>& byte_foldertable, std::ve
 }
 void vssd_folder::deserialize(std::vector<unsigned char>& byte_vssd, int pos)
 {
-
-	vssd_tool::getstring(byte_vssd, pos, 32, name);   pos += 32;
-
+	 
+	vssd_tool::getstring(byte_vssd, pos, 32, name);   pos += 32; 
 	vssd_tool::get4Buint(byte_vssd, pos, vssdtypecode);   pos += 4;
 
 	
@@ -302,7 +301,7 @@ void vssd_folder::deserialize(std::vector<unsigned char>& byte_vssd, int pos)
 		vssd_tool::get4Buint(byte_vssd, pos, subnum);    pos += 4;
 		for (int i = 0; i < subnum; i++)
 		{
-			vssd_folder *f1 = new vssd_folder(SPACE32, 0);
+			vssd_folder *f1 = new vssd_folder("", 0);
 			vssd_folder_link(f1);
 			unsigned int subpos = 0;
 			vssd_tool::get4Buint(byte_vssd, pos, subpos);
@@ -330,7 +329,7 @@ void vssd_folder::deserialize(std::vector<unsigned char>& byte_vssd, int pos)
 			if (contentindex1 == contentindex) {
 				//读文件
 				std::string str1;
-				vssd_tool::getstring(byte_vssd, contentpoint, contentlength, str1);
+				vssd_tool::getstringand0(byte_vssd, contentpoint+4, contentlength, str1);
 				setcontentstring(str1); 
 				
 				break;
@@ -369,8 +368,7 @@ void vssd_folder::contentsave(std::vector<unsigned char>& byte_contenttable, int
 
 	
 	vssd_tool::push4Buint(index, byte_contenttable);
-	//需要4+4+content.size()长度
-	vssd_tool::push4Buint(content.size(), byte_contenttable);
+	//需要4+4+content.size()长度 
 	
  
 	//存放内容
