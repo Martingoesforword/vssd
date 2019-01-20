@@ -175,6 +175,7 @@ void vssd::serialize(std::vector<unsigned char> &byte_vssd) {
 
 	vssd_tool::copyappend(byte_contenttable, byte_vssd);
 
+	vssd_tool::push4Buintforpos(contenttablepos+ byte_contenttable.size(), 32, byte_vssd);
 	//返回一个std::vector<unsigned char> &byte_foldertable;
 	//获取内容表std::vector<unsigned char> &byte_contenttable;
 

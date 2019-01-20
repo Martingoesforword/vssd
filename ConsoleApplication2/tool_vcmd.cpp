@@ -244,22 +244,68 @@ void tool_vcmd::v_jump(vssd & myvssd, std::string & jumpto)
 
 void tool_vcmd::vsave(vssd & myvssd, std::string & jumpto)
 {
-	std::vector<unsigned char> a;
+	 
+	myvssd.serialize(myvssd.serial);
+	  
+	std::ofstream vssdfile("d:\\vssdfile", std::ios::binary);
+	if (vssdfile.is_open())
+	{
+		std::string data;
+		vssd_tool::getstringand0(myvssd.serial,0, myvssd.serial.size(),data); 
+		 
+		vssdfile.write((const char*)&data[0],data.size()); 
+		
+		vssdfile.close();
+		myvssd.serial.clear();
+	}
+	else {
+		std::cout << "Error opening file";
+	}
+
+	
 	//获取文件指针
 	//FILE *file= nullptr;  
 	//myvssd.puttorealfile(file);
-	std::vector<unsigned char> byte_vssd;
-	
-	myvssd.serialize(myvssd.serial); 
 }
 
 void tool_vcmd::vload(vssd & myvssd, std::string & getfrom)
 {
-	std::vector<unsigned char> a;
+	myvssd.serial.clear();
+	char ch;
+	std::ifstream vssdfile("d:\\vssdfile", std::ios::binary);
+	if (!vssdfile.is_open())
+	{
+		std::cout << "Error opening file"; exit(1);
+	}
+	while (!vssdfile.eof())
+	{
+		char ch = ' ';
+
+		
+
+		for (int i = 0; i < 36; i++)
+		{
+			vssdfile.read(&ch, 1);
+			myvssd.serial.push_back(ch);
+		}
+		unsigned int bytelength = 0;
+		vssd_tool::get4Buint(myvssd.serial, 32, bytelength);
+
+		for (int i = 0; i < bytelength-36; i++)
+		{
+			vssdfile.read(&ch, 1);
+			myvssd.serial.push_back(ch);
+		}
+
+		vssdfile.close();
+	 
+		 
+	} 
 	//获取文件指针
 	//FILE *file;
 	//myvssd.getfromrealfile(file);
 	myvssd.deserialize(myvssd.serial); 
+	myvssd.serial.clear();
 }
 
 void tool_vcmd::vdel(vssd & myvssd, std::string & delcommand)

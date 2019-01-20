@@ -29,6 +29,15 @@ public:
 		byte.push_back((uint4) & 0x0FF); 
 		return;
 	}
+	//输入：四字节整形数据 一个字节型vector引用   目的：将四字节整形数据按大端放入引用中
+	static void push4Buintforpos(unsigned int uint4,int pos, std::vector<unsigned char> &byte) {
+
+		byte[pos] = ((uint4 >> 24) & 0x0FF);
+		byte[pos+1] = ((uint4 >> 16) & 0x0FF);
+		byte[pos+2] = ((uint4 >> 8) & 0x0FF);
+		byte[pos+3] = ((uint4) & 0x0FF);
+		return;
+	}
 	static unsigned int get4Buint(const std::vector<unsigned char>& byte_vssd, int pos, unsigned int &num) {
 		unsigned int a = 0;
 		a += byte_vssd.at(pos + 3);
@@ -40,7 +49,7 @@ public:
 		return 1;
 	}
 	static void getstring(const std::vector<unsigned char>& byte_vssd,int pos,int length, std::string &str) {
-
+		str.clear();
 		int i = 0;
 		char ch;
 		for (; i < length && (ch = byte_vssd.at(pos + i)); i++)
