@@ -244,9 +244,9 @@ void tool_vcmd::v_jump(vssd & myvssd, std::string & jumpto)
 
 void tool_vcmd::vsave(vssd & myvssd, std::string & jumpto)
 {
-	 
+	
 	myvssd.serialize(myvssd.serial);
-	  
+	 
 	std::ofstream vssdfile("d:\\vssdfile", std::ios::binary);
 	if (vssdfile.is_open())
 	{
