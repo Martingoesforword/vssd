@@ -1,5 +1,6 @@
 
 #include "pch.h"   
+#include "tool_path.h"
 
 sjh::tool_path::tool_path()
 {
@@ -111,6 +112,15 @@ void sjh::tool_path::PathToFolders(std::string path)
 
 
 
+}
+std::string sjh::tool_path::FoldersToPath()
+{
+	std::string *Path = new std::string();
+	for (int  i = 1; i < RealFolders.size(); i++)
+	{
+		Path->append(RealFolders[i]->Name + "\\");
+	}
+	return *Path;
 }
 void sjh::tool_path::DeletOne() {
 	Folders.pop_back();

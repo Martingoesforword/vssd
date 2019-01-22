@@ -11,7 +11,7 @@ void sjh::tool_vcmd::vDir(sjh::vssd_foldertop * Top)
 			return;
 		}
 	}
-	now->ShowOffSub();
+	now->ShowOffSub(1,Top->NowPath.FoldersToPath());
 	 
 }
 //当下文件夹下cd
@@ -66,7 +66,7 @@ void sjh::tool_vcmd::vDir(vssd & MyVssd, std::string & DirCommand)
 		return;
 	}
 	if (Folder) {
-		Folder->ShowOffSub();
+		Folder->ShowOffSub(0,a.FoldersToPath());
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -154,7 +154,8 @@ void sjh::tool_vcmd::vCd(vssd & MyVssd, std::string & CdCommand)
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 		return;
 	}
-	if (folder && folder->SubFolders[0]) {
+	 
+	if (folder && ((folder->VssdTypeCode != 2) ||(folder->VssdTypeCode == 2 && folder->SubFolders[0]))) {
 		MyVssd.GetNowTop()->NowPath = a; 
 	}
 	else {
@@ -566,9 +567,9 @@ void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::string & CmdCommand)
 		vCls();
 	}
 	//创建文件夹命令解析
-	else if (CmdCommand.length() > 2 && CmdCommand.substr(0, 2).compare("md") == 0) {
+	else if (CmdCommand.length() > 5 && CmdCommand.substr(0, 5).compare("mkdir") == 0) {
 		 
-		rear = CmdCommand.substr(2, CmdCommand.length() - 2);
+		rear = CmdCommand.substr(5, CmdCommand.length() - 5);
 		vssd_tool::Trim(rear);
 		vMd(MyVssd, rear);
 

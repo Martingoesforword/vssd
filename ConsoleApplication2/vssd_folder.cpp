@@ -62,20 +62,31 @@ void sjh::vssd_folder::SetName(std::string &aName) {
 }
 
  
+//pram 1：tree  2：自己
+void sjh::vssd_folder::ShowOffSub(int pram, std::string now) {
+	 
 
-void sjh::vssd_folder::ShowOffSub() {
-	
 	int p = 0;
+	
+	if(SubFolders.size()) std::cout<< now << "文件夹下：" << std::endl;
 	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 		
 	defeatfolder:
 		
 		if (SubFolders.at(p) != NULL) {
+			
 			std::cout << SubFolders.at(p)->Name <<"\t\t<"<< SubFolders [p]->GetType()<< ">\t" << SubFolders[p]->Content.size()* sizeof(unsigned char)<< "Byte\t"<< std::endl;
 		}
 		else { p++; goto defeatfolder;}
 		p++;
+	}
+	if (pram == 1) {
+		for (int i = 0; i < SubFolders.size(); i++)
+		{
+			SubFolders[i]->ShowOffSub(pram,now+ SubFolders[i]->Name+"\\");
+		}
+		
 	}
 	 
 }
@@ -298,7 +309,7 @@ void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos
 
 	
 	if (VssdTypeCode != 0) {
-		Pos += 4 * 2;  //跳过文件内容描述
+		Pos += 4 * 2;  //跳过文件内容描述 
 		unsigned int Subnum;
 		vssd_tool::Get4BUint(ByteVssd, Pos, Subnum);    Pos += 4;
 		for (int i = 0; i < Subnum; i++)

@@ -17,8 +17,8 @@ public:
 	void VssdFolderLink(vssd_folder * LinkToSub);
 	std::string GetName();
 	void Build(vssd & MyVssd, tool_path & a); 
-	void VssdFolderInit();  
-	void ShowOffSub();
+	void VssdFolderInit();     
+	void ShowOffSub(int pram, std::string now);
 	void DeletOne(vssd_folder *DeletFolder);
 	void OffOne(vssd_folder * DeletFolder);
 	void DeleteEvery(); 
