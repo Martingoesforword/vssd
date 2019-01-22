@@ -36,15 +36,15 @@ void sjh::tool_vcmd::vRd(vssd & MyVssd) {
 
 }
 
-void sjh::tool_vcmd::vRd(vssd & MyVssd, std::string & rdCommand)
+void sjh::tool_vcmd::vRd(vssd & MyVssd, std::string & RdCommand)
 {
 	 
 	tool_path a;
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, rdCommand, a);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, RdCommand, a);
 	folder->DeleteLinks();
 	if (folder->isFile()) {
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
-		vDel(MyVssd, rdCommand);
+		vDel(MyVssd, RdCommand);
 		return;
 	}
 	if (folder && a.Folders.size() >= 3) {
@@ -76,13 +76,13 @@ void sjh::tool_vcmd::vDir(vssd & MyVssd, std::string & DirCommand)
 			 
 }
 
-sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::string & pathCommand, tool_path &apath)
+sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::string & PathCommand, tool_path &aPath)
 {
 	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
 	static tool_path Nowpath;
 	Nowpath = MyTop->NowPath;//Ä¿Ç°Î»ÖÃ
 	//Nowpath
-	std::string pathstring = pathCommand;
+	std::string pathstring = PathCommand;
 	vssd_tool::Trim(&pathstring); 
 	tool_path path;
 	path.PathToFolders(pathstring);
@@ -130,7 +130,7 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::string & pathC
 				return nullptr;
 			}
 			Nowpath.AddOne(longNowf);
-			if (longNowf->VssdTypeCode == 2 && i + 1 == path.Folders.size()) { apath = Nowpath; return longNowf; }
+			if (longNowf->VssdTypeCode == 2 && i + 1 == path.Folders.size()) { aPath = Nowpath; return longNowf; }
 			 
 
 			
@@ -140,16 +140,16 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::string & pathC
 
 	}
 	 
-	apath = Nowpath;
+	aPath = Nowpath;
 	return longNowf;
 	 
 	 
 }
 
-void sjh::tool_vcmd::vCd(vssd & MyVssd, std::string & cdCommand)
+void sjh::tool_vcmd::vCd(vssd & MyVssd, std::string & CdCommand)
 {
 	tool_path a;
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, cdCommand, a);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, CdCommand, a);
 	if (folder && folder->isFile()) {
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 		return;
@@ -183,11 +183,11 @@ void sjh::tool_vcmd::vRen(vssd & MyVssd, std::string & renCommand) {
 	
 }
 
-void sjh::tool_vcmd::vRen(vssd & MyVssd, std::string & SrcCommand, std::string & disName) {
+void sjh::tool_vcmd::vRen(vssd & MyVssd, std::string & SrcCommand, std::string & DesName) {
 	tool_path a;
 	sjh::vssd_folder * folder = v_FindPath(MyVssd, SrcCommand, a);
-	if (folder && a.Folders.size() > 2 && !(a.RealFolders.at(a.RealFolders.size()-2)->Find(disName))) {
-		folder->SetName(disName);
+	if (folder && a.Folders.size() > 2 && !(a.RealFolders.at(a.RealFolders.size()-2)->Find(DesName))) {
+		folder->SetName(DesName);
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -334,10 +334,10 @@ void sjh::tool_vcmd::vLoad(vssd & MyVssd, std::string & GetFrom)
 	MyVssd.Serial.clear();
 }
 
-void sjh::tool_vcmd::vDel(vssd & MyVssd, std::string & delCommand)
+void sjh::tool_vcmd::vDel(vssd & MyVssd, std::string & DelCommand)
 {
 	tool_path a;
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, delCommand, a);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, DelCommand, a);
 	if (folder && a.Folders.size() >= 3) {
 		a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
 	}
@@ -347,12 +347,12 @@ void sjh::tool_vcmd::vDel(vssd & MyVssd, std::string & delCommand)
 
 }
 
-void sjh::tool_vcmd::vCopy(vssd & MyVssd, std::string & Src, std::string & dis)
+void sjh::tool_vcmd::vCopy(vssd & MyVssd, std::string & Src, std::string & Des)
 {
 	tool_path a;
 	tool_path b;
 	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a);
-	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, dis, b);
+	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, Des, b);
 	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2) {
 		a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
 		disfolder->VssdFolderLink(Srcfolder);
@@ -390,7 +390,6 @@ void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::string & Src, std::string & Lin
 	}
 }
 
- 
 void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::string & CmdCommand)
 {
 	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
