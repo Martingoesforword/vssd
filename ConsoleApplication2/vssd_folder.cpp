@@ -66,9 +66,8 @@ void sjh::vssd_folder::SetName(std::string &aName) {
 void sjh::vssd_folder::ShowOffSub(int pram, std::string now) {
 	 
 
-	int p = 0;
-	
-	if(SubFolders.size()) std::cout<< now << "文件夹下：" << std::endl;
+	int p = 0; 
+	std::cout<< now << "文件夹下：" << std::endl;
 	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 		

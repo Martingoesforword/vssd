@@ -41,6 +41,7 @@ void sjh::tool_vcmd::vRd(vssd & MyVssd, std::string & RdCommand)
 	 
 	tool_path a;
 	sjh::vssd_folder * folder = v_FindPath(MyVssd, RdCommand, a);
+	if (!folder) { std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return; }
 	folder->DeleteLinks();
 	if (folder->isFile()) {
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
@@ -50,28 +51,32 @@ void sjh::tool_vcmd::vRd(vssd & MyVssd, std::string & RdCommand)
 	if (folder && a.Folders.size() >= 3) {
 		a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder); 
 	}
-	else {
-		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
-	}
+	 
 
 	 
 }
 
 void sjh::tool_vcmd::vDir(vssd & MyVssd, std::string & DirCommand)
 {
-	tool_path a;
-	sjh::vssd_folder * Folder = v_FindPath(MyVssd, DirCommand,a);
-	if (Folder->isFile()) {
-		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
-		return;
+	std::vector<std::string> Dirs;
+	sjh::vssd_tool::split(DirCommand, Dirs, " ");
+	for (int i = 0; i < Dirs.size(); i++)
+	{
+		tool_path a;
+		sjh::vssd_folder * Folder = v_FindPath(MyVssd, Dirs[i], a);
+		if (!Folder) {
+			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl; continue;
+		}
+		if (Folder->isFile()) {
+			std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
+			return;
+		} 
+		else {
+			Folder->ShowOffSub(0, a.FoldersToPath());
+		}
+	 
+	
 	}
-	if (Folder) {
-		Folder->ShowOffSub(0,a.FoldersToPath());
-	}
-	else {
-		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
-	}
-			
 	  
 			 
 }
@@ -228,6 +233,8 @@ void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & Src, std::string & Des) 
 	tool_path b;
 	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a);
 	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, Des, b);
+	if (!Srcfolder) { std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return; }
+	if (!Srcfolder) { std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return; }
 	if (Srcfolder->isFile()) {
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
 		vCopy(MyVssd, Src, Des);
