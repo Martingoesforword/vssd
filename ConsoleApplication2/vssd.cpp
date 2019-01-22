@@ -1,58 +1,58 @@
 #include "pch.h"  
  
  
-vssd_foldertop * vssd::getnowtop()
+sjh::vssd_foldertop * sjh::vssd::GetNowTop()
 {
-	return nowtop;
+	return NowTop;
 }
-vssd_folder * vssd::getgenius()
+sjh::vssd_folder * sjh::vssd::GetGenius()
 {
-	return genius;
+	return Genius;
 }
-void vssd::setnowtop(vssd_foldertop * afoldertop)
+void sjh::vssd::SetNowTop(sjh::vssd_foldertop * afolderTop)
 {
-	nowtop = afoldertop;
+	NowTop = afolderTop;
 }
  
  
 
-void vssd::linktop(vssd_foldertop * anowtop)
+void sjh::vssd::LinkTop(sjh::vssd_foldertop * aNowTop)
 {
-	if (tops.size() == 0) {
-		nowtop = anowtop;
+	if (Tops.size() == 0) {
+		NowTop = aNowTop;
 	}
-	if (tops.size() < tops.max_size()) {
-		tops.push_back(anowtop);  
+	if (Tops.size() < Tops.max_size()) {
+		Tops.push_back(aNowTop);  
 	}
 	
 }
 
-vssd::vssd(vssd_foldertop * Now, vssd_folder * agenius, std::string aname)
+sjh::vssd::vssd(sjh::vssd_foldertop * Now, sjh::vssd_folder * aGenius, std::string aName)
 {
-	nowtop = Now;
-	name = aname;
-	genius = agenius;
+	NowTop = Now;
+	Name = aName;
+	Genius = aGenius;
 }
  
  
-vssd::vssd()
+sjh::vssd::vssd()
 {
 	
 }
  
-vssd_foldertop * vssd::findtop(std::string & aname)
+sjh::vssd_foldertop * sjh::vssd::FindTop(std::string & aName)
 {
-	for (int i = 0; i < tops.size(); i++)
+	for (int i = 0; i < Tops.size(); i++)
 	{
-		if (aname.compare(tops[i]-> root->getname()) == 0 ) {
-			return tops[i];
+		if (aName.compare(Tops[i]-> root->GetName()) == 0 ) {
+			return Tops[i];
 		}
 	}
 	return nullptr;
 
 }
 
-void vssd::puttorealfile(FILE * d)
+void sjh::vssd::PutToRealFile(FILE * d)
 {
 
 
@@ -61,137 +61,131 @@ void vssd::puttorealfile(FILE * d)
 
 }
 
-void vssd::getfromrealfile(FILE * d)
+void sjh::vssd::GetFromRealfile(FILE * d)
 {
 	//按照文档上的格式读取二进制
 }
-void vssd::deserialize(std::vector<unsigned char> &byte_vssd) {
+void sjh::vssd::DeSerialize(std::vector<unsigned char> &ByteVssd) {
 	 
-	std::vector<unsigned char>::iterator it = byte_vssd.begin();
+	std::vector<unsigned char>::iterator it = ByteVssd.begin();
 	
-	vssd_tool::getstring(byte_vssd, 0, 32, name);  
-	unsigned int topindex = 0;
-	vssd_tool::get4Buint(byte_vssd, 32, topindex);
-	unsigned int toptablepoint = 0;
-	vssd_tool::get4Buint(byte_vssd, 36, toptablepoint);
-	unsigned int geniusindex = 0;
-	vssd_tool::get4Buint(byte_vssd, 40, geniusindex);
+	sjh::vssd_tool::GetString(ByteVssd, 0, 32, Name);  
+	unsigned int Topindex = 0;
+	sjh::vssd_tool::Get4BUint(ByteVssd, 32, Topindex);
+	unsigned int Toptablepoint = 0;
+	sjh::vssd_tool::Get4BUint(ByteVssd, 36, Toptablepoint);
+	unsigned int Geniusindex = 0;
+	sjh::vssd_tool::Get4BUint(ByteVssd, 40, Geniusindex);
 	unsigned int foldertablepoint = 0;
-	vssd_tool::get4Buint(byte_vssd, 44, foldertablepoint);
+	sjh::vssd_tool::Get4BUint(ByteVssd, 44, foldertablepoint);
 	unsigned int contenttablepoint = 0;
-	vssd_tool::get4Buint(byte_vssd, 48, contenttablepoint);
-	//调用top的de方法，创建top数组，返回指针tops
+	sjh::vssd_tool::Get4BUint(ByteVssd, 48, contenttablepoint);
+	//调用Top的de方法，创建Top数组，返回指针Tops
 
-	vssd_folder *geniusnow = new vssd_folder("",0); 
+	sjh::vssd_folder *GeniusNow = new sjh::vssd_folder("",0); 
 	//调用folder的de方法，递归创建folder
-	geniusnow->deserialize(byte_vssd, foldertablepoint);
+	GeniusNow->deSerialize(ByteVssd, foldertablepoint);
 
 
-	genius = geniusnow;
+	Genius = GeniusNow;
 	 
-	tops.clear();
-	for (int i = 0; i < genius->subfolders.size(); i++)
+	Tops.clear();
+	for (int i = 0; i < Genius->SubFolders.size(); i++)
 	{
-		vssd_foldertop *pan = new vssd_foldertop(genius->subfolders[i], genius);
-		tops.push_back(pan);
+		sjh::vssd_foldertop *pan = new sjh::vssd_foldertop(Genius->SubFolders[i], Genius);
+		Tops.push_back(pan);
 	}
 
-	setnowtop(tops[tops.size()-1]);
+	SetNowTop(Tops[Tops.size()-1]);
 
 	 
 
 
 
-	//析构vssd里的全部属性，保留本身
+	//析构Vssd里的全部属性，保留本身
 
 
-	//建立与新属性的链接，并赋值给vssd的nowtop和tops
+	//建立与新属性的链接，并赋值给Vssd的NowTop和Tops
 
 	 
 
 }
 
-void vssd::serialize(std::vector<unsigned char> &byte_vssd) {
+void sjh::vssd::Serialize(std::vector<unsigned char> &ByteVssd) {
 	
-	//vssd预完成，需要填充指针		48
+	//Vssd预完成，需要填充指针		48
 	{
-	//name
-	vssd_tool::pushstring(name, byte_vssd);
-	vssd_tool::push0toNspace(32 - name.length(), byte_vssd);
-	//top指针指向index0 和 预留top表指针4字节
-	vssd_tool::push4Buint(0, byte_vssd);
-	vssd_tool::push0toNspace(4, byte_vssd);
-	// genius index = 0 和 固定folder表指针48位置
-	vssd_tool::push4Buint(0, byte_vssd);
-	vssd_tool::push4Buint(52, byte_vssd);
+	//Name
+	sjh::vssd_tool::PushString(Name, ByteVssd);
+	sjh::vssd_tool::Push0ToNSpace(32 - Name.length(), ByteVssd);
+	//Top指针指向index0 和 预留Top表指针4字节
+	sjh::vssd_tool::Push4BUint(0, ByteVssd);
+	sjh::vssd_tool::Push0ToNSpace(4, ByteVssd);
+	// Genius index = 0 和 固定folder表指针48位置
+	sjh::vssd_tool::Push4BUint(0, ByteVssd);
+	sjh::vssd_tool::Push4BUint(52, ByteVssd);
 	//预留content表指针4字节
-	vssd_tool::push0toNspace(4, byte_vssd);
+	sjh::vssd_tool::Push0ToNSpace(4, ByteVssd);
 	}
 
-	std::vector<unsigned char> *byte_foldertable = new std::vector<unsigned char>();
+	std::vector<unsigned char> *Byte_foldertable = new std::vector<unsigned char>();
 
-	std::vector<unsigned char> *byte_contenttable = new std::vector<unsigned char>();;
+	std::vector<unsigned char> *Byte_contenttable = new std::vector<unsigned char>();;
 
 	int index = 0;
-	//folder表和content表预完成，需要填充subfolder指针    folder表紧接着放到byte_vssd后面（48的位置）
+	//folder表和content表预完成，需要填充Subfolder指针    folder表紧接着放到ByteVssd后面（48的位置）
 	{
-		genius->serialize(*byte_foldertable, *byte_contenttable,index); 
+		Genius->Serialize(*Byte_foldertable, *Byte_contenttable,index); 
 
 	}
-	int toptablepos = byte_foldertable->size() + 52;
-	std::vector<unsigned char>::iterator it = byte_vssd.begin();
+	int ToptablePos = Byte_foldertable->size() + 52;
+	std::vector<unsigned char>::iterator it = ByteVssd.begin();
 	it += 36;
-	vssd_tool::set4Buint(it, toptablepos);
+	sjh::vssd_tool::Set4BUint(it, ToptablePos);
 
 
-	//通过find来填充subfolder指针 
+	//通过Find来填充Subfolder指针 
 	{
 
 	}
 
 
-	std::vector<unsigned char> *byte_toptable = new std::vector<unsigned char>();
-	//获取top表，
+	std::vector<unsigned char> *Byte_Toptable = new std::vector<unsigned char>();
+	//获取Top表，
 	//表数据放入具体位置
-	//table s放入byte_vssd中 完善byte_vssd表的指向，folder表中content指向  
+	//table s放入ByteVssd中 完善ByteVssd表的指向，folder表中content指向  
 	{
-		for (int i = 0; i < tops.size(); i++)
+		for (int i = 0; i < Tops.size(); i++)
 		{
-			tops.at(i)->serialize(*byte_toptable);
+			Tops.at(i)->Serialize(*Byte_Toptable);
 		} 
 	}
 
 
 
-	int contenttablepos = toptablepos+ byte_toptable->size();
-	std::vector<unsigned char>::iterator it1 = byte_vssd.begin();
+	int contenttablePos = ToptablePos+ Byte_Toptable->size();
+	std::vector<unsigned char>::iterator it1 = ByteVssd.begin();
 	it1 += 48;
-	vssd_tool::set4Buint(it1, contenttablepos);
+	sjh::vssd_tool::Set4BUint(it1, contenttablePos);
 	 
 
-	vssd_tool::copyappend(*byte_foldertable, byte_vssd);
+	sjh::vssd_tool::CopyAppend(*Byte_foldertable, ByteVssd);
 
-	vssd_tool::copyappend(*byte_toptable, byte_vssd);
+	sjh::vssd_tool::CopyAppend(*Byte_Toptable, ByteVssd);
 
-	vssd_tool::copyappend(*byte_contenttable, byte_vssd);
+	sjh::vssd_tool::CopyAppend(*Byte_contenttable, ByteVssd);
 
-	vssd_tool::push4Buintforpos(contenttablepos+ byte_contenttable->size(), 32, byte_vssd);
-	//返回一个std::vector<unsigned char> &byte_foldertable;
-	//获取内容表std::vector<unsigned char> &byte_contenttable;
+	sjh::vssd_tool::Push4BUintForPos(contenttablePos+ Byte_contenttable->size(), 32, ByteVssd);
+	//返回一个std::vector<unsigned char> &Byte_foldertable;
+	//获取内容表std::vector<unsigned char> &Byte_contenttable;
 
-	
-	
-
-
-	
-
-	
+	 
 
 
 
 }
 
-vssd::~vssd()
+sjh::vssd::~vssd()
 {
 
 }

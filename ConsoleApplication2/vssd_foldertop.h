@@ -5,15 +5,15 @@ class vssd_foldertop
 private:
 	
 public:
-	tool_path nowpath; 
+	tool_path NowPath; 
 	vssd_folder* root;
-	vssd_folder* getnowposition();  
-	void shownowpositionforcmd();
-	void shownowposition();
-	vssd_foldertop(vssd_folder* root, vssd_folder * genius);
-	void newroot(vssd_folder* root);
-	vssd_folder* find(tool_path &apath);
-	void serialize(std::vector<unsigned char> &byte_toptable);
+	vssd_folder* GetNowPos();  
+	void ShowNowPosForCmd();
+	void ShowNowPos();
+	vssd_foldertop(vssd_folder* root, vssd_folder * Genius);
+	void SetNewRoot(vssd_folder* root);
+	vssd_folder* Find(tool_path &apath);
+	void Serialize(std::vector<unsigned char> &Byte_Toptable);
 
 
 

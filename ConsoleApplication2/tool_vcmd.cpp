@@ -1,24 +1,26 @@
 #include "pch.h" 
 
 //当下文件夹下dir
-void tool_vcmd::vdir(vssd_foldertop * top)
+void sjh::tool_vcmd::vDir(sjh::vssd_foldertop * Top)
 {
-	
-	top->getnowposition()->showoffsub();
+	sjh::vssd_folder *now = Top->GetNowPos();
+	if(now->VssdTypeCode != 2) now->ShowOffSub();
+	else now->SubFolders[0]->ShowOffSub();
+	 
 }
 //当下文件夹下cd
-void tool_vcmd::vcd(vssd_foldertop * mytop) 
+void sjh::tool_vcmd::vCd(sjh::vssd_foldertop * MyTop) 
 {
 
-	mytop->shownowposition();
+	MyTop->ShowNowPos();
 }
 //当下文件夹下rd
-void tool_vcmd::vrd(vssd & myvssd) {
-	if (myvssd.getnowtop()->nowpath.realfolders.size() >= 3) {
-		myvssd.getnowtop()->nowpath.realfolders.at(myvssd.getnowtop()->nowpath.realfolders.size() - 2)->deletone(myvssd.getnowtop()->getnowposition());
+void sjh::tool_vcmd::vRd(vssd & MyVssd) {
+	if (MyVssd.GetNowTop()->NowPath.RealFolders.size() >= 3) {
+		MyVssd.GetNowTop()->NowPath.RealFolders.at(MyVssd.GetNowTop()->NowPath.RealFolders.size() - 2)->DeletOne(MyVssd.GetNowTop()->GetNowPos());
 
-		myvssd.getnowtop()->nowpath.deletone(); 
-		std::cout << "VSSD ERROR : Nowposition folder is deleted just！" << std::endl;
+		MyVssd.GetNowTop()->NowPath.DeletOne(); 
+		std::cout << "VSSD ERROR : NowPos folder is deleted just！" << std::endl;
 	}
 	else {
 		std::cout << "VSSD ERROR : Root folder cannot be deleted！" << std::endl;
@@ -27,17 +29,17 @@ void tool_vcmd::vrd(vssd & myvssd) {
 
 }
 
-void tool_vcmd::vrd(vssd & myvssd, std::string & rdcommand)
+void sjh::tool_vcmd::vRd(vssd & MyVssd, std::string & rdCommand)
 {
 	tool_path a;
-	vssd_folder * folder = v_findpath(myvssd, rdcommand, a);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, rdCommand, a);
 	if (folder->isFile()) {
-		std::cout << "VSSD WORRING : Please use 'del filename' next time!" << std::endl;
-		vdel(myvssd, rdcommand);
+		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
+		vDel(MyVssd, rdCommand);
 		return;
 	}
-	if (folder && a.folders.size() >= 3) {
-		a.realfolders.at(a.realfolders.size() - 2)->deletone(folder); 
+	if (folder && a.Folders.size() >= 3) {
+		a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder); 
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -46,16 +48,16 @@ void tool_vcmd::vrd(vssd & myvssd, std::string & rdcommand)
 	 
 }
 
-void tool_vcmd::vdir(vssd & myvssd, std::string & dircommand)
+void sjh::tool_vcmd::vDir(vssd & MyVssd, std::string & DirCommand)
 {
 	tool_path a;
-	vssd_folder * folder = v_findpath(myvssd, dircommand,a);
-	if (folder->isFile()) {
+	sjh::vssd_folder * Folder = v_FindPath(MyVssd, DirCommand,a);
+	if (Folder->isFile()) {
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 		return;
 	}
-	if (folder) {
-		folder->showoffsub();
+	if (Folder) {
+		Folder->ShowOffSub();
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -65,74 +67,80 @@ void tool_vcmd::vdir(vssd & myvssd, std::string & dircommand)
 			 
 }
 
-vssd_folder * tool_vcmd::v_findpath(vssd & myvssd, std::string & pathcommand, tool_path &apath)
+sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::string & pathCommand, tool_path &apath)
 {
-	vssd_foldertop *mytop = myvssd.getnowtop();
-	static tool_path nowpath;
-	nowpath = mytop->nowpath;//目前位置
-	//nowpath
-	std::string pathstring = pathcommand;
-	vssd_tool::trim(&pathstring); 
+	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
+	static tool_path Nowpath;
+	Nowpath = MyTop->NowPath;//目前位置
+	//Nowpath
+	std::string pathstring = pathCommand;
+	vssd_tool::Trim(&pathstring); 
 	tool_path path;
-	path.pathtofolders(pathstring);
+	path.PathToFolders(pathstring);
 	//path，pathstring
-	vssd_folder * longnowf = nowpath.getnow();	
+	sjh::vssd_folder * longNowf = Nowpath.GetNow();	
 
 	int flag_tofirstif = 1;
-	for (int i = 0; i < path.folders.size(); i++)
+	for (int i = 0; i < path.Folders.size(); i++)
 	{
 		//说明是磁盘开头，则为绝对路径
-		if (flag_tofirstif && path.folders[i].length() == 2 && path.folders[i].at(1) == ':') {
-			nowpath.folders.clear(); 
-			nowpath.realfolders.clear();
-			nowpath.folders.push_back("");
-			nowpath.setrealpath(myvssd.getgenius(),0) ; 
-			longnowf = nowpath.getnow()->find(path.folders[i]);
-			if (!longnowf) {
+		if (flag_tofirstif && path.Folders[i].length() == 2 && path.Folders[i].at(1) == ':') {
+			Nowpath.Folders.clear(); 
+			Nowpath.RealFolders.clear();
+			Nowpath.Folders.push_back("");
+			Nowpath.SetRealpath(MyVssd.GetGenius(),0) ; 
+			 
+			longNowf = Nowpath.GetNow()->Find(path.Folders[i]);
+			
+			
+			if (!longNowf) {
 				return nullptr;
 			}
-			nowpath.addone(longnowf);
+			Nowpath.AddOne(longNowf);
+			if (longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
 			flag_tofirstif = 0;
 		}
-		else if (path.folders.at(i)== "..") {
-			if (nowpath.realfolders.size() < 3) {
+		else if (path.Folders.at(i)== "..") {
+			if (Nowpath.RealFolders.size() < 3) {
 				return nullptr;
 			}
 			else {
-				nowpath.deletone();
+				Nowpath.DeletOne();
 			}
 
 		}
-		else if (path.folders.at(i)== ".") {
+		else if (path.Folders.at(i)== ".") {
 
 		}
 		//路径中非'n:' '..' '.'
 		else {
-			longnowf = longnowf->find(path.folders[i]);
-			if (!longnowf) {
+			 
+			longNowf = longNowf->Find(path.Folders[i]);
+			if (!longNowf) {
 				return nullptr;
 			}
-			nowpath.addone(longnowf);
+			Nowpath.AddOne(longNowf);
+			if(longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
 		}
 
 	}
 
-	apath = nowpath;
-	return longnowf;
+	apath = Nowpath;
+	return longNowf;
 	 
 	 
 }
 
-void tool_vcmd::vcd(vssd & myvssd, std::string & cdcommand)
+void sjh::tool_vcmd::vCd(vssd & MyVssd, std::string & cdCommand)
 {
 	tool_path a;
-	vssd_folder * folder = v_findpath(myvssd, cdcommand, a);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, cdCommand, a);
 	if (folder && folder->isFile()) {
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 		return;
 	}
 	if (folder) {
-		myvssd.getnowtop()->nowpath = a; 
+		MyVssd.GetNowTop()->NowPath = a; 
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -144,14 +152,14 @@ void tool_vcmd::vcd(vssd & myvssd, std::string & cdcommand)
 }
 
 //改名--目前路径
-void tool_vcmd::vren(vssd & myvssd, std::string & rencommand) {
+void sjh::tool_vcmd::vRen(vssd & MyVssd, std::string & renCommand) {
 
 	
 
 
-	if (!myvssd.getnowtop()->nowpath.realfolders.at(myvssd.getnowtop()->nowpath.realfolders.size() - 2)->find(rencommand)) {
-		if (myvssd.getnowtop()->getnowposition()->getname().compare(myvssd.getnowtop()->root->getname()) != 0)
-			myvssd.getnowtop()->getnowposition()->setname(rencommand);
+	if (!MyVssd.GetNowTop()->NowPath.RealFolders.at(MyVssd.GetNowTop()->NowPath.RealFolders.size() - 2)->Find(renCommand)) {
+		if (MyVssd.GetNowTop()->GetNowPos()->GetName().compare(MyVssd.GetNowTop()->root->GetName()) != 0)
+			MyVssd.GetNowTop()->GetNowPos()->SetName(renCommand);
 	}
 	else {
 		std::cout << "VSSD ERROR : The folder has already existed! " << std::endl;
@@ -160,11 +168,11 @@ void tool_vcmd::vren(vssd & myvssd, std::string & rencommand) {
 	
 }
 
-void tool_vcmd::vren(vssd & myvssd, std::string & srccommand, std::string & disname) {
+void sjh::tool_vcmd::vRen(vssd & MyVssd, std::string & SrcCommand, std::string & disName) {
 	tool_path a;
-	vssd_folder * folder = v_findpath(myvssd, srccommand, a);
-	if (folder && a.folders.size() > 2 && !(a.realfolders.at(a.realfolders.size()-2)->find(disname))) {
-		folder->setname(disname);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, SrcCommand, a);
+	if (folder && a.Folders.size() > 2 && !(a.RealFolders.at(a.RealFolders.size()-2)->Find(disName))) {
+		folder->SetName(disName);
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -172,43 +180,46 @@ void tool_vcmd::vren(vssd & myvssd, std::string & srccommand, std::string & disn
 	 
 }
 
-void tool_vcmd::vmd(vssd & myvssd, std::string & mdcommand)
+int sjh::tool_vcmd::vMd(vssd & MyVssd, std::string & mdCommand)
 {
 	tool_path a;
 
-	vssd_folder * folder = v_findpath(myvssd, mdcommand, a);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, mdCommand, a);
 	 
-	
-	
+	 
 	if (!folder)    {
-		a.pathtofolders(mdcommand);
-		if (a.folders[0].length() > 1 && a.folders[0].at(1) != ':') {
-			myvssd.getnowtop()->getnowposition()->build(myvssd,a);
+		a.PathToFolders(mdCommand);
+		if (a.Folders[0].length() > 1 && a.Folders[0].at(1) != ':') {
+			MyVssd.GetNowTop()->GetNowPos()->Build(MyVssd,a);
 		}
 		else {
-			myvssd.getgenius()->build(myvssd,a);
+			MyVssd.GetGenius()->Build(MyVssd,a);
 		}
+		return 0;
 		 
+	}
+	else {
+		return 1;
 	}
 	 
 	 
 	
 }
 //移动文件夹
-void tool_vcmd::vmove(vssd & myvssd, std::string & src, std::string & dis) {
+void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & Src, std::string & dis) {
 
 	tool_path a;
 	tool_path b;
-	vssd_folder * srcfolder = v_findpath(myvssd, src, a);
-	vssd_folder * disfolder = v_findpath(myvssd, dis, b);
-	if (srcfolder->isFile()) {
-		std::cout << "VSSD WORRING : Please use 'del filename' next time!" << std::endl;
-		vcopy(myvssd, src, dis);
+	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a);
+	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, dis, b);
+	if (Srcfolder->isFile()) {
+		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
+		vCopy(MyVssd, Src, dis);
 		return;
 	}
-	if (srcfolder && disfolder && a.folders.size() >= 3 && b.folders.size() >= 2) {
-		a.realfolders.at(a.realfolders.size() - 2)->offone(srcfolder);
-		disfolder->vssd_folder_link(srcfolder);
+	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2) {
+		a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
+		disfolder->VssdFolderLink(Srcfolder);
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -218,12 +229,12 @@ void tool_vcmd::vmove(vssd & myvssd, std::string & src, std::string & dis) {
 
 }
 
-void tool_vcmd::vmove(vssd & myvssd, std::string & dis) {
+void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & dis) {
 
 	tool_path b;
-	vssd_folder * disfolder = v_findpath(myvssd, dis, b); 
+	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, dis, b); 
 	if (disfolder) {
-		disfolder->vssd_folder_link(myvssd.getnowtop()->getnowposition());
+		disfolder->VssdFolderLink(MyVssd.GetNowTop()->GetNowPos());
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -231,32 +242,32 @@ void tool_vcmd::vmove(vssd & myvssd, std::string & dis) {
 
 }
 
-void tool_vcmd::vcls()
+void sjh::tool_vcmd::vCls()
 {
 	system("cls");
 }
 
-void tool_vcmd::v_jump(vssd & myvssd, std::string & jumpto)
+void sjh::tool_vcmd::v_jump(vssd & MyVssd, std::string & jumpto)
 {
-	vssd_foldertop* top = myvssd.findtop(jumpto);
-	myvssd.setnowtop(top);
+	sjh::vssd_foldertop* Top = MyVssd.FindTop(jumpto);
+	MyVssd.SetNowTop(Top);
 }
 
-void tool_vcmd::vsave(vssd & myvssd, std::string & jumpto)
+void sjh::tool_vcmd::vSave(vssd & MyVssd, std::string & jumpto)
 {
 	
-	myvssd.serialize(myvssd.serial);
+	MyVssd.Serialize(MyVssd.Serial);
 	 
-	std::ofstream vssdfile("d:\\vssdfile", std::ios::binary);
-	if (vssdfile.is_open())
+	std::ofstream Vssdfile("d:\\Vssdfile", std::ios::binary);
+	if (Vssdfile.is_open())
 	{
 		std::string data;
-		vssd_tool::getstringand0(myvssd.serial,0, myvssd.serial.size(),data); 
+		vssd_tool::GetStringAnd0(MyVssd.Serial,0, MyVssd.Serial.size(),data); 
 		 
-		vssdfile.write((const char*)&data[0],data.size()); 
+		Vssdfile.write((const char*)&data[0],data.size()); 
 		
-		vssdfile.close();
-		myvssd.serial.clear();
+		Vssdfile.close();
+		MyVssd.Serial.clear();
 	}
 	else {
 		std::cout << "Error opening file";
@@ -265,19 +276,19 @@ void tool_vcmd::vsave(vssd & myvssd, std::string & jumpto)
 	
 	//获取文件指针
 	//FILE *file= nullptr;  
-	//myvssd.puttorealfile(file);
+	//MyVssd.puttoRealfile(file);
 }
 
-void tool_vcmd::vload(vssd & myvssd, std::string & getfrom)
+void sjh::tool_vcmd::vLoad(vssd & MyVssd, std::string & GetFrom)
 {
-	myvssd.serial.clear();
+	MyVssd.Serial.clear();
 	char ch;
-	std::ifstream vssdfile("d:\\vssdfile", std::ios::binary);
-	if (!vssdfile.is_open())
+	std::ifstream Vssdfile("d:\\Vssdfile", std::ios::binary);
+	if (!Vssdfile.is_open())
 	{
 		std::cout << "Error opening file"; exit(1);
 	}
-	while (!vssdfile.eof())
+	while (!Vssdfile.eof())
 	{
 		char ch = ' ';
 
@@ -285,35 +296,35 @@ void tool_vcmd::vload(vssd & myvssd, std::string & getfrom)
 
 		for (int i = 0; i < 36; i++)
 		{
-			vssdfile.read(&ch, 1);
-			myvssd.serial.push_back(ch);
+			Vssdfile.read(&ch, 1);
+			MyVssd.Serial.push_back(ch);
 		}
-		unsigned int bytelength = 0;
-		vssd_tool::get4Buint(myvssd.serial, 32, bytelength);
+		unsigned int Bytelength = 0;
+		vssd_tool::Get4BUint(MyVssd.Serial, 32, Bytelength);
 
-		for (int i = 0; i < bytelength-36; i++)
+		for (int i = 0; i < Bytelength-36; i++)
 		{
-			vssdfile.read(&ch, 1);
-			myvssd.serial.push_back(ch);
+			Vssdfile.read(&ch, 1);
+			MyVssd.Serial.push_back(ch);
 		}
 
-		vssdfile.close();
+		Vssdfile.close();
 	 
 		 
 	} 
 	//获取文件指针
 	//FILE *file;
-	//myvssd.getfromrealfile(file);
-	myvssd.deserialize(myvssd.serial); 
-	myvssd.serial.clear();
+	//MyVssd.GetFromRealfile(file);
+	MyVssd.DeSerialize(MyVssd.Serial); 
+	MyVssd.Serial.clear();
 }
 
-void tool_vcmd::vdel(vssd & myvssd, std::string & delcommand)
+void sjh::tool_vcmd::vDel(vssd & MyVssd, std::string & delCommand)
 {
 	tool_path a;
-	vssd_folder * folder = v_findpath(myvssd, delcommand, a);
-	if (folder && a.folders.size() >= 3) {
-		a.realfolders.at(a.realfolders.size() - 2)->deletone(folder);
+	sjh::vssd_folder * folder = v_FindPath(MyVssd, delCommand, a);
+	if (folder && a.Folders.size() >= 3) {
+		a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -321,39 +332,42 @@ void tool_vcmd::vdel(vssd & myvssd, std::string & delcommand)
 
 }
 
-void tool_vcmd::vcopy(vssd & myvssd, std::string & src, std::string & dis)
+void sjh::tool_vcmd::vCopy(vssd & MyVssd, std::string & Src, std::string & dis)
 {
 	tool_path a;
 	tool_path b;
-	vssd_folder * srcfolder = v_findpath(myvssd, src, a);
-	vssd_folder * disfolder = v_findpath(myvssd, dis, b);
-	if (srcfolder && disfolder && a.folders.size() >= 3 && b.folders.size() >= 2) {
-		a.realfolders.at(a.realfolders.size() - 2)->offone(srcfolder);
-		disfolder->vssd_folder_link(srcfolder);
+	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a);
+	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, dis, b);
+	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2) {
+		a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
+		disfolder->VssdFolderLink(Srcfolder);
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
 	}
 }
 
-void tool_vcmd::vmklink(vssd & myvssd, std::string & src, std::string & linkname)
+void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::string & Src, std::string & LinkName)
 {
 	tool_path a; 
 	//找到需要指向的文件夹
-	vssd_folder * srcfolder = v_findpath(myvssd, src, a); 
-
-	if (srcfolder && a.folders.size() >= 3 ) {
+	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a); 
+	
+	if (Srcfolder && a.Folders.size() >= 3 ) {
 		//找到之后
-		vmd(myvssd, linkname);
+		if (vMd(MyVssd, LinkName)) {
+			return;
+		}
+		
 
 
-
-		//创建link文件
-		vssd_folder *link = myvssd.getnowtop()->getnowposition()->find(linkname);
-		link->vssdtypecode = 2;
-		 //找到创建的link文件
-		link->vssd_folder_link(srcfolder);
-		//将link文件第一个子文件放入指向文件
+		//创建Link文件
+		sjh::vssd_folder *Link = MyVssd.GetNowTop()->GetNowPos()->Find(LinkName);
+		 
+		Link->VssdTypeCode = 2;
+		 //找到创建的Link文件
+		Link->VssdFolderLink(Srcfolder);
+		//将Link文件第一个子文件放入指向文件
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -361,68 +375,68 @@ void tool_vcmd::vmklink(vssd & myvssd, std::string & src, std::string & linkname
 }
 
  
-void tool_vcmd::comein(vssd & myvssd, std::string & cmdcommand)
+void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::string & CmdCommand)
 {
-	vssd_foldertop *mytop = myvssd.getnowtop();
-	vssd_tool::trim(cmdcommand);
+	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
+	vssd_tool::Trim(CmdCommand);
 	std::string rear;
 
 	//分析命令名与命令参数
-	if (cmdcommand.length() == 0) {
+	if (CmdCommand.length() == 0) {
 			
 	}
 	//dir命令解析
-	else if (cmdcommand.length() >= 3 && cmdcommand.substr(0,3).compare("dir") == 0) {			
-		if (cmdcommand.length() == 3) {
-			vdir(mytop);
+	else if (CmdCommand.length() >= 3 && CmdCommand.substr(0,3).compare("dir") == 0) {			
+		if (CmdCommand.length() == 3) {
+			vDir(MyTop);
 		}
 		else {
-			rear = cmdcommand.substr(3, cmdcommand.length() - 3);
-			vssd_tool::trim(rear);
-			vdir(myvssd,rear);
+			rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+			vssd_tool::Trim(rear);
+			vDir(MyVssd,rear);
 		}
 		
 	}
 	//del命令解析
-	else if (cmdcommand.length() >= 3 && cmdcommand.substr(0, 3).compare("del") == 0) {
+	else if (CmdCommand.length() >= 3 && CmdCommand.substr(0, 3).compare("del") == 0) {
 		 
-		rear = cmdcommand.substr(3, cmdcommand.length() - 3);
-		vssd_tool::trim(rear);
-		vdel(myvssd, rear);
+		rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+		vssd_tool::Trim(rear);
+		vDel(MyVssd, rear);
 		 
 
 	}
 	//save命令解析
-	else if (cmdcommand.length() > 4 && cmdcommand.substr(0, 4).compare("save") == 0) {
+	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare("save") == 0) {
 
 
-		rear = cmdcommand.substr(4, cmdcommand.length() - 4);
-		vssd_tool::trim(rear);
+		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+		vssd_tool::Trim(rear);
 		 
-		vsave(myvssd, rear);
+		vSave(MyVssd, rear);
 
 	}
 	//load命令解析
-	else if (cmdcommand.length() > 4 && cmdcommand.substr(0, 4).compare("load") == 0) {
+	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare("load") == 0) {
 
 
-		rear = cmdcommand.substr(4, cmdcommand.length() - 4);
-		vssd_tool::trim(rear);
+		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+		vssd_tool::Trim(rear);
 
-		vload(myvssd, rear);
+		vLoad(MyVssd, rear);
 
 	}
-	//mklink命令解析
-	else if (cmdcommand.length() > 6 && cmdcommand.substr(0, 6).compare("mklink") == 0) {
+	//mkLink命令解析
+	else if (CmdCommand.length() > 6 && CmdCommand.substr(0, 6).compare("mklink") == 0) {
 
-		rear = cmdcommand.substr(6, cmdcommand.length() - 6);
-		int spacepos = rear.find(" ", 1);
-		if (spacepos != -1) {
+		rear = CmdCommand.substr(6, CmdCommand.length() - 6);
+		int spacePos = rear.find(" ", 1);
+		if (spacePos != -1) {
 
-			std::string rearsrc = rear.substr(0, spacepos);
-			std::string reardisname = rear.substr(spacepos + 1, rear.length() - spacepos);
+			std::string rearSrc = rear.substr(0, spacePos);
+			std::string reardisName = rear.substr(spacePos + 1, rear.length() - spacePos);
 
-			vmklink(myvssd, rearsrc, reardisname);
+			vMklink(MyVssd, rearSrc, reardisName);
 
 		}
 		 
@@ -431,48 +445,48 @@ void tool_vcmd::comein(vssd & myvssd, std::string & cmdcommand)
 
 	}
 	//cd命令解析
-	else if (cmdcommand.length() >= 2 && cmdcommand.substr(0, 2).compare("cd") == 0) {
-		if (cmdcommand.length() == 2) {
-			vcd(mytop);
+	else if (CmdCommand.length() >= 2 && CmdCommand.substr(0, 2).compare("cd") == 0) {
+		if (CmdCommand.length() == 2) {
+			vCd(MyTop);
 		}
 		else {
-			rear = cmdcommand.substr(2, cmdcommand.length() - 2);
-			vssd_tool::trim(rear);
-			vcd(myvssd, rear);
+			rear = CmdCommand.substr(2, CmdCommand.length() - 2);
+			vssd_tool::Trim(rear);
+			vCd(MyVssd, rear);
 		}
 
 	} 
 	//rd命令解析
-	else if (cmdcommand.length() >= 2 && cmdcommand.substr(0, 2).compare("rd") == 0) {
-		if (cmdcommand.length() == 2) {
-			vrd(myvssd);
+	else if (CmdCommand.length() >= 2 && CmdCommand.substr(0, 2).compare("rd") == 0) {
+		if (CmdCommand.length() == 2) {
+			vRd(MyVssd);
 		}
 		else {
-			rear = cmdcommand.substr(2, cmdcommand.length() - 2);
-			vssd_tool::trim(rear);
-			vrd(myvssd, rear);
+			rear = CmdCommand.substr(2, CmdCommand.length() - 2);
+			vssd_tool::Trim(rear);
+			vRd(MyVssd, rear);
 		}
 
 	}
 	//ren命令解析
-	else if (cmdcommand.length() > 3 && cmdcommand.substr(0, 3).compare("ren") == 0) {
+	else if (CmdCommand.length() > 3 && CmdCommand.substr(0, 3).compare("ren") == 0) {
 		
 		 
 
-		rear = cmdcommand.substr(3, cmdcommand.length() - 3);
-		int spacepos = rear.find(" ", 1);
-		if (spacepos != -1) {
+		rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+		int spacePos = rear.find(" ", 1);
+		if (spacePos != -1) {
 
-			std::string rearsrc = rear.substr(0, spacepos);
-			std::string reardisname = rear.substr(spacepos + 1, rear.length() - spacepos);
+			std::string rearSrc = rear.substr(0, spacePos);
+			std::string reardisName = rear.substr(spacePos + 1, rear.length() - spacePos);
 			  
-			vren(myvssd, rearsrc, reardisname);
+			vRen(MyVssd, rearSrc, reardisName);
 
 		}
 		else {
-			std::string rearsrc = rear;
-			vssd_tool::trim(rear);
-			vren(myvssd, rear);
+			std::string rearSrc = rear;
+			vssd_tool::Trim(rear);
+			vRen(MyVssd, rear);
 		}
 		
 		 
@@ -482,18 +496,18 @@ void tool_vcmd::comein(vssd & myvssd, std::string & cmdcommand)
 
 	}
 	//copy命令解析
-	else if (cmdcommand.length() > 4 && cmdcommand.substr(0, 4).compare("copy") == 0) {
+	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare("copy") == 0) {
 
 
-		rear = cmdcommand.substr(4, cmdcommand.length() - 4);
-		vssd_tool::trim(rear);
-		int spacepos = rear.find(" ", 0);
-		if (spacepos != -1) {
+		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+		vssd_tool::Trim(rear);
+		int spacePos = rear.find(" ", 0);
+		if (spacePos != -1) {
 
-			std::string rearsrc = rear.substr(0, spacepos);
-			std::string reardis = rear.substr(spacepos + 1, rear.length() - spacepos);
+			std::string rearSrc = rear.substr(0, spacePos);
+			std::string reardis = rear.substr(spacePos + 1, rear.length() - spacePos);
 
-			vcopy(myvssd, rearsrc, reardis);
+			vCopy(MyVssd, rearSrc, reardis);
 
 		}
 		 
@@ -501,24 +515,24 @@ void tool_vcmd::comein(vssd & myvssd, std::string & cmdcommand)
 
 	}
 	//move命令解析
-	else if (cmdcommand.length() > 4 && cmdcommand.substr(0, 4).compare("move") == 0) {
+	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare("move") == 0) {
 
 		 
-		rear = cmdcommand.substr(4, cmdcommand.length() - 4);
-		vssd_tool::trim(rear);
-		int spacepos = rear.find(" ", 0);
-		if (spacepos != -1) {
+		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+		vssd_tool::Trim(rear);
+		int spacePos = rear.find(" ", 0);
+		if (spacePos != -1) {
 
-			std::string rearsrc = rear.substr(0, spacepos);
-			std::string reardis = rear.substr(spacepos + 1, rear.length() - spacepos);
+			std::string rearSrc = rear.substr(0, spacePos);
+			std::string reardis = rear.substr(spacePos + 1, rear.length() - spacePos);
 			 
-			vmove(myvssd, rearsrc, reardis);
+			vMove(MyVssd, rearSrc, reardis);
 
 		}
 		else {
 			std::string reardis = rear;
-			vssd_tool::trim(rear);
-			vmove(myvssd, reardis);
+			vssd_tool::Trim(rear);
+			vMove(MyVssd, reardis);
 		}
 
 
@@ -528,20 +542,20 @@ void tool_vcmd::comein(vssd & myvssd, std::string & cmdcommand)
 
 	}
 	//跳转盘命令解析
-	else if (cmdcommand.length() == 2 && cmdcommand.at(1) == ':') {
-		rear = cmdcommand;
-		v_jump(myvssd, rear);
+	else if (CmdCommand.length() == 2 && CmdCommand.at(1) == ':') {
+		rear = CmdCommand;
+		v_jump(MyVssd, rear);
 	}
 	//清屏命令解析
-	else if (cmdcommand.length() == 3 && cmdcommand.compare("cls") == 0) {
-		vcls();
+	else if (CmdCommand.length() == 3 && CmdCommand.compare("cls") == 0) {
+		vCls();
 	}
 	//创建文件夹命令解析
-	else if (cmdcommand.length() > 2 && cmdcommand.substr(0, 2).compare("md") == 0) {
+	else if (CmdCommand.length() > 2 && CmdCommand.substr(0, 2).compare("md") == 0) {
 		 
-		rear = cmdcommand.substr(2, cmdcommand.length() - 2);
-		vssd_tool::trim(rear);
-		vmd(myvssd, rear);
+		rear = CmdCommand.substr(2, CmdCommand.length() - 2);
+		vssd_tool::Trim(rear);
+		vMd(MyVssd, rear);
 
 	}
 	  

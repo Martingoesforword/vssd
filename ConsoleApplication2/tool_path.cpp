@@ -1,110 +1,110 @@
 
 #include "pch.h"   
 
-tool_path::tool_path()
+sjh::tool_path::tool_path()
 {
-	type = 1;   
+	Type = 1;   
 }
 
-void tool_path::getpath(std::string apath, int atype)
+void sjh::tool_path::GetPath(std::string apath, int aType)
 {
-	type = atype;   
-	pathtofolders(apath);
+	Type = aType;   
+	PathToFolders(apath);
 }
-void tool_path::setrealpath(vssd_folder *apath, int pos)
+void sjh::tool_path::SetRealpath(vssd_folder *apath, int Pos)
 {
 	 
-	realfolders.push_back(apath);
+	RealFolders.push_back(apath);
 }
-void tool_path::testprint()
+void sjh::tool_path::TestPrint()
 {
-	for (int i = 0; i < folders.size(); i++)
+	for (int i = 0; i < Folders.size(); i++)
 	{
-		std::cout << folders.at(i)<< std::endl;
+		std::cout << Folders.at(i)<< std::endl;
 	}
 }
 
-bool tool_path::include(tool_path & path1)
+bool sjh::tool_path::include(sjh::tool_path & path1)
 {
-	for (int i = 1; i < path1.folders.size(); i++)
+	for (int i = 1; i < path1.Folders.size(); i++)
 	{
-		if (path1.folders.at(i)== folders[i]) continue;
+		if (path1.Folders.at(i)== Folders[i]) continue;
 		else {
-			if (path1.folders.size() == folders.size()) {
+			if (path1.Folders.size() == Folders.size()) {
 				return 0;
 			}
 		}
 	}
 }
 
-vssd_folder * tool_path::getnowfather()
+sjh::vssd_folder * sjh::tool_path::GetNowFather()
 {
-	return realfolders.at(realfolders.size() - 2); 
+	return RealFolders.at(RealFolders.size() - 2); 
 }
 
-vssd_folder * tool_path::getnow()
+sjh::vssd_folder * sjh::tool_path::GetNow()
 {
-	return realfolders.at(realfolders.size() - 1);
+	return RealFolders.at(RealFolders.size() - 1);
 }
 
 
-void tool_path::pathtofolders(std::string path)
+void sjh::tool_path::PathToFolders(std::string path)
 {
 									   
 	 
 
-	//将路径准换为folders并赋值给folders
-	std::string::size_type pos = 0;
-	std::string::size_type beforepos = 0;
-	std::string nowstring;
-	while (folders.size() <= folders.max_size() && pos != std::string::npos) {
-		if ((pos = path.find('\\', beforepos)) != std::string::npos) {
-			if (pos != 0 && beforepos <= pos - 1) {
-				//找到beforepos+1到pos-1的字符串放入folders数组里，并更改记录
-				nowstring = path.substr(beforepos, pos - beforepos);
-				if (nowstring != "." && nowstring != "..") {
-					vssd_tool::trim(&nowstring);
-					folders.push_back(nowstring) ; 
+	//将路径准换为Folders并赋值给Folders
+	int Pos = 0;
+	int beForePos = 0;
+	std::string Nowstring;
+	while (Folders.size() <= Folders.max_size() && Pos != std::string::npos) {
+		if ((Pos = path.find('\\', beForePos)) != std::string::npos) {
+			if (Pos != 0 && beForePos <= Pos - 1) {
+				//找到beForePos+1到Pos-1的字符串放入Folders数组里，并更改记录
+				Nowstring = path.substr(beForePos, Pos - beForePos);
+				if (Nowstring != "." && Nowstring != "..") {
+					vssd_tool::Trim(&Nowstring);
+					Folders.push_back(Nowstring) ; 
 				}
-				else if (nowstring == ".." &&folders.size() > 0 && folders.at(folders.size() - 1)!= "..") {
-					folders.pop_back();
+				else if (Nowstring == ".." &&Folders.size() > 0 && Folders.at(Folders.size() - 1)!= "..") {
+					Folders.pop_back();
 				}
-				else if (nowstring == "..") {
-					vssd_tool::trim(&nowstring);
-					folders.push_back(nowstring); 
+				else if (Nowstring == "..") {
+					vssd_tool::Trim(&Nowstring);
+					Folders.push_back(Nowstring); 
 				}
 
 			}
 		}
-		else if ((pos = path.find('/', beforepos)) != std::string::npos) {
-			if (pos != 0 && beforepos <= pos - 1) {
-				//找到beforepos+1到pos-1的字符串放入folders数组里，并更改记录
-				nowstring = path.substr(beforepos, pos - beforepos);
+		else if ((Pos = path.find('/', beForePos)) != std::string::npos) {
+			if (Pos != 0 && beForePos <= Pos - 1) {
+				//找到beForePos+1到Pos-1的字符串放入Folders数组里，并更改记录
+				Nowstring = path.substr(beForePos, Pos - beForePos);
 
-				if (nowstring != "." && nowstring != "..") {
-					vssd_tool::trim(&nowstring);
-					folders.push_back(nowstring); 
+				if (Nowstring != "." && Nowstring != "..") {
+					vssd_tool::Trim(&Nowstring);
+					Folders.push_back(Nowstring); 
 				}
-				else if (nowstring == ".." && folders.at(folders.size() - 1)!= "..") {
-					folders.pop_back();
+				else if (Nowstring == ".." && Folders.at(Folders.size() - 1)!= "..") {
+					Folders.pop_back();
 				}
 			}
 		}
-		if (pos != std::string::npos)
-			beforepos = pos + 1;
+		if (Pos != std::string::npos)
+			beForePos = Pos + 1;
 	}
-	if (beforepos <= path.length() - 1) {
-		nowstring = path.substr(beforepos, path.length() - beforepos);
-		vssd_tool::trim(&nowstring);
-		if (nowstring != "." && nowstring != "..") {
-			vssd_tool::trim(&nowstring);
-			folders.push_back(nowstring); 
+	if (beForePos <= path.length() - 1) {
+		Nowstring = path.substr(beForePos, path.length() - beForePos);
+		vssd_tool::Trim(&Nowstring);
+		if (Nowstring != "." && Nowstring != "..") {
+			vssd_tool::Trim(&Nowstring);
+			Folders.push_back(Nowstring); 
 		}
-		else if (nowstring == ".." &&folders.size()>1&& folders.at(folders.size() - 1)!= "..") {
-			folders.pop_back();
+		else if (Nowstring == ".." &&Folders.size()>1&& Folders.at(Folders.size() - 1)!= "..") {
+			Folders.pop_back();
 		}
-		else if (nowstring == "..") {
-			folders.push_back(".."); 
+		else if (Nowstring == "..") {
+			Folders.push_back(".."); 
 		}
 
 	}
@@ -112,18 +112,18 @@ void tool_path::pathtofolders(std::string path)
 
 
 }
-void tool_path::deletone() {
-	folders.pop_back();
-	realfolders.pop_back(); 
+void sjh::tool_path::DeletOne() {
+	Folders.pop_back();
+	RealFolders.pop_back(); 
 
 }
-void tool_path::addone(vssd_folder *folder) {
-	folders.push_back(folder->getname()); 
-	realfolders.push_back(folder); 
+void sjh::tool_path::AddOne(vssd_folder *folder) {
+	Folders.push_back(folder->GetName()); 
+	RealFolders.push_back(folder); 
 	
 }
 
-tool_path::~tool_path()
+sjh::tool_path::~tool_path()
 {
 
 }

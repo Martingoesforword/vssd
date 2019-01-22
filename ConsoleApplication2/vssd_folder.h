@@ -8,35 +8,35 @@ private:
 	 
 
 public: 
-	std::string name ; 
-	std::vector<vssd_folder *>subfolders;   
+	std::string Name ; 
+	std::vector<vssd_folder *>SubFolders;   
 	 
 	 
-	virtual std::string gettype();
-	vssd_folder(std::string name, int code); 
-	void vssd_folder_link(vssd_folder * linktosub);
-	std::string getname();
-	void build(vssd & myvssd, tool_path & a); 
-	void vssd_folder_init();  
-	void showoffsub();
-	void deletone(vssd_folder *deletfolder);
-	void offone(vssd_folder * deletfolder);
-	void deletevery(); 
-	void setname(std::string &name); 
-	vssd_folder ** findnext(); 
-	vssd_folder *find(std::string &folder);//搜索本目录下文件
-	vssd_folder *find(tool_path * apath,int pathpos);//搜索本目录下包括子目录文件
-	std::string vssdtypename[3] = { "FILE","FOLDER", "LINK" };
-	unsigned int vssdtypecode;    //0 file 1 folder 2 link
-	std::vector<unsigned char> content;		//文件内容 
+	virtual std::string GetType();
+	vssd_folder(std::string Name, int Code); 
+	void VssdFolderLink(vssd_folder * LinkToSub);
+	std::string GetName();
+	void Build(vssd & MyVssd, tool_path & a); 
+	void VssdFolderInit();  
+	void ShowOffSub();
+	void DeletOne(vssd_folder *DeletFolder);
+	void OffOne(vssd_folder * DeletFolder);
+	void DeleteEvery(); 
+	void SetName(std::string &Name); 
+	vssd_folder ** FindNext(); 
+	vssd_folder *Find(std::string &Folder);//搜索本目录下文件
+	vssd_folder *Find(tool_path * apath,int pathPos);//搜索本目录下包括子目录文件
+	std::string VssdTypeName[3] = { "FILE","FOLDER", "LINK" };
+	unsigned int VssdTypeCode;    //0 file 1 folder 2 Link
+	std::vector<unsigned char> Content;		//文件内容 
 	bool isFile();
-	void setcontent(unsigned char byte);
-	void setcontentstring(std::string str);
+	void SetContent(unsigned char Byte);
+	void SetContentString(std::string Str);
 	unsigned char readcontent(); 
-	int serialize(std::vector<unsigned char>& byte_foldertable, std::vector<unsigned char>& byte_contenttable, int & indexinit);
-	void deserialize(std::vector<unsigned char>& byte_vssd, int pos);
-	void parmsave(std::vector<unsigned char>& byte_foldertable, int a);
-	void contentsave(std::vector<unsigned char>& byte_foldertable, int a);
+	int Serialize(std::vector<unsigned char>& Byte_foldertable, std::vector<unsigned char>& Byte_contenttable, int & indexInit);
+	void deSerialize(std::vector<unsigned char>& ByteVssd, int Pos);
+	void parmsave(std::vector<unsigned char>& Byte_foldertable, int a);
+	void contentsave(std::vector<unsigned char>& Byte_foldertable, int a);
 
 	~vssd_folder();
 };

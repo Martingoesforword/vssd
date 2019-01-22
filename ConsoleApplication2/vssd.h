@@ -2,27 +2,27 @@
 class vssd
 {
 private:
-	std::string name;
-	vssd_foldertop *nowtop;
-	std::vector<vssd_foldertop *> tops;  
+	std::string Name;
+	vssd_foldertop *NowTop;
+	std::vector<vssd_foldertop *> Tops;  
 	
-	vssd_folder *genius;
+	vssd_folder *Genius;
 public: 
-	std::vector<unsigned char> serial;
-	vssd_foldertop *getnowtop();
-	vssd_folder *getgenius();
-	void setnowtop(vssd_foldertop * afoldertop); 
-	void linktop(vssd_foldertop *anowtop);
-	vssd(vssd_foldertop * Now, vssd_folder * agenius, std::string aname);
+	std::vector<unsigned char> Serial;
+	vssd_foldertop *GetNowTop();
+	vssd_folder *GetGenius();
+	void SetNowTop(vssd_foldertop * afolderTop); 
+	void LinkTop(vssd_foldertop *aNowTop);
+	vssd(vssd_foldertop * Now, vssd_folder * aGenius, std::string aName);
 
 	vssd();
-	vssd_foldertop *findtop(std::string &aname);
-	void puttorealfile(FILE *d);
-	void getfromrealfile(FILE *d);
+	vssd_foldertop *FindTop(std::string &aName);
+	void PutToRealFile(FILE *d);
+	void GetFromRealfile(FILE *d);
 
-	void deserialize(std::vector<unsigned char>& byte_vssd);
+	void DeSerialize(std::vector<unsigned char>& ByteVssd);
 
-	void serialize(std::vector<unsigned char> &byte);
+	void Serialize(std::vector<unsigned char> &Byte);
 	~vssd();
 };
  
