@@ -1,4 +1,5 @@
 #include "pch.h"  
+#include "vssd_folder.h"
 void sjh::vssd_folder::VssdFolderInit()
 {  
 }
@@ -264,6 +265,7 @@ unsigned char sjh::vssd_folder::readcontent()			//返回NULL 和 下一个字符
 
 int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, std::vector<unsigned char>& Byte_contenttable,int &indexInit)
 {
+	
 	int p = Byte_foldertable.size();
 	indexInit++;
 	//存属性
@@ -276,7 +278,7 @@ int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, st
 	vssd_tool::Push0ToNSpace(SubFolders.size() * 4, Byte_foldertable);
 	
 	//递归存
-	for (int i = 0; i < SubFolders.size(); i++)
+	for (int i = 0;VssdTypeCode != 2 && i < SubFolders.size(); i++)
 	{ 
 		int ps = SubFolders.at(i)->Serialize(Byte_foldertable, Byte_contenttable, indexInit);
 		std::vector<unsigned char>::iterator it = Byte_foldertable.begin();
@@ -378,6 +380,17 @@ void sjh::vssd_folder::contentsave(std::vector<unsigned char>& Byte_contenttable
 	}
  
 
+}
+void sjh::vssd_folder::DeleteLinks()
+{
+	for (int  i = 0; i < LinkFolders.size(); i++)
+	{
+		LinkFolders[i]->SubFolders[0] = nullptr; 
+	}
+}
+void sjh::vssd_folder::AddLink(sjh::vssd_folder * link)
+{
+	LinkFolders.push_back(link);
 }
 sjh::vssd_folder::~vssd_folder()
 {

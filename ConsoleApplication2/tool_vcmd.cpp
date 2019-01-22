@@ -4,8 +4,14 @@
 void sjh::tool_vcmd::vDir(sjh::vssd_foldertop * Top)
 {
 	sjh::vssd_folder *now = Top->GetNowPos();
-	if(now->VssdTypeCode != 2) now->ShowOffSub();
-	else now->SubFolders[0]->ShowOffSub();
+	
+	while (now->VssdTypeCode == 2) { 
+		if(now) now = now->SubFolders[0]; 
+		else {
+			return;
+		}
+	}
+	now->ShowOffSub();
 	 
 }
 //当下文件夹下cd
@@ -17,6 +23,7 @@ void sjh::tool_vcmd::vCd(sjh::vssd_foldertop * MyTop)
 //当下文件夹下rd
 void sjh::tool_vcmd::vRd(vssd & MyVssd) {
 	if (MyVssd.GetNowTop()->NowPath.RealFolders.size() >= 3) {
+		MyVssd.GetNowTop()->GetNowPos()->DeleteLinks();
 		MyVssd.GetNowTop()->NowPath.RealFolders.at(MyVssd.GetNowTop()->NowPath.RealFolders.size() - 2)->DeletOne(MyVssd.GetNowTop()->GetNowPos());
 
 		MyVssd.GetNowTop()->NowPath.DeletOne(); 
@@ -31,8 +38,10 @@ void sjh::tool_vcmd::vRd(vssd & MyVssd) {
 
 void sjh::tool_vcmd::vRd(vssd & MyVssd, std::string & rdCommand)
 {
+	 
 	tool_path a;
 	sjh::vssd_folder * folder = v_FindPath(MyVssd, rdCommand, a);
+	folder->DeleteLinks();
 	if (folder->isFile()) {
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
 		vDel(MyVssd, rdCommand);
@@ -97,7 +106,7 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::string & pathC
 				return nullptr;
 			}
 			Nowpath.AddOne(longNowf);
-			if (longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
+			while(longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
 			flag_tofirstif = 0;
 		}
 		else if (path.Folders.at(i)== "..") {
@@ -117,14 +126,20 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::string & pathC
 			 
 			longNowf = longNowf->Find(path.Folders[i]);
 			if (!longNowf) {
+
 				return nullptr;
 			}
 			Nowpath.AddOne(longNowf);
-			if(longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
+			if (longNowf->VssdTypeCode == 2 && i + 1 == path.Folders.size()) { apath = Nowpath; return longNowf; }
+			 
+
+			
+			 
+			while(longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
 		}
 
 	}
-
+	 
 	apath = Nowpath;
 	return longNowf;
 	 
@@ -139,7 +154,7 @@ void sjh::tool_vcmd::vCd(vssd & MyVssd, std::string & cdCommand)
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 		return;
 	}
-	if (folder) {
+	if (folder && folder->SubFolders[0]) {
 		MyVssd.GetNowTop()->NowPath = a; 
 	}
 	else {
@@ -186,7 +201,7 @@ int sjh::tool_vcmd::vMd(vssd & MyVssd, std::string & mdCommand)
 
 	sjh::vssd_folder * folder = v_FindPath(MyVssd, mdCommand, a);
 	 
-	 
+	vssd_tool::Trim(mdCommand);
 	if (!folder)    {
 		a.PathToFolders(mdCommand);
 		if (a.Folders[0].length() > 1 && a.Folders[0].at(1) != ':') {
@@ -206,15 +221,15 @@ int sjh::tool_vcmd::vMd(vssd & MyVssd, std::string & mdCommand)
 	
 }
 //移动文件夹
-void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & Src, std::string & dis) {
+void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & Src, std::string & Des) {
 
 	tool_path a;
 	tool_path b;
 	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a);
-	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, dis, b);
+	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, Des, b);
 	if (Srcfolder->isFile()) {
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
-		vCopy(MyVssd, Src, dis);
+		vCopy(MyVssd, Src, Des);
 		return;
 	}
 	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2) {
@@ -229,10 +244,10 @@ void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & Src, std::string & dis) 
 
 }
 
-void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & dis) {
+void sjh::tool_vcmd::vMove(vssd & MyVssd, std::string & Des) {
 
 	tool_path b;
-	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, dis, b); 
+	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, Des, b); 
 	if (disfolder) {
 		disfolder->VssdFolderLink(MyVssd.GetNowTop()->GetNowPos());
 	}
@@ -247,18 +262,18 @@ void sjh::tool_vcmd::vCls()
 	system("cls");
 }
 
-void sjh::tool_vcmd::v_jump(vssd & MyVssd, std::string & jumpto)
+void sjh::tool_vcmd::v_jump(vssd & MyVssd, std::string & JumpTo)
 {
-	sjh::vssd_foldertop* Top = MyVssd.FindTop(jumpto);
+	sjh::vssd_foldertop* Top = MyVssd.FindTop(JumpTo);
 	MyVssd.SetNowTop(Top);
 }
 
-void sjh::tool_vcmd::vSave(vssd & MyVssd, std::string & jumpto)
+void sjh::tool_vcmd::vSave(vssd & MyVssd, std::string & JumpTo)
 {
 	
 	MyVssd.Serialize(MyVssd.Serial);
 	 
-	std::ofstream Vssdfile("d:\\Vssdfile", std::ios::binary);
+	std::ofstream Vssdfile(JumpTo, std::ios::binary);
 	if (Vssdfile.is_open())
 	{
 		std::string data;
@@ -283,7 +298,7 @@ void sjh::tool_vcmd::vLoad(vssd & MyVssd, std::string & GetFrom)
 {
 	MyVssd.Serial.clear();
 	char ch;
-	std::ifstream Vssdfile("d:\\Vssdfile", std::ios::binary);
+	std::ifstream Vssdfile(GetFrom, std::ios::binary);
 	if (!Vssdfile.is_open())
 	{
 		std::cout << "Error opening file"; exit(1);
@@ -368,6 +383,7 @@ void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::string & Src, std::string & Lin
 		 //找到创建的Link文件
 		Link->VssdFolderLink(Srcfolder);
 		//将Link文件第一个子文件放入指向文件
+		Srcfolder->AddLink(Link);
 	}
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;

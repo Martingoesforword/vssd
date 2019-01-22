@@ -10,7 +10,7 @@ private:
 public: 
 	std::string Name ; 
 	std::vector<vssd_folder *>SubFolders;   
-	 
+	std::vector<vssd_folder *>LinkFolders;
 	 
 	virtual std::string GetType();
 	vssd_folder(std::string Name, int Code); 
@@ -37,6 +37,7 @@ public:
 	void deSerialize(std::vector<unsigned char>& ByteVssd, int Pos);
 	void parmsave(std::vector<unsigned char>& Byte_foldertable, int a);
 	void contentsave(std::vector<unsigned char>& Byte_foldertable, int a);
-
+	void DeleteLinks();
+	void AddLink(sjh::vssd_folder * link);
 	~vssd_folder();
 };
