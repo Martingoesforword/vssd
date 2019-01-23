@@ -163,8 +163,8 @@
   <ItemGroup>
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="tool_vcmd.cpp" />
-    <ClCompile Include="vssd_foldertop.cpp" />
     <ClCompile Include="vssd_folder.cpp" />
+    <ClCompile Include="vssd_foldertop.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -177,6 +177,12 @@
   <ItemGroup>
     <Text Include="TASK.txt" />
     <Text Include="DAILY.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Debug\vssd_folder.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

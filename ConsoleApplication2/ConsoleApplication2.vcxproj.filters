@@ -44,9 +44,6 @@
     <ClCompile Include="ConsoleApplication2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vssd_folder.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="vssd_foldertop.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -59,6 +56,9 @@
     <ClCompile Include="tool_vcmd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="vssd_folder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="DAILY.txt">
@@ -67,5 +67,13 @@
     <Text Include="TASK.txt">
       <Filter>资源文件</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Debug\vssd_folder.obj">
+      <Filter>源文件</Filter>
+    </Object>
   </ItemGroup>
 </Project>

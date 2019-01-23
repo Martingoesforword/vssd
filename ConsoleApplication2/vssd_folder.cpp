@@ -66,7 +66,7 @@ void sjh::vssd_folder::ShowOffSub(int pram, std::wstring now) {
 	 
 
 	int p = 0; 
-	std::cout<< sjh::vssd_tool::WStringToString(now) << "文件夹下：" << std::endl;
+	std::cout<< sjh::vssd_tool::WStringToString(now) << "文件fffffffffffffffffff夹下：" << std::endl;
 	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 		
