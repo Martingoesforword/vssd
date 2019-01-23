@@ -1,15 +1,14 @@
-#include "pch.h"  
-#include "vssd_folder.h"
+#include "pch.h"   
 void sjh::vssd_folder::VssdFolderInit()
 {  
 }
 
-std::string sjh::vssd_folder::GetType()
+std::wstring sjh::vssd_folder::GetType()
 {
 	return VssdTypeName[VssdTypeCode];
 }
 
-sjh::vssd_folder::vssd_folder(std::string aName, int aCode)
+sjh::vssd_folder::vssd_folder(std::wstring aName, int aCode)
 {
 	Name = aName;
 	VssdTypeCode = aCode;
@@ -29,7 +28,7 @@ void sjh::vssd_folder::VssdFolderLink(sjh::vssd_folder *LinktoSub)
 	else std::cout << "This folder had overflowed for Folders!" << std::endl;
 }
  
-std::string sjh::vssd_folder::GetName()
+std::wstring sjh::vssd_folder::GetName()
 {
 	return Name;
 }
@@ -56,18 +55,18 @@ void sjh::vssd_folder::Build(sjh::vssd & MyVssd, sjh::tool_path &a) {
 
 }
 
-void sjh::vssd_folder::SetName(std::string &aName) {
+void sjh::vssd_folder::SetName(std::wstring &aName) {
 
 	Name = aName;
 }
 
  
 //pram 1：tree  2：自己
-void sjh::vssd_folder::ShowOffSub(int pram, std::string now) {
+void sjh::vssd_folder::ShowOffSub(int pram, std::wstring now) {
 	 
 
 	int p = 0; 
-	std::cout<< now << "文件夹下：" << std::endl;
+	std::cout<< sjh::vssd_tool::WStringToString(now) << "文件夹下：" << std::endl;
 	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 		
@@ -75,7 +74,7 @@ void sjh::vssd_folder::ShowOffSub(int pram, std::string now) {
 		
 		if (SubFolders.at(p) != NULL) {
 			
-			std::cout << SubFolders.at(p)->Name <<"\t\t<"<< SubFolders [p]->GetType()<< ">\t" << SubFolders[p]->Content.size()* sizeof(unsigned char)<< "Byte\t"<< std::endl;
+			std::cout << sjh::vssd_tool::WStringToString(SubFolders.at(p)->Name) <<"\t\t<"<< sjh::vssd_tool::WStringToString(SubFolders [p]->GetType())<< ">\t" << SubFolders[p]->Content.size()* sizeof(unsigned char)<< "Byte\t"<< std::endl;
 		}
 		else { p++; goto defeatfolder;}
 		p++;
@@ -83,7 +82,7 @@ void sjh::vssd_folder::ShowOffSub(int pram, std::string now) {
 	if (pram == 1) {
 		for (int i = 0; i < SubFolders.size(); i++)
 		{
-			SubFolders[i]->ShowOffSub(pram,now+ SubFolders[i]->Name+"\\");
+			SubFolders[i]->ShowOffSub(pram,now+ SubFolders[i]->Name+L"\\");
 		}
 		
 	}
@@ -193,7 +192,7 @@ sjh::vssd_folder ** sjh::vssd_folder::FindNext() {
 	 
 }
 
-sjh::vssd_folder * sjh::vssd_folder::Find(std::string & folder)
+sjh::vssd_folder * sjh::vssd_folder::Find(std::wstring & folder)
 {
 	int j = 0;
 	for (int i = 0; i < SubFolders.size(); i++)
@@ -243,7 +242,7 @@ void sjh::vssd_folder::SetContent(unsigned char Byte)		//追加字符
 		std::cout << "Can not write to or read From a folder or a Link" << std:: endl;
 	}
 }
-void sjh::vssd_folder::SetContentString(std::string str)		//追加字符
+void sjh::vssd_folder::SetContentString(std::wstring str)		//追加字符
 {
 	if (isFile()) {
 		for (int i = 0; i < str.length(); i++)
@@ -313,7 +312,7 @@ void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos
 		vssd_tool::Get4BUint(ByteVssd, Pos, Subnum);    Pos += 4;
 		for (int i = 0; i < Subnum; i++)
 		{
-			sjh::vssd_folder *f1 = new sjh::vssd_folder("", 0);
+			sjh::vssd_folder *f1 = new sjh::vssd_folder(L"", 0);
 			VssdFolderLink(f1);
 			unsigned int SubPos = 0;
 			vssd_tool::Get4BUint(ByteVssd, Pos, SubPos);
@@ -340,7 +339,7 @@ void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos
 			vssd_tool::Get4BUint(ByteVssd, contentpoint, contentindex1);
 			if (contentindex1 == contentindex) {
 				//读文件
-				std::string str1;
+				std::wstring str1;
 				vssd_tool::GetStringAnd0(ByteVssd, contentpoint+4, contentlength, str1);
 				SetContentString(str1); 
 				

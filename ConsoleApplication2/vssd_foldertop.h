@@ -1,5 +1,4 @@
-#pragma once
-#include "pch.h"   
+#pragma once 
 class vssd_foldertop
 {
 private:

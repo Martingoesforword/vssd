@@ -27,7 +27,7 @@ void sjh::vssd::LinkTop(sjh::vssd_foldertop * aNowTop)
 	
 }
 
-sjh::vssd::vssd(sjh::vssd_foldertop * Now, sjh::vssd_folder * aGenius, std::string aName)
+sjh::vssd::vssd(sjh::vssd_foldertop * Now, sjh::vssd_folder * aGenius, std::wstring aName)
 {
 	NowTop = Now;
 	Name = aName;
@@ -40,7 +40,7 @@ sjh::vssd::vssd()
 	
 }
  
-sjh::vssd_foldertop * sjh::vssd::FindTop(std::string & aName)
+sjh::vssd_foldertop * sjh::vssd::FindTop(std::wstring & aName)
 {
 	for (int i = 0; i < Tops.size(); i++)
 	{
@@ -82,7 +82,7 @@ void sjh::vssd::DeSerialize(std::vector<unsigned char> &ByteVssd) {
 	sjh::vssd_tool::Get4BUint(ByteVssd, 48, contenttablepoint);
 	//调用Top的de方法，创建Top数组，返回指针Tops
 
-	sjh::vssd_folder *GeniusNow = new sjh::vssd_folder("",0); 
+	sjh::vssd_folder *GeniusNow = new sjh::vssd_folder(L"",0); 
 	//调用folder的de方法，递归创建folder
 	GeniusNow->deSerialize(ByteVssd, foldertablepoint);
 

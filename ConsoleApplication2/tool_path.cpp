@@ -1,13 +1,12 @@
 
-#include "pch.h"   
-#include "tool_path.h"
+#include "pch.h"    
 
 sjh::tool_path::tool_path()
 {
 	Type = 1;   
 }
 
-void sjh::tool_path::GetPath(std::string apath, int aType)
+void sjh::tool_path::GetPath(std::wstring apath, int aType)
 {
 	Type = aType;   
 	PathToFolders(apath);
@@ -21,7 +20,7 @@ void sjh::tool_path::TestPrint()
 {
 	for (int i = 0; i < Folders.size(); i++)
 	{
-		std::cout << Folders.at(i)<< std::endl;
+		std::cout << sjh::vssd_tool::WStringToString(Folders.at(i))<< std::endl;
 	}
 }
 
@@ -49,7 +48,7 @@ sjh::vssd_folder * sjh::tool_path::GetNow()
 }
 
 
-void sjh::tool_path::PathToFolders(std::string path)
+void sjh::tool_path::PathToFolders(std::wstring path)
 {
 									   
 	 
@@ -57,55 +56,55 @@ void sjh::tool_path::PathToFolders(std::string path)
 	//将路径准换为Folders并赋值给Folders
 	int Pos = 0;
 	int beForePos = 0;
-	std::string Nowstring;
-	while (Folders.size() <= Folders.max_size() && Pos != std::string::npos) {
-		if ((Pos = path.find('\\', beForePos)) != std::string::npos) {
+	std::wstring Nowstring;
+	while (Folders.size() <= Folders.max_size() && Pos != std::wstring::npos) {
+		if ((Pos = path.find('\\', beForePos)) != std::wstring::npos) {
 			if (Pos != 0 && beForePos <= Pos - 1) {
 				//找到beForePos+1到Pos-1的字符串放入Folders数组里，并更改记录
 				Nowstring = path.substr(beForePos, Pos - beForePos);
-				if (Nowstring != "." && Nowstring != "..") {
+				if (Nowstring != L"." && Nowstring != L"..") {
 					vssd_tool::Trim(&Nowstring);
 					Folders.push_back(Nowstring) ; 
 				}
-				else if (Nowstring == ".." &&Folders.size() > 0 && Folders.at(Folders.size() - 1)!= "..") {
+				else if (Nowstring == L".." &&Folders.size() > 0 && Folders.at(Folders.size() - 1)!= L"..") {
 					Folders.pop_back();
 				}
-				else if (Nowstring == "..") {
+				else if (Nowstring == L"..") {
 					vssd_tool::Trim(&Nowstring);
 					Folders.push_back(Nowstring); 
 				}
 
 			}
 		}
-		else if ((Pos = path.find('/', beForePos)) != std::string::npos) {
+		else if ((Pos = path.find('/', beForePos)) != std::wstring::npos) {
 			if (Pos != 0 && beForePos <= Pos - 1) {
 				//找到beForePos+1到Pos-1的字符串放入Folders数组里，并更改记录
 				Nowstring = path.substr(beForePos, Pos - beForePos);
 
-				if (Nowstring != "." && Nowstring != "..") {
+				if (Nowstring != L"." && Nowstring != L"..") {
 					vssd_tool::Trim(&Nowstring);
 					Folders.push_back(Nowstring); 
 				}
-				else if (Nowstring == ".." && Folders.at(Folders.size() - 1)!= "..") {
+				else if (Nowstring == L".." && Folders.at(Folders.size() - 1)!= L"..") {
 					Folders.pop_back();
 				}
 			}
 		}
-		if (Pos != std::string::npos)
+		if (Pos != std::wstring::npos)
 			beForePos = Pos + 1;
 	}
 	if (beForePos <= path.length() - 1) {
 		Nowstring = path.substr(beForePos, path.length() - beForePos);
 		vssd_tool::Trim(&Nowstring);
-		if (Nowstring != "." && Nowstring != "..") {
+		if (Nowstring != L"." && Nowstring != L"..") {
 			vssd_tool::Trim(&Nowstring);
 			Folders.push_back(Nowstring); 
 		}
-		else if (Nowstring == ".." &&Folders.size()>1&& Folders.at(Folders.size() - 1)!= "..") {
+		else if (Nowstring == L".." &&Folders.size()>1&& Folders.at(Folders.size() - 1)!= L"..") {
 			Folders.pop_back();
 		}
-		else if (Nowstring == "..") {
-			Folders.push_back(".."); 
+		else if (Nowstring == L"..") {
+			Folders.push_back(L".."); 
 		}
 
 	}
@@ -113,12 +112,12 @@ void sjh::tool_path::PathToFolders(std::string path)
 
 
 }
-std::string sjh::tool_path::FoldersToPath()
+std::wstring sjh::tool_path::FoldersToPath()
 {
-	std::string *Path = new std::string();
+	std::wstring *Path = new std::wstring();
 	for (int  i = 1; i < RealFolders.size(); i++)
 	{
-		Path->append(RealFolders[i]->Name + "\\");
+		Path->append(RealFolders[i]->Name + L"\\");
 	}
 	return *Path;
 }

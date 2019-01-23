@@ -1,8 +1,5 @@
 #include "pch.h" 
- 
-
-
- 
+  
 sjh::vssd_folder * sjh::vssd_foldertop::GetNowPos()
 {
 	return NowPath.GetNow();
@@ -12,7 +9,7 @@ void sjh::vssd_foldertop::ShowNowPosForCmd() {
 	std::cout << "VSSD : Now at " ;
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
-		std::cout << NowPath.RealFolders.at(i)->GetName() << '/';
+		std::cout << sjh::vssd_tool::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
 	}
 	
 	std::cout << " , you will say:";
@@ -21,14 +18,14 @@ void sjh::vssd_foldertop::ShowNowPos() {
 	std::cout << "VSSD : Now at ";
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
-		std::cout<< NowPath.RealFolders.at(i)->GetName() << '/';
+		std::cout<< sjh::vssd_tool::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
 	}
 	std::cout << std::endl;
 }
 sjh::vssd_foldertop::vssd_foldertop(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 {
 	root = aroot; 
-	NowPath.GetPath(" \\c:\\", 1);
+	NowPath.GetPath(L" \\c:\\", 1);
 	NowPath.SetRealpath(aGenius,0);
 	NowPath.SetRealpath(aroot,1);
 

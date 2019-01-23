@@ -2,21 +2,21 @@
 class vssd_tool {
 public:
 	 
-	static void Trim(std::string * s) {
+	static void Trim(std::wstring * s) {
 
 		if (!s->empty())
 		{
-			s->erase(0, s->find_first_not_of(" "));
-			s->erase(s->find_last_not_of(" ") + 1);
+			s->erase(0, s->find_first_not_of(L" "));
+			s->erase(s->find_last_not_of(L" ") + 1);
 		}
 
 	}
-	static void Trim(std::string & s) {
+	static void Trim(std::wstring & s) {
 
 		if (!s.empty())
 		{
-			s.erase(0, s.find_first_not_of(" "));
-			s.erase(s.find_last_not_of(" ") + 1);
+			s.erase(0, s.find_first_not_of(L" "));
+			s.erase(s.find_last_not_of(L" ") + 1);
 		}
 
 	}
@@ -48,7 +48,7 @@ public:
 		Num = a;
 		return 1;
 	}
-	static void GetString(const std::vector<unsigned char>& ByteVssd,int Pos,int Length, std::string &Str) {
+	static void GetString(const std::vector<unsigned char>& ByteVssd,int Pos,int Length, std::wstring &Str) {
 		Str.clear();
 		int i = 0;
 		char ch;
@@ -58,7 +58,7 @@ public:
 		} 
 		return;
 	}
-	static void GetStringAnd0(const std::vector<unsigned char>& ByteVssd, int Pos, int Length, std::string &Str) {
+	static void GetStringAnd0(const std::vector<unsigned char>& ByteVssd, int Pos, int Length, std::wstring &Str) {
 
 		int i = 0;
 		char ch = '0';
@@ -84,7 +84,7 @@ public:
 		} 
 		return;
 	}
-	static void PushString(std::string Str, std::vector<unsigned char> &Byte) {
+	static void PushString(std::wstring Str, std::vector<unsigned char> &Byte) {
 		for (int i = 0; i < Str.length(); i++)
 		{
 			Byte.push_back(Str[i]);
@@ -98,7 +98,7 @@ public:
 		}
 		return;
 	}
-	static void split(std::string str, std::vector<std::string> &ret , std::string pattern)
+	static void split(std::wstring str, std::vector<std::wstring> &ret , std::wstring pattern)
 	{
 		
 		if (pattern.empty()) {}
@@ -114,4 +114,44 @@ public:
 			ret.push_back(str.substr(start));
 		 
 	}
+	 
+
+	static std::string WStringToString(const std::wstring &wstrSrc)
+	{
+		int nLen = WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)wstrSrc.c_str(), -1, NULL, 0, NULL, NULL);
+		if (nLen <= 0) return std::string("");
+
+		char* pszDst = new char[nLen + 1];
+		if (NULL == pszDst) return std::string("");
+		memset(pszDst, 0, nLen + 1);
+
+		WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)wstrSrc.c_str(), -1, pszDst, nLen, NULL, NULL);
+		pszDst[nLen] = 0;
+
+		std::string strTemp(pszDst);
+		delete[] pszDst;
+		pszDst = NULL;
+		return strTemp;
+
+	}
+
+	static std::wstring StringToWString(const std::string &strSrc)
+	{
+		int nLen = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strSrc.c_str(), strSrc.length(), 0, 0);
+		if (nLen <= 0) return std::wstring(L"");
+
+		WCHAR *pwszDst = new WCHAR[nLen + 1];
+		if (NULL == pwszDst) return std::wstring(L"");
+		memset(pwszDst, 0, nLen + 1);
+
+		MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strSrc.c_str(), strSrc.length(), pwszDst, nLen);
+		pwszDst[nLen] = 0;
+
+		std::wstring wstrTemp(pwszDst);
+		delete pwszDst;
+		pwszDst = NULL;
+		return wstrTemp;
+	}
+	 
+		 
 };

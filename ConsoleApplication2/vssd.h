@@ -2,7 +2,7 @@
 class vssd
 {
 private:
-	std::string Name;
+	std::wstring Name;
 	vssd_foldertop *NowTop;
 	std::vector<vssd_foldertop *> Tops;  
 	
@@ -13,10 +13,10 @@ public:
 	vssd_folder *GetGenius();
 	void SetNowTop(vssd_foldertop * afolderTop); 
 	void LinkTop(vssd_foldertop *aNowTop);
-	vssd(vssd_foldertop * Now, vssd_folder * aGenius, std::string aName);
+	vssd(vssd_foldertop * Now, vssd_folder * aGenius, std::wstring aName);
 
 	vssd();
-	vssd_foldertop *FindTop(std::string &aName);
+	vssd_foldertop *FindTop(std::wstring &aName);
 	void PutToRealFile(FILE *d);
 	void GetFromRealfile(FILE *d);
 
