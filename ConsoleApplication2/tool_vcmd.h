@@ -24,7 +24,8 @@ public:
 	static void vLoad(vssd & MyVssd, std::wstring & JumpTo);
 	static void vDel(vssd & MyVssd, std::wstring & DelCommand);
 	static void vCopy(vssd & MyVssd , std::wstring & Src, std::wstring & Des);
-	static void vMklink(vssd & MyVssd, std::wstring & Src, std::wstring & Des);
+	static void vMklink(vssd & MyVssd, std::wstring & Src, std::wstring & Des); 
+	static void vCat(vssd & MyVssd, std::wstring & Rear);
 	 
 };
 

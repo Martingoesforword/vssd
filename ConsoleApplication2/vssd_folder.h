@@ -31,8 +31,8 @@ public:
 	std::vector<unsigned char> Content;		//ÎÄ¼şÄÚÈİ 
 	bool isFile();
 	void SetContent(unsigned char Byte);
-	void SetContentString(std::wstring Str);
-	unsigned char readcontent(); 
+	void SetContentString(std::wstring str);
+	void PrintContent(); 
 	int Serialize(std::vector<unsigned char>& Byte_foldertable, std::vector<unsigned char>& Byte_contenttable, int & indexInit);
 	void deSerialize(std::vector<unsigned char>& ByteVssd, int Pos);
 	void parmsave(std::vector<unsigned char>& Byte_foldertable, int a);

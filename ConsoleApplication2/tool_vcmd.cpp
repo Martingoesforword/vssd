@@ -397,7 +397,16 @@ void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::wstring & Src, std::wstring & L
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
 	}
 }
-
+void sjh::tool_vcmd::vCat(vssd & MyVssd, std::wstring & Rear) {
+	tool_path a;
+	//找到需要指向的文件夹
+	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Rear, a);
+	if(Srcfolder) Srcfolder->PrintContent();
+	else {
+		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
+	}
+	
+}
 void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
 {
 	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
@@ -528,9 +537,84 @@ void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
 		if (spacePos != -1) {
 
 			std::wstring rearSrc = rear.substr(0, spacePos);
-			std::wstring reardis = rear.substr(spacePos + 1, rear.length() - spacePos);
+			std::wstring rearDes = rear.substr(spacePos + 1, rear.length() - spacePos);
+			vssd_tool::Trim(rearSrc);
+			vssd_tool::Trim(rearDes);
+			if (rearSrc.at(0) == L'@') {
+				sjh::tool_path a;
+				sjh::vssd_folder *folder = v_FindPath(MyVssd, rearDes, a);
+				if (!folder) {
+					a.PathToFolders(rearDes);
+					if (a.Folders[0].size() > 1 && a.Folders[0].at(1) != L':') {
+						MyVssd.GetNowTop()->GetNowPos()->Build(MyVssd, a);
+					}
+					else {
+						MyVssd.GetGenius()->Build(MyVssd, a);
+					}
+					  
+				} 
+				folder = v_FindPath(MyVssd, rearDes, a);
+				folder->VssdTypeCode = 0;
 
-			vCopy(MyVssd, rearSrc, reardis);
+				std::wstring RealSrc = rearSrc.substr(1, rearSrc.length() - 1); 
+
+				
+				 
+
+				char ch;
+
+				std::ifstream RealFile(RealSrc, std::ios::binary);
+
+				if (!RealFile.is_open())
+				{
+					std::cout << "Error opening file"; exit(1);
+				}
+				 
+				while (!RealFile.eof())
+				{
+					ch = ' ';
+					RealFile.read(&ch, 1);
+					folder->Content.push_back(ch);
+					  
+					
+
+
+				} 
+				RealFile.close();
+				//读并放入vector<std::wstring>
+				//得到文件名
+				//判断文件类型
+
+				//建立目的虚拟文件rearSrc1
+				//调用vCopy(MyVssd, rearSrc1, reardis);
+
+			}else if (rearDes.at(0) == L'@') {
+				sjh::tool_path a;
+				sjh::vssd_folder *folder = v_FindPath(MyVssd, rearSrc, a);
+
+				std::wstring RealDes = rearDes.substr(1, rearDes.length() - 1);
+				std::ofstream DesFile(RealDes, std::ios::binary);
+				if (DesFile.is_open())
+				{
+					std::wstring data;
+					vssd_tool::GetStringAnd0(folder->Content, 0, folder->Content.size(), data);
+
+					DesFile.write((const char*)&data[0], data.size()*2); 
+					DesFile.close(); 
+				}
+				else {
+					std::cout << "Error opening file" << std::endl;
+				}
+				 
+				//得到文件名
+				//建立文件指针，
+				//读content属性并写入文件中 
+			}
+			else {
+				vCopy(MyVssd, rearSrc, rearDes);
+			}
+
+			
 
 		}
 		 
@@ -579,6 +663,14 @@ void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
 		rear = CmdCommand.substr(5, CmdCommand.length() - 5);
 		vssd_tool::Trim(rear);
 		vMd(MyVssd, rear);
+
+	}
+	//查看文件内容命令解析
+	else if (CmdCommand.length() > 3 && CmdCommand.substr(0, 3).compare(L"cat") == 0) {
+
+	rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+	vssd_tool::Trim(rear);
+	vCat(MyVssd, rear);
 
 	}
 	  

@@ -36,7 +36,7 @@ std::wstring sjh::vssd_folder::GetName()
 void sjh::vssd_folder::Build(sjh::vssd & MyVssd, sjh::tool_path &a) {
 	 
 	 
-	sjh::vssd_folder *Now = MyVssd.GetNowTop()->GetNowPos();
+	sjh::vssd_folder *Now = this;
 	int flag = 0;
 	for (int i = 0; i < a.Folders.size(); i++)
 	{	
@@ -255,17 +255,15 @@ void sjh::vssd_folder::SetContentString(std::wstring str)		//追加字符
 		std::cout << "Can not write to or read From a folder or a Link" << std::endl;
 	}
 }
-unsigned char sjh::vssd_folder::readcontent()			//返回NULL 和 下一个字符
+void sjh::vssd_folder::PrintContent()			//返回NULL 和 下一个字符
 {
 	static int index = -1;
 	if (isFile()) {
-		std::vector<unsigned char>::iterator it = Content.begin(); 
-		index++;
-		if(it + index != Content.end())
-			return *(it+ index);
-		else {
-			return NULL;
+		for (int i = 0; i < Content.size(); i++)
+		{
+			std::cout << Content[i];
 		}
+		std::cout << std::endl;
 	}
 	else {
 		std::cout << "Can not write to or read From a folder or a Link" << std::endl;
@@ -342,7 +340,6 @@ void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos
 				std::wstring str1;
 				vssd_tool::GetStringAnd0(ByteVssd, contentpoint+4, contentlength, str1);
 				SetContentString(str1); 
-				
 				break;
 			}
 		}
