@@ -344,15 +344,19 @@ void sjh::tool_vcmd::vLoad(vssd & MyVssd, std::wstring & GetFrom)
 
 void sjh::tool_vcmd::vDel(vssd & MyVssd, std::wstring & DelCommand)
 {
-	tool_path a;
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, DelCommand, a);
-	if (folder && a.Folders.size() >= 3) {
-		a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
+	std::vector<std::wstring> Dirs;
+	sjh::vssd_tool::split(DelCommand, Dirs, L" ");
+	for (int i = 0; i < Dirs.size(); i++)
+	{
+		tool_path a;
+		sjh::vssd_folder * folder = v_FindPath(MyVssd, Dirs[i], a);
+		if (folder && a.Folders.size() >= 3) {
+			a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
+		}
+		else {
+			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
+		}
 	}
-	else {
-		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
-	}
-
 }
 
 void sjh::tool_vcmd::vCopy(vssd & MyVssd, std::wstring & Src, std::wstring & Des)
