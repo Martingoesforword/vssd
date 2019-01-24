@@ -60,7 +60,7 @@ void sjh::tool_vcmd::vDir(vssd & MyVssd, std::wstring & DirCommand)
 {
 	std::vector<std::wstring> Dirs;
 	sjh::vssd_tool::split(DirCommand, Dirs, L" ");
-	for (int i = 0; i < Dirs.size(); i++)
+	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;
 		sjh::vssd_folder * Folder = v_FindPath(MyVssd, Dirs[i], a);
@@ -95,7 +95,7 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::wstring & Path
 	sjh::vssd_folder * longNowf = Nowpath.GetNow();	
 
 	int flag_tofirstif = 1;
-	for (int i = 0; i < path.Folders.size(); i++)
+	for (size_t i = 0; i < path.Folders.size(); i++)
 	{
 		//说明是磁盘开头，则为绝对路径
 		if (flag_tofirstif && path.Folders[i].length() == 2 && path.Folders[i].at(1) == ':') {
@@ -313,11 +313,11 @@ void sjh::tool_vcmd::vLoad(vssd & MyVssd, std::wstring & GetFrom)
 	}
 	while (!Vssdfile.eof())
 	{
-		char ch = ' ';
+		ch = ' ';
 
 		
 
-		for (int i = 0; i < 36; i++)
+		for (size_t i = 0; i < 36; i++)
 		{
 			Vssdfile.read(&ch, 1);
 			MyVssd.Serial.push_back(ch);
@@ -325,7 +325,7 @@ void sjh::tool_vcmd::vLoad(vssd & MyVssd, std::wstring & GetFrom)
 		unsigned int Bytelength = 0;
 		vssd_tool::Get4BUint(MyVssd.Serial, 32, Bytelength);
 
-		for (int i = 0; i < Bytelength-36; i++)
+		for (size_t i = 0; i < Bytelength-36; i++)
 		{
 			Vssdfile.read(&ch, 1);
 			MyVssd.Serial.push_back(ch);
@@ -346,7 +346,7 @@ void sjh::tool_vcmd::vDel(vssd & MyVssd, std::wstring & DelCommand)
 {
 	std::vector<std::wstring> Dirs;
 	sjh::vssd_tool::split(DelCommand, Dirs, L" ");
-	for (int i = 0; i < Dirs.size(); i++)
+	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;
 		sjh::vssd_folder * folder = v_FindPath(MyVssd, Dirs[i], a);

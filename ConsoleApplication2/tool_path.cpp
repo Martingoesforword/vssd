@@ -18,7 +18,7 @@ void sjh::tool_path::SetRealpath(vssd_folder *apath, int Pos)
 }
 void sjh::tool_path::TestPrint()
 {
-	for (int i = 0; i < Folders.size(); i++)
+	for (size_t i = 0; i < Folders.size(); i++)
 	{
 		std::cout << sjh::vssd_tool::WStringToString(Folders.at(i))<< std::endl;
 	}
@@ -26,7 +26,7 @@ void sjh::tool_path::TestPrint()
 
 bool sjh::tool_path::include(sjh::tool_path & path1)
 {
-	for (int i = 1; i < path1.Folders.size(); i++)
+	for (size_t i = 1; i < path1.Folders.size(); i++)
 	{
 		if (path1.Folders.at(i)== Folders[i]) continue;
 		else {
@@ -35,6 +35,7 @@ bool sjh::tool_path::include(sjh::tool_path & path1)
 			}
 		}
 	}
+	return 0;
 }
 
 sjh::vssd_folder * sjh::tool_path::GetNowFather()
@@ -54,8 +55,8 @@ void sjh::tool_path::PathToFolders(std::wstring path)
 	 
 
 	//将路径准换为Folders并赋值给Folders
-	int Pos = 0;
-	int beForePos = 0;
+	size_t Pos = 0;
+	size_t beForePos = 0;
 	std::wstring Nowstring;
 	while (Folders.size() <= Folders.max_size() && Pos != std::wstring::npos) {
 		if ((Pos = path.find('\\', beForePos)) != std::wstring::npos) {
@@ -115,7 +116,7 @@ void sjh::tool_path::PathToFolders(std::wstring path)
 std::wstring sjh::tool_path::FoldersToPath()
 {
 	std::wstring *Path = new std::wstring();
-	for (int  i = 1; i < RealFolders.size(); i++)
+	for (size_t  i = 1; i < RealFolders.size(); i++)
 	{
 		Path->append(RealFolders[i]->Name + L"\\");
 	}

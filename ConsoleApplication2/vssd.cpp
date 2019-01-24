@@ -42,7 +42,7 @@ sjh::vssd::vssd()
  
 sjh::vssd_foldertop * sjh::vssd::FindTop(std::wstring & aName)
 {
-	for (int i = 0; i < Tops.size(); i++)
+	for (size_t i = 0; i < Tops.size(); i++)
 	{
 		if (aName.compare(Tops[i]-> root->GetName()) == 0 ) {
 			return Tops[i];
@@ -90,7 +90,7 @@ void sjh::vssd::DeSerialize(std::vector<unsigned char> &ByteVssd) {
 	Genius = GeniusNow;
 	 
 	Tops.clear();
-	for (int i = 0; i < Genius->SubFolders.size(); i++)
+	for (size_t i = 0; i < Genius->SubFolders.size(); i++)
 	{
 		sjh::vssd_foldertop *pan = new sjh::vssd_foldertop(Genius->SubFolders[i], Genius);
 		Tops.push_back(pan);
@@ -155,7 +155,7 @@ void sjh::vssd::Serialize(std::vector<unsigned char> &ByteVssd) {
 	//表数据放入具体位置
 	//table s放入ByteVssd中 完善ByteVssd表的指向，folder表中content指向  
 	{
-		for (int i = 0; i < Tops.size(); i++)
+		for (size_t i = 0; i < Tops.size(); i++)
 		{
 			Tops.at(i)->Serialize(*Byte_Toptable);
 		} 

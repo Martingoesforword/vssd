@@ -78,21 +78,29 @@ public:
 	}
 
 	static void Push0ToNSpace(unsigned int N, std::vector<unsigned char> &Byte) {
-		for (int i = 0; i < N; i++)
+		for (size_t i = 0; i < N; i++)
 		{
 			Byte.push_back(0);
 		} 
 		return;
 	}
 	static void PushString(std::wstring Str, std::vector<unsigned char> &Byte) {
-		for (int i = 0; i < Str.length(); i++)
+		for (size_t i = 0; i < Str.length(); i++)
 		{
-			Byte.push_back(Str[i]);
+			Byte.push_back(*((unsigned char*)&Str[i]+0));
+			Byte.push_back(*((unsigned char*)&Str[i]+1));
+		}
+		return;
+	}
+	static void PushWString(std::string Str, std::vector<wchar_t> &Byte) {
+		for (size_t i = 0; i < Str.length(); i++)
+		{
+			Byte.push_back(Str[i]); 
 		}
 		return;
 	}
 	static void CopyAppend(std::vector<unsigned char> &From, std::vector<unsigned char> &To) {
-		for (int i = 0; i < From.size(); i++)
+		for (size_t i = 0; i < From.size(); i++)
 		{
 			To.push_back(From[i]);
 		}

@@ -38,7 +38,7 @@ void sjh::vssd_folder::Build(sjh::vssd & MyVssd, sjh::tool_path &a) {
 	 
 	sjh::vssd_folder *Now = this;
 	int flag = 0;
-	for (int i = 0; i < a.Folders.size(); i++)
+	for (size_t i = 0; i < a.Folders.size(); i++)
 	{	
 		if (flag || !Now->Find(a.Folders[i])) {
 			sjh::vssd_folder *f1 = new sjh::vssd_folder(a.Folders[i],1);
@@ -80,7 +80,7 @@ void sjh::vssd_folder::ShowOffSub(int pram, std::wstring now) {
 		p++;
 	}
 	if (pram == 1) {
-		for (int i = 0; i < SubFolders.size(); i++)
+		for (size_t i = 0; i < SubFolders.size(); i++)
 		{
 			SubFolders[i]->ShowOffSub(pram,now+ SubFolders[i]->Name+L"\\");
 		}
@@ -91,8 +91,8 @@ void sjh::vssd_folder::ShowOffSub(int pram, std::wstring now) {
 
 void sjh::vssd_folder::DeletOne(sjh::vssd_folder * deletfolder)
 {
-	int j = 0; 
-	for (int i = 0; i < SubFolders.size(); i++)
+	size_t j = 0;
+	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 
 		for (; j < SubFolders.max_size(); j++)
@@ -123,8 +123,8 @@ void sjh::vssd_folder::DeletOne(sjh::vssd_folder * deletfolder)
 
 void sjh::vssd_folder::OffOne(sjh::vssd_folder * deletfolder)
 {
-	int j = 0;
-	for (int i = 0; i < SubFolders.size(); i++)
+	size_t j = 0;
+	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 
 		for (; j < SubFolders.max_size(); j++)
@@ -150,8 +150,8 @@ void sjh::vssd_folder::OffOne(sjh::vssd_folder * deletfolder)
 }
 
 void sjh::vssd_folder::DeleteEvery() {
-	int j = 0;
-	for (int i = 0; i < SubFolders.size(); i++)
+	size_t j = 0;
+	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 
 		for (; j < SubFolders.max_size(); j++)
@@ -177,16 +177,17 @@ void sjh::vssd_folder::DeleteEvery() {
 
 sjh::vssd_folder ** sjh::vssd_folder::FindNext() {
 	if (SubFolders.size() < SubFolders.max_size()) {
-		for (int i = 0; i < SubFolders.max_size(); i++)
+		for (size_t i = 0; i < SubFolders.max_size(); i++)
 		{
 			if (SubFolders.at(i) == nullptr) {
 				return &SubFolders.at(i);
 			}
 
 		}
+		return nullptr;
 	}
 	else {
-
+		return nullptr;
 	}
 	
 	 
@@ -194,8 +195,8 @@ sjh::vssd_folder ** sjh::vssd_folder::FindNext() {
 
 sjh::vssd_folder * sjh::vssd_folder::Find(std::wstring & folder)
 {
-	int j = 0;
-	for (int i = 0; i < SubFolders.size(); i++)
+	size_t j = 0;
+	for (size_t i = 0; i < SubFolders.size(); i++)
 	{  
 		 
 		if (SubFolders.at(j) != NULL) {
@@ -245,9 +246,10 @@ void sjh::vssd_folder::SetContent(unsigned char Byte)		//追加字符
 void sjh::vssd_folder::SetContentString(std::wstring str)		//追加字符
 {
 	if (isFile()) {
-		for (int i = 0; i < str.length(); i++)
+		for (size_t i = 0; i < str.length(); i++)
 		{
-			Content.push_back(str.at(i));
+			Content.push_back(*((unsigned char*)&str[i] + 0));
+			Content.push_back(*((unsigned char*)&str[i] + 1));
 		}
 		
 	}
@@ -259,7 +261,7 @@ void sjh::vssd_folder::PrintContent()			//返回NULL 和 下一个字符
 {
 	static int index = -1;
 	if (isFile()) {
-		for (int i = 0; i < Content.size(); i++)
+		for (size_t i = 0; i < Content.size(); i++)
 		{
 			std::cout << Content[i];
 		}
@@ -285,7 +287,7 @@ int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, st
 	vssd_tool::Push0ToNSpace(SubFolders.size() * 4, Byte_foldertable);
 	
 	//递归存
-	for (int i = 0;VssdTypeCode != 2 && i < SubFolders.size(); i++)
+	for (size_t i = 0;VssdTypeCode != 2 && i < SubFolders.size(); i++)
 	{ 
 		int ps = SubFolders.at(i)->Serialize(Byte_foldertable, Byte_contenttable, indexInit);
 		std::vector<unsigned char>::iterator it = Byte_foldertable.begin();
@@ -308,7 +310,7 @@ void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos
 		Pos += 4 * 2;  //跳过文件内容描述 
 		unsigned int Subnum;
 		vssd_tool::Get4BUint(ByteVssd, Pos, Subnum);    Pos += 4;
-		for (int i = 0; i < Subnum; i++)
+		for (size_t i = 0; i < Subnum; i++)
 		{
 			sjh::vssd_folder *f1 = new sjh::vssd_folder(L"", 0);
 			VssdFolderLink(f1);
@@ -380,7 +382,7 @@ void sjh::vssd_folder::contentsave(std::vector<unsigned char>& Byte_contenttable
 	
  
 	//存放内容
-	for (int i = 0; i < Content.size(); i++)
+	for (size_t i = 0; i < Content.size(); i++)
 	{
 		Byte_contenttable.push_back(Content.at(i));
 	}
@@ -389,7 +391,7 @@ void sjh::vssd_folder::contentsave(std::vector<unsigned char>& Byte_contenttable
 }
 void sjh::vssd_folder::DeleteLinks()
 {
-	for (int  i = 0; i < LinkFolders.size(); i++)
+	for (size_t  i = 0; i < LinkFolders.size(); i++)
 	{
 		LinkFolders[i]->SubFolders[0] = nullptr; 
 	}

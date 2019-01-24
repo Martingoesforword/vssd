@@ -39,7 +39,7 @@ void sjh::vssd_foldertop::SetNewRoot(sjh::vssd_folder * aroot)
 sjh::vssd_folder * sjh::vssd_foldertop::Find(tool_path & apath)		
 {
 	sjh::vssd_folder * Nowfolder = GetNowPos();
-	for (int i = 0; i < apath.Folders.size(); i++)
+	for (size_t i = 0; i < apath.Folders.size(); i++)
 	{
 		Nowfolder = Nowfolder->Find(apath.Folders[i]);
 		if (!Nowfolder) {
