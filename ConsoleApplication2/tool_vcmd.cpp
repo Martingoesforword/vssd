@@ -282,7 +282,7 @@ void sjh::tool_vcmd::vSave(vssd & MyVssd, std::wstring & JumpTo)
 {
 	
 	MyVssd.Serialize(MyVssd.Serial);
-	 
+	
 	std::ofstream Vssdfile(JumpTo, std::ios::binary);
 	if (Vssdfile.is_open())
 	{
