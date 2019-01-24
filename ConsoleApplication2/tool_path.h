@@ -3,9 +3,10 @@
 
 class tool_path
 { 
-
+private:
+	int Type;		//2相对 1绝对（genius开头） 
 public: 
-	int Type;		//2相对 1绝对（root开头） 
+	
 	void PathToFolders(std::wstring path); //路径字符串到路径对象
 	std::wstring FoldersToPath();
 	std::vector<std::wstring> Folders; 

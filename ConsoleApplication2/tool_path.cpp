@@ -121,7 +121,7 @@ std::wstring sjh::tool_path::FoldersToPath()
 		Path->append(RealFolders[i]->Name + L"\\");
 	}
 	return *Path;
-}
+} 
 void sjh::tool_path::DeletOne() {
 	Folders.pop_back();
 	RealFolders.pop_back(); 

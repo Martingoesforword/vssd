@@ -173,6 +173,19 @@
   <ItemGroup>
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="tool_vcmd.cpp" />
+    <ClCompile Include="vCat.cpp" />
+    <ClCompile Include="vCd.cpp" />
+    <ClCompile Include="vCls.cpp" />
+    <ClCompile Include="vCopy.cpp" />
+    <ClCompile Include="vDel.cpp" />
+    <ClCompile Include="vDir.cpp" />
+    <ClCompile Include="vLoad.cpp" />
+    <ClCompile Include="vMkdir.cpp" />
+    <ClCompile Include="vMklink.cpp" />
+    <ClCompile Include="vMove.cpp" />
+    <ClCompile Include="vRd.cpp" />
+    <ClCompile Include="vRen.cpp" />
+    <ClCompile Include="vSave.cpp" />
     <ClCompile Include="vssd_folder.cpp" />
     <ClCompile Include="vssd_foldertop.cpp" />
     <ClCompile Include="pch.cpp">

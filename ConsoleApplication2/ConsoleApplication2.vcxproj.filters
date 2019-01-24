@@ -59,6 +59,45 @@
     <ClCompile Include="vssd_folder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="vDir.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vCat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vCd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vCls.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vCopy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vDel.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vLoad.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vMkdir.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vMklink.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vMove.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vRd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vRen.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vSave.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="DAILY.txt">
