@@ -40,14 +40,14 @@ void sjh::vssd_folder::Build(sjh::vssd & MyVssd, sjh::tool_path &a) {
 	int flag = 0;
 	for (size_t i = 0; i < a.Folders.size(); i++)
 	{	
-		if (flag || !Now->Find(a.Folders[i])) {
+		if (flag || !Now->FindForFirst(a.Folders[i])) {
 			sjh::vssd_folder *f1 = new sjh::vssd_folder(a.Folders[i],1);
 			Now->VssdFolderLink(f1);
 			Now = f1;
 			flag = 1;
 		}
 		else {
-			Now = Now->Find(a.Folders[i]);
+			Now = Now->FindForFirst(a.Folders[i]);
 		}
 		
 
@@ -193,14 +193,15 @@ sjh::vssd_folder ** sjh::vssd_folder::FindNext() {
 	 
 }
 
-sjh::vssd_folder * sjh::vssd_folder::Find(std::wstring & folder)
+sjh::vssd_folder * sjh::vssd_folder::FindForFirst(std::wstring & folder)
 {
 	size_t j = 0;
 	for (size_t i = 0; i < SubFolders.size(); i++)
 	{  
 		 
 		if (SubFolders.at(j) != NULL) {
-			if (SubFolders.at(j)->GetName().compare(folder) == 0) {
+			 
+			if (SubFolders.at(j)->GetCheck() && sjh::vssd_tool::WStringMatch(SubFolders.at(j)->GetName(), folder) != 0) {
 
 				return SubFolders.at(j);
 			}
@@ -220,7 +221,7 @@ sjh::vssd_folder * sjh::vssd_folder::Find(tool_path * apath, int pathPos)
 {
 
 	sjh::vssd_folder* reserchout;
-	reserchout = Find(apath->Folders[0]);
+	reserchout = FindForFirst(apath->Folders[0]);
 	 
 	return nullptr;
 	 
@@ -402,4 +403,19 @@ void sjh::vssd_folder::AddLink(sjh::vssd_folder * link)
 }
 sjh::vssd_folder::~vssd_folder()
 {
+}
+
+void sjh::vssd_folder::SetCheck()
+{
+	mycheck = false;
+}
+
+bool sjh::vssd_folder::GetCheck()
+{
+	return mycheck;
+}
+
+void sjh::vssd_folder::BackCheck()
+{
+	mycheck = true;
 }

@@ -5,7 +5,7 @@ class vssd_folder
 {
 private:
 	
-	 
+	bool mycheck = true;
 
 public: 
 	std::wstring Name ; 
@@ -24,7 +24,7 @@ public:
 	void DeleteEvery(); 
 	void SetName(std::wstring &Name); 
 	vssd_folder ** FindNext(); 
-	vssd_folder *Find(std::wstring &Folder);//搜索本目录下文件
+	vssd_folder *FindForFirst(std::wstring &Folder);//搜索本目录下文件
 	vssd_folder *Find(tool_path * apath,int pathPos);//搜索本目录下包括子目录文件
 	std::wstring VssdTypeName[3] = { L"FILE",L"FOLDER", L"LINK" };
 	unsigned int VssdTypeCode;    //0 file 1 folder 2 Link
@@ -40,4 +40,7 @@ public:
 	void DeleteLinks();
 	void AddLink(sjh::vssd_folder * link);
 	~vssd_folder();
+	void SetCheck();
+	bool GetCheck();
+	void BackCheck();
 };

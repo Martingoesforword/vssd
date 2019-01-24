@@ -40,7 +40,7 @@ void sjh::tool_vcmd::vRd(vssd & MyVssd, std::wstring & RdCommand)
 {
 	 
 	tool_path a;
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, RdCommand, a);
+	sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, RdCommand, a);
 	if (!folder) { std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return; }
 	folder->DeleteLinks();
 	if (folder->isFile()) {
@@ -63,7 +63,7 @@ void sjh::tool_vcmd::vDir(vssd & MyVssd, std::wstring & DirCommand)
 	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;
-		sjh::vssd_folder * Folder = v_FindPath(MyVssd, Dirs[i], a);
+		sjh::vssd_folder * Folder = v_FindPathForFirst(MyVssd, Dirs[i], a);
 		if (!Folder) {
 			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl; continue;
 		}
@@ -81,7 +81,7 @@ void sjh::tool_vcmd::vDir(vssd & MyVssd, std::wstring & DirCommand)
 			 
 }
 
-sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::wstring & PathCommand, tool_path &aPath)
+sjh::vssd_folder * sjh::tool_vcmd::v_FindPathForFirst(vssd & MyVssd, std::wstring & PathCommand, tool_path &aPath)
 {
 	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
 	static tool_path Nowpath;
@@ -104,7 +104,7 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::wstring & Path
 			Nowpath.Folders.push_back(L"");
 			Nowpath.SetRealpath(MyVssd.GetGenius(),0) ; 
 			 
-			longNowf = Nowpath.GetNow()->Find(path.Folders[i]);
+			longNowf = Nowpath.GetNow()->FindForFirst(path.Folders[i]);
 			
 			
 			if (!longNowf) {
@@ -128,8 +128,8 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::wstring & Path
 		}
 		//路径中非'n:' '..' '.'
 		else {
-			 
-			longNowf = longNowf->Find(path.Folders[i]);
+			
+			longNowf = longNowf->FindForFirst(path.Folders[i]);
 			if (!longNowf) {
 
 				return nullptr;
@@ -146,6 +146,7 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::wstring & Path
 	}
 	 
 	aPath = Nowpath;
+	if (longNowf) longNowf->SetCheck();
 	return longNowf;
 	 
 	 
@@ -154,7 +155,8 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPath(vssd & MyVssd, std::wstring & Path
 void sjh::tool_vcmd::vCd(vssd & MyVssd, std::wstring & CdCommand)
 {
 	tool_path a;
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, CdCommand, a);
+	sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, CdCommand, a);
+	if(folder) folder->BackCheck();
 	if (folder && folder->isFile()) {
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 		return;
@@ -178,7 +180,7 @@ void sjh::tool_vcmd::vRen(vssd & MyVssd, std::wstring & renCommand) {
 	
 
 
-	if (!MyVssd.GetNowTop()->NowPath.RealFolders.at(MyVssd.GetNowTop()->NowPath.RealFolders.size() - 2)->Find(renCommand)) {
+	if (!MyVssd.GetNowTop()->NowPath.RealFolders.at(MyVssd.GetNowTop()->NowPath.RealFolders.size() - 2)->FindForFirst(renCommand)) {
 		if (MyVssd.GetNowTop()->GetNowPos()->GetName().compare(MyVssd.GetNowTop()->root->GetName()) != 0)
 			MyVssd.GetNowTop()->GetNowPos()->SetName(renCommand);
 	}
@@ -191,8 +193,8 @@ void sjh::tool_vcmd::vRen(vssd & MyVssd, std::wstring & renCommand) {
 
 void sjh::tool_vcmd::vRen(vssd & MyVssd, std::wstring & SrcCommand, std::wstring & DesName) {
 	tool_path a;
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, SrcCommand, a);
-	if (folder && a.Folders.size() > 2 && !(a.RealFolders.at(a.RealFolders.size()-2)->Find(DesName))) {
+	sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, SrcCommand, a);
+	if (folder && a.Folders.size() > 2 && !(a.RealFolders.at(a.RealFolders.size()-2)->FindForFirst(DesName))) {
 		folder->SetName(DesName);
 	}
 	else {
@@ -205,7 +207,7 @@ int sjh::tool_vcmd::vMd(vssd & MyVssd, std::wstring & mdCommand)
 {
 	tool_path a;
 
-	sjh::vssd_folder * folder = v_FindPath(MyVssd, mdCommand, a);
+	sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, mdCommand, a);
 	 
 	vssd_tool::Trim(mdCommand);
 	if (!folder)    {
@@ -231,8 +233,8 @@ void sjh::tool_vcmd::vMove(vssd & MyVssd, std::wstring & Src, std::wstring & Des
 
 	tool_path a;
 	tool_path b;
-	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a);
-	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, Des, b);
+	sjh::vssd_folder * Srcfolder = v_FindPathForFirst(MyVssd, Src, a);
+	sjh::vssd_folder * disfolder = v_FindPathForFirst(MyVssd, Des, b);
 	if (!Srcfolder) { std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return; }
 	if (!Srcfolder) { std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return; }
 	if (Srcfolder->isFile()) {
@@ -255,7 +257,7 @@ void sjh::tool_vcmd::vMove(vssd & MyVssd, std::wstring & Src, std::wstring & Des
 void sjh::tool_vcmd::vMove(vssd & MyVssd, std::wstring & Des) {
 
 	tool_path b;
-	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, Des, b); 
+	sjh::vssd_folder * disfolder = v_FindPathForFirst(MyVssd, Des, b); 
 	if (disfolder) {
 		disfolder->VssdFolderLink(MyVssd.GetNowTop()->GetNowPos());
 	}
@@ -349,7 +351,7 @@ void sjh::tool_vcmd::vDel(vssd & MyVssd, std::wstring & DelCommand)
 	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;
-		sjh::vssd_folder * folder = v_FindPath(MyVssd, Dirs[i], a);
+		sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, Dirs[i], a);
 		if (folder && a.Folders.size() >= 3) {
 			a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
 		}
@@ -363,8 +365,8 @@ void sjh::tool_vcmd::vCopy(vssd & MyVssd, std::wstring & Src, std::wstring & Des
 {
 	tool_path a;
 	tool_path b;
-	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a);
-	sjh::vssd_folder * disfolder = v_FindPath(MyVssd, Des, b);
+	sjh::vssd_folder * Srcfolder = v_FindPathForFirst(MyVssd, Src, a);
+	sjh::vssd_folder * disfolder = v_FindPathForFirst(MyVssd, Des, b);
 	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2) {
 		a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
 		disfolder->VssdFolderLink(Srcfolder);
@@ -378,7 +380,7 @@ void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::wstring & Src, std::wstring & L
 {
 	tool_path a; 
 	//找到需要指向的文件夹
-	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Src, a); 
+	sjh::vssd_folder * Srcfolder = v_FindPathForFirst(MyVssd, Src, a); 
 	
 	if (Srcfolder && a.Folders.size() >= 3 ) {
 		//找到之后
@@ -389,7 +391,7 @@ void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::wstring & Src, std::wstring & L
 
 
 		//创建Link文件
-		sjh::vssd_folder *Link = MyVssd.GetNowTop()->GetNowPos()->Find(LinkName);
+		sjh::vssd_folder *Link = MyVssd.GetNowTop()->GetNowPos()->FindForFirst(LinkName);
 		 
 		Link->VssdTypeCode = 2;
 		 //找到创建的Link文件
@@ -404,7 +406,7 @@ void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::wstring & Src, std::wstring & L
 void sjh::tool_vcmd::vCat(vssd & MyVssd, std::wstring & Rear) {
 	tool_path a;
 	//找到需要指向的文件夹
-	sjh::vssd_folder * Srcfolder = v_FindPath(MyVssd, Rear, a);
+	sjh::vssd_folder * Srcfolder = v_FindPathForFirst(MyVssd, Rear, a);
 	if(Srcfolder) Srcfolder->PrintContent();
 	else {
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
@@ -486,6 +488,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
 			vCd(MyTop);
 		}
 		else {
+
 			rear = CmdCommand.substr(2, CmdCommand.length() - 2);
 			vssd_tool::Trim(rear);
 			vCd(MyVssd, rear);
@@ -546,7 +549,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
 			vssd_tool::Trim(rearDes);
 			if (rearSrc.at(0) == L'@') {
 				sjh::tool_path a;
-				sjh::vssd_folder *folder = v_FindPath(MyVssd, rearDes, a);
+				sjh::vssd_folder *folder = v_FindPathForFirst(MyVssd, rearDes, a);
 				if (!folder) {
 					a.PathToFolders(rearDes);
 					if (a.Folders[0].size() > 1 && a.Folders[0].at(1) != L':') {
@@ -557,7 +560,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
 					}
 					  
 				} 
-				folder = v_FindPath(MyVssd, rearDes, a);
+				folder = v_FindPathForFirst(MyVssd, rearDes, a);
 				folder->VssdTypeCode = 0;
 
 				std::wstring RealSrc = rearSrc.substr(1, rearSrc.length() - 1); 
@@ -594,7 +597,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
 
 			}else if (rearDes.at(0) == L'@') {
 				sjh::tool_path a;
-				sjh::vssd_folder *folder = v_FindPath(MyVssd, rearSrc, a);
+				sjh::vssd_folder *folder = v_FindPathForFirst(MyVssd, rearSrc, a);
 
 				std::wstring RealDes = rearDes.substr(1, rearDes.length() - 1);
 				std::ofstream DesFile(RealDes, std::ios::binary);

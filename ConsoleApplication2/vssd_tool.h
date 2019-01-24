@@ -160,6 +160,68 @@ public:
 		pwszDst = NULL;
 		return wstrTemp;
 	}
-	 
+	static wchar_t WStringMatch(std::wstring str1, std::wstring str2)
+	{
+		int slen1 = str1.size();
+		int slen2 = str2.size();
+
+		//实际使用时根据strl的长度来动态分配表的内存
+		char matchmap[128][128];
+		memset(matchmap, 0, 128 * 128);
+		matchmap[0][0] = 1;
+		int i, j, k;
+		//遍历目标字符串符串
+		for (i = 1; i <= slen1; ++i)
+		{
+			//遍历通配符串
+			for (j = 1; j <= slen2; ++j)
+			{
+				//当前字符之前的字符是否已经得到匹配
+				if (matchmap[i - 1][j - 1])
+				{
+					//匹配当前字符
+					if (str1[i - 1] == str2[j - 1] || str2[j - 1] == '?')
+					{
+						matchmap[i][j] = 1;
+						//考虑星号在末尾的情况
+						if (i == slen1 && j < slen2)
+						{
+							for (k = j + 1; k <= slen2; ++k)
+							{
+								if ('*' == str2[k - 1])
+								{
+									matchmap[i][k] = 1;
+								}
+								else {
+									break;
+								}
+							}
+						}
+					}
+					else if (str2[j - 1] == '*')
+					{
+						//遇到星号，目标字符串到末尾都能得到匹配
+						for (k = i - 1; k <= slen1; ++k)
+						{
+							matchmap[k][j] = 1;
+						}
+					}
+				}
+			}
+			//如果当前字符得到了匹配则继续循环，否则匹配失败
+			for (k = 1; k <= slen2; ++k)
+			{
+				if (matchmap[i][k])
+				{
+					break;
+				}
+			}
+			if (k > slen2)
+			{
+				return 0;
+			}
+		}
+		return matchmap[slen1][slen2];
+	}
 		 
 };

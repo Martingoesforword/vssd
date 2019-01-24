@@ -11,7 +11,7 @@ public:
 	void ShowNowPos();
 	vssd_foldertop(vssd_folder* root, vssd_folder * Genius);
 	void SetNewRoot(vssd_folder* root);
-	vssd_folder* Find(tool_path &apath);
+	vssd_folder* FindForFirst(tool_path &apath);
 	void Serialize(std::vector<unsigned char> &Byte_Toptable);
 
 
