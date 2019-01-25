@@ -9,14 +9,14 @@ private:
 	vssd_folder *Genius;
 public: 
 	std::vector<unsigned char> Serial;
-	vssd_pan *GetNowTop();
-	vssd_folder *GetGenius();
-	void SetNowTop(vssd_pan * afolderTop); 
-	void LinkTop(vssd_pan *aNowTop);
-	vssd_disk(vssd_pan * Now, vssd_folder * aGenius, std::wstring aName);
+	sjh::vssd_pan *GetNowTop();
+	sjh::vssd_folder *GetGenius();
+	void SetNowTop(sjh::vssd_pan * afolderTop);
+	void LinkTop(sjh::vssd_pan *aNowTop);
+	vssd_disk(sjh::vssd_pan * Now, sjh::vssd_folder * aGenius, std::wstring aName);
 
 	vssd_disk();
-	vssd_pan *FindTop(std::wstring &aName);
+	sjh::vssd_pan *FindTop(std::wstring &aName);
 	void PutToRealFile(FILE *d);
 	void GetFromRealfile(FILE *d);
 

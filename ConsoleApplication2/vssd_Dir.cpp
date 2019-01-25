@@ -3,9 +3,11 @@ void sjh::vssdDir::vDir(sjh::vssd_pan * Top)
 {
 	sjh::vssd_folder *now = Top->GetNowPos();
 
-	while (now->VssdTypeCode == 2) {
+	while (now->VssdTypeCode == 2)
+	{
 		if (now) now = now->SubFolders[0];
-		else {
+		else
+		{
 			return;
 		}
 	}
@@ -20,14 +22,17 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 	{
 		tool_path a;
 		sjh::vssd_folder * Folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
-		if (!Folder) {
+		if (!Folder)
+		{
 			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl; continue;
 		}
-		if (Folder->isFile()) {
+		if (Folder->isFile())
+		{
 			std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 			return;
 		}
-		else {
+		else
+		{
 			Folder->ShowOffSub(0, a.FoldersToPath());
 		}
 

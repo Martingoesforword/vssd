@@ -1,5 +1,6 @@
 #include "pch.h" 
-class vssdSave {
+class vssdSave
+{
 public:
-	static void vSave(vssd_disk & MyVssd, std::wstring & JumpTo);
+	static void vSave(sjh::vssd_disk & MyVssd, std::wstring & JumpTo);
 };

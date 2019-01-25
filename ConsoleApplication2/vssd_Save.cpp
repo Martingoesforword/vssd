@@ -15,7 +15,8 @@ void sjh::vssdSave::vSave(vssd_disk & MyVssd, std::wstring & JumpTo)
 		Vssdfile.close();
 		MyVssd.Serial.clear();
 	}
-	else {
+	else
+	{
 		std::cout << "Error opening file";
 	}
 

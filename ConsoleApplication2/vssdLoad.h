@@ -1,5 +1,6 @@
 #include "pch.h" 
-class vssdLoad {
+class vssdLoad 
+{
 public:
-	static  void vLoad(vssd_disk & MyVssd, std::wstring & GetFrom);
+	static  void vLoad(sjh::vssd_disk & MyVssd, std::wstring & GetFrom);
 };

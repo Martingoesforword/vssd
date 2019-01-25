@@ -1,6 +1,7 @@
 #include "pch.h" 
-class vssdCopy {
+class vssdCopy 
+{
 public:
-	static void vCopy(vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des);
+	static void vCopy(sjh::vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des);
 
 };

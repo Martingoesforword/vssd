@@ -9,20 +9,20 @@ public:
 	
 
 	std::vector<std::wstring> Folders;
-	std::vector<vssd_folder *> RealFolders;
+	std::vector<sjh::vssd_folder *> RealFolders;
 
 	tool_path();
 	void DeletOne();
-	void AddOne(vssd_folder * folder);
+	void AddOne(sjh::vssd_folder * folder);
 	void PathToFolders(std::wstring path); //路径字符串到路径对象
 	std::wstring FoldersToPath();
 	 
 	
 	void GetPath(std::wstring path, int Type);
-	void SetRealpath(vssd_folder * apath,int Pos);
+	void SetRealpath(sjh::vssd_folder * apath,int Pos);
 	void TestPrint();
 	bool include(tool_path & path1);			//未完成
-	vssd_folder *GetNowFather();
-	vssd_folder *GetNow();
+	sjh::vssd_folder *GetNowFather();
+	sjh::vssd_folder *GetNow();
 	~tool_path();
 }; 

@@ -1,7 +1,8 @@
 #include "pch.h" 
-class vssdMove {
+class vssdMove
+{
 public:
-	static void vMove(vssd_disk & MyVssd, std::wstring & Des);
+	static void vMove(sjh::vssd_disk & MyVssd, std::wstring & Des);
 	//ÒÆ¶¯ÎÄ¼þ¼Ð
-	static void vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des);
+	static void vMove(sjh::vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des);
 };

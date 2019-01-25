@@ -1,58 +1,61 @@
 #include "pch.h" 
-  
+
 sjh::vssd_folder * sjh::vssd_pan::GetNowPos()
 {
 	return NowPath.GetNow();
 }
 
-void sjh::vssd_pan::ShowNowPosForCmd() {
-	std::cout << "VSSD : Now at " ;
+void sjh::vssd_pan::ShowNowPosForCmd()
+{
+	std::cout << "VSSD : Now at ";
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
 		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
 	}
-	
+
 	std::cout << " , you will say:";
 }
-void sjh::vssd_pan::ShowNowPos() {
+void sjh::vssd_pan::ShowNowPos()
+{
 	std::cout << "VSSD : Now at ";
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
-		std::cout<< sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
+		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
 	}
 	std::cout << std::endl;
 }
 sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 {
-	root = aroot; 
+	root = aroot;
 	NowPath.GetPath(L" \\c:\\", 1);
-	NowPath.SetRealpath(aGenius,0);
-	NowPath.SetRealpath(aroot,1);
+	NowPath.SetRealpath(aGenius, 0);
+	NowPath.SetRealpath(aroot, 1);
 
 }
- 
+
 void sjh::vssd_pan::SetNewRoot(sjh::vssd_folder * aroot)
 {
 	root = aroot;
 }
 //根据目前目录位置和相对路径查找
-sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)		
+sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)
 {
 	sjh::vssd_folder * Nowfolder = GetNowPos();
 	for (size_t i = 0; i < apath.Folders.size(); i++)
 	{
 		Nowfolder = Nowfolder->FindForFirst(apath.Folders[i]);
-		if (!Nowfolder) {
+		if (!Nowfolder)
+		{
 			//无
 
 			return nullptr;
-		} 
+		}
 	}
 	return Nowfolder;
 
 
 }
- 
+
 void sjh::vssd_pan::Serialize(std::vector<unsigned char> &Byte_Toptable)
 {
 	//预留存放rootfolder指针（index）
@@ -61,7 +64,7 @@ void sjh::vssd_pan::Serialize(std::vector<unsigned char> &Byte_Toptable)
 
 }
 
- 
+
 
 sjh::vssd_pan::~vssd_pan()
 {

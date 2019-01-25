@@ -1,6 +1,7 @@
 #include "pch.h" 
 
-class vssdCat {
+class vssdCat 
+{
 public:
-	static void vCat(vssd_disk & MyVssd, std::wstring & Rear);
+	static void vCat(sjh::vssd_disk & MyVssd, std::wstring & Rear);
 };

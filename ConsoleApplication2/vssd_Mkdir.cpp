@@ -6,19 +6,23 @@ int sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
 	sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, mdCommand, a);
 
 	tools_vssd::Trim(mdCommand);
-	if (!folder) {
+	if (!folder)
+	{
 		a.PathToFolders(mdCommand);
-		if (a.Folders[0].length() > 1 && a.Folders[0].at(1) != ':') {
+		if (a.Folders[0].length() > 1 && a.Folders[0].at(1) != ':')
+		{
 			MyVssd.GetNowTop()->GetNowPos()->Build(MyVssd, a);
 		}
-		else {
+		else
+		{
 			MyVssd.GetGenius()->Build(MyVssd, a);
 		}
 		return 0;
 
 	}
-	else {
+	else
+	{
 		return 1;
-	} 
+	}
 
 }

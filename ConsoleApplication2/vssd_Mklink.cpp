@@ -5,9 +5,11 @@ void sjh::vssdMklink::vMklink(vssd_disk & MyVssd, std::wstring & Src, std::wstri
 	//找到需要指向的文件夹
 	sjh::vssd_folder * Srcfolder = vssd_vcmd::v_FindPathForFirst(MyVssd, Src, a);
 
-	if (Srcfolder && a.Folders.size() >= 3) {
+	if (Srcfolder && a.Folders.size() >= 3)
+	{
 		//找到之后
-		if (vssdMd::vMd(MyVssd, LinkName)) {
+		if (vssdMd::vMd(MyVssd, LinkName))
+		{
 			return;
 		}
 
@@ -22,7 +24,8 @@ void sjh::vssdMklink::vMklink(vssd_disk & MyVssd, std::wstring & Src, std::wstri
 		//将Link文件第一个子文件放入指向文件
 		Srcfolder->AddLink(Link);
 	}
-	else {
+	else
+	{
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
 	}
 }

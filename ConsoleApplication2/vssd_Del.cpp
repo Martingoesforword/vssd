@@ -7,10 +7,12 @@ void sjh::vssdDel::vDel(vssd_disk & MyVssd, std::wstring & DelCommand)
 	{
 		tool_path a;
 		sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
-		if (folder && a.Folders.size() >= 3) {
+		if (folder && a.Folders.size() >= 3)
+		{
 			a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
 		}
-		else {
+		else
+		{
 			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
 		}
 	}

@@ -4,14 +4,14 @@ class vssd_pan
 private:
 	
 public:
-	tool_path NowPath; 
-	vssd_folder* root;
-	vssd_folder* GetNowPos();  
+	sjh::tool_path NowPath;
+	sjh::vssd_folder* root;
+	sjh::vssd_folder* GetNowPos();
 	void ShowNowPosForCmd();
 	void ShowNowPos();
-	vssd_pan(vssd_folder* root, vssd_folder * Genius);
-	void SetNewRoot(vssd_folder* root);
-	vssd_folder* FindForFirst(tool_path &apath);
+	vssd_pan(sjh::vssd_folder* root, sjh::vssd_folder * Genius);
+	void SetNewRoot(sjh::vssd_folder* root);
+	sjh::vssd_folder* FindForFirst(sjh::tool_path &apath);
 	void Serialize(std::vector<unsigned char> &Byte_Toptable);
 
 
