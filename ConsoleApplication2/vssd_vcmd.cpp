@@ -3,14 +3,14 @@
 //当下文件夹下dir
 
 
-sjh::vssd_folder * sjh::tool_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring & PathCommand, tool_path &aPath)
+sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring & PathCommand, tool_path &aPath)
 {
 	sjh::vssd_pan *MyTop = MyVssd.GetNowTop();
 	static tool_path Nowpath;
 	Nowpath = MyTop->NowPath;//目前位置
 	//Nowpath
 	std::wstring pathstring = PathCommand;
-	vssd_tool::Trim(&pathstring); 
+	tools_vssd::Trim(&pathstring); 
 	tool_path path;
 	path.PathToFolders(pathstring);
 	//path，pathstring
@@ -74,16 +74,16 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 	 
 }
 
-void sjh::tool_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
+void sjh::vssd_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
 {
 	sjh::vssd_pan* Top = MyVssd.FindTop(JumpTo);
 	MyVssd.SetNowTop(Top);
 }
 
-void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
+void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 {
 	sjh::vssd_pan *MyTop = MyVssd.GetNowTop();
-	vssd_tool::Trim(CmdCommand);
+	tools_vssd::Trim(CmdCommand);
 	std::wstring rear;
 
 	//分析命令名与命令参数
@@ -93,12 +93,12 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	//dir命令解析
 	else if (CmdCommand.length() >= 3 && CmdCommand.substr(0,3).compare(L"dir") == 0) {			
 		if (CmdCommand.length() == 3) {
-			vDir(MyTop);
+			sjh::vssdDir::vDir(MyTop);
 		}
 		else {
 			rear = CmdCommand.substr(3, CmdCommand.length() - 3);
-			vssd_tool::Trim(rear);
-			vDir(MyVssd,rear);
+			tools_vssd::Trim(rear);
+			sjh::vssdDir::vDir(MyVssd,rear);
 		}
 		
 	}
@@ -106,8 +106,8 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	else if (CmdCommand.length() >= 3 && CmdCommand.substr(0, 3).compare(L"del") == 0) {
 		 
 		rear = CmdCommand.substr(3, CmdCommand.length() - 3);
-		vssd_tool::Trim(rear);
-		vDel(MyVssd, rear);
+		tools_vssd::Trim(rear);
+		sjh::vssdDel::vDel(MyVssd, rear);
 		 
 
 	}
@@ -116,9 +116,9 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 
 		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
-		vssd_tool::Trim(rear);
+		tools_vssd::Trim(rear);
 		 
-		vSave(MyVssd, rear);
+		sjh::vssdSave::vSave(MyVssd, rear);
 
 	}
 	//load命令解析
@@ -126,9 +126,9 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 
 		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
-		vssd_tool::Trim(rear);
+		tools_vssd::Trim(rear);
 
-		vLoad(MyVssd, rear);
+		sjh::vssdLoad::vLoad(MyVssd, rear);
 
 	}
 	//mkLink命令解析
@@ -141,7 +141,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 			std::wstring rearSrc = rear.substr(0, spacePos);
 			std::wstring reardisName = rear.substr(spacePos + 1, rear.length() - spacePos);
 
-			vMklink(MyVssd, rearSrc, reardisName);
+			sjh::vssdMklink::vMklink(MyVssd, rearSrc, reardisName);
 
 		}
 		 
@@ -152,25 +152,25 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	//cd命令解析
 	else if (CmdCommand.length() >= 2 && CmdCommand.substr(0, 2).compare(L"cd") == 0) {
 		if (CmdCommand.length() == 2) {
-			vCd(MyTop);
+			sjh::vssdCd::vCd(MyTop);
 		}
 		else {
 
 			rear = CmdCommand.substr(2, CmdCommand.length() - 2);
-			vssd_tool::Trim(rear);
-			vCd(MyVssd, rear);
+			tools_vssd::Trim(rear);
+			sjh::vssdCd::vCd(MyVssd, rear);
 		}
 
 	} 
 	//rd命令解析
 	else if (CmdCommand.length() >= 2 && CmdCommand.substr(0, 2).compare(L"rd") == 0) {
 		if (CmdCommand.length() == 2) {
-			vRd(MyVssd);
+			sjh::vssdRd::vRd(MyVssd);
 		}
 		else {
 			rear = CmdCommand.substr(2, CmdCommand.length() - 2);
-			vssd_tool::Trim(rear);
-			vRd(MyVssd, rear);
+			tools_vssd::Trim(rear);
+			sjh::vssdRd::vRd(MyVssd, rear);
 		}
 
 	}
@@ -186,13 +186,13 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 			std::wstring rearSrc = rear.substr(0, spacePos);
 			std::wstring reardisName = rear.substr(spacePos + 1, rear.length() - spacePos);
 			  
-			vRen(MyVssd, rearSrc, reardisName);
+			sjh::vssdRen::vRen(MyVssd, rearSrc, reardisName);
 
 		}
 		else {
 			std::wstring rearSrc = rear;
-			vssd_tool::Trim(rear);
-			vRen(MyVssd, rear);
+			tools_vssd::Trim(rear);
+			sjh::vssdRen::vRen(MyVssd, rear);
 		}
 		
 		 
@@ -206,14 +206,14 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 
 		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
-		vssd_tool::Trim(rear);
+		tools_vssd::Trim(rear);
 		int spacePos = rear.find(L" ", 0);
 		if (spacePos != -1) {
 
 			std::wstring rearSrc = rear.substr(0, spacePos);
 			std::wstring rearDes = rear.substr(spacePos + 1, rear.length() - spacePos);
-			vssd_tool::Trim(rearSrc);
-			vssd_tool::Trim(rearDes);
+			tools_vssd::Trim(rearSrc);
+			tools_vssd::Trim(rearDes);
 			if (rearSrc.at(0) == L'@') {
 				sjh::tool_path a;
 				sjh::vssd_folder *folder = v_FindPathForFirst(MyVssd, rearDes, a);
@@ -260,7 +260,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 				//判断文件类型
 
 				//建立目的虚拟文件rearSrc1
-				//调用vCopy(MyVssd, rearSrc1, reardis);
+				//调用sjh::vssdCopy::vCopy(MyVssd, rearSrc1, reardis);
 
 			}else if (rearDes.at(0) == L'@') {
 				sjh::tool_path a;
@@ -271,7 +271,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 				if (DesFile.is_open())
 				{
 					std::wstring data;
-					vssd_tool::GetStringAnd0(folder->Content, 0, folder->Content.size(), data);
+					tools_vssd::GetStringAnd0(folder->Content, 0, folder->Content.size(), data);
 
 					DesFile.write((const char*)&data[0], data.size()*2); 
 					DesFile.close(); 
@@ -285,7 +285,7 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 				//读content属性并写入文件中 
 			}
 			else {
-				vCopy(MyVssd, rearSrc, rearDes);
+				sjh::vssdCopy::vCopy(MyVssd, rearSrc, rearDes);
 			}
 
 			
@@ -300,20 +300,20 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 		 
 		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
-		vssd_tool::Trim(rear);
+		tools_vssd::Trim(rear);
 		int spacePos = rear.find(L" ", 0);
 		if (spacePos != -1) {
 
 			std::wstring rearSrc = rear.substr(0, spacePos);
 			std::wstring reardis = rear.substr(spacePos + 1, rear.length() - spacePos);
 			 
-			vMove(MyVssd, rearSrc, reardis);
+			sjh::vssdMove::vMove(MyVssd, rearSrc, reardis);
 
 		}
 		else {
 			std::wstring reardis = rear;
-			vssd_tool::Trim(rear);
-			vMove(MyVssd, reardis);
+			tools_vssd::Trim(rear);
+			sjh::vssdMove::vMove(MyVssd, reardis);
 		}
 
 
@@ -329,22 +329,22 @@ void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	}
 	//清屏命令解析
 	else if (CmdCommand.length() == 3 && CmdCommand.compare(L"cls") == 0) {
-		vCls();
+		sjh::vssdCls::vCls();
 	}
 	//创建文件夹命令解析
 	else if (CmdCommand.length() > 5 && CmdCommand.substr(0, 5).compare(L"mkdir") == 0) {
 		 
 		rear = CmdCommand.substr(5, CmdCommand.length() - 5);
-		vssd_tool::Trim(rear);
-		vMd(MyVssd, rear);
+		tools_vssd::Trim(rear);
+		sjh::vssdMd::vMd(MyVssd, rear);
 
 	}
 	//查看文件内容命令解析
 	else if (CmdCommand.length() > 3 && CmdCommand.substr(0, 3).compare(L"cat") == 0) {
 
 	rear = CmdCommand.substr(3, CmdCommand.length() - 3);
-	vssd_tool::Trim(rear);
-	vCat(MyVssd, rear);
+	tools_vssd::Trim(rear);
+	sjh::vssdCat::vCat(MyVssd, rear);
 
 	}
 	  

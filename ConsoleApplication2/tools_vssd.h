@@ -1,5 +1,5 @@
 #pragma once 
-class vssd_tool {
+class tools_vssd {
 public:
 	 
 	static void Trim(std::wstring * s) {

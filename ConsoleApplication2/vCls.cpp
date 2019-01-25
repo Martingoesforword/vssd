@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vCls()
+void sjh::vssdCls::vCls()
 {
 	system("cls");
 }

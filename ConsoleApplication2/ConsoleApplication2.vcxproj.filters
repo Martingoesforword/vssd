@@ -36,43 +36,43 @@
     <ClInclude Include="tools_vssd.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vMkdir.h">
+    <ClInclude Include="vssdCat.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vDel.h">
+    <ClInclude Include="vssdCd.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vCopy.h">
+    <ClInclude Include="vssdCls.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vDir.h">
+    <ClInclude Include="vssdCopy.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vLoad.h">
+    <ClInclude Include="vssdDel.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vMklink.h">
+    <ClInclude Include="vssdDir.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vMove.h">
+    <ClInclude Include="vssdLoad.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vRd.h">
+    <ClInclude Include="vssdMkdir.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vRen.h">
+    <ClInclude Include="vssdMklink.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vSave.h">
+    <ClInclude Include="vssdMove.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vCls.h">
+    <ClInclude Include="vssdRd.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vCd.h">
+    <ClInclude Include="vssdRen.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vCat.h">
+    <ClInclude Include="vssdSave.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,16 +86,10 @@
     <ClCompile Include="tool_path.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tool_vcmd.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="vssd_folder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vDir.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vCat.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vCd.cpp">
@@ -135,6 +129,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vssd_disk.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssdCat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_vcmd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

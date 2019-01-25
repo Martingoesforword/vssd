@@ -1,11 +1,11 @@
 #include "pch.h" 
-int sjh::tool_vcmd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
+int sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
 {
 	tool_path a;
 
-	sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, mdCommand, a);
+	sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, mdCommand, a);
 
-	vssd_tool::Trim(mdCommand);
+	tools_vssd::Trim(mdCommand);
 	if (!folder) {
 		a.PathToFolders(mdCommand);
 		if (a.Folders[0].length() > 1 && a.Folders[0].at(1) != ':') {

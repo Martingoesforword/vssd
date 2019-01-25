@@ -9,7 +9,7 @@ void sjh::vssd_pan::ShowNowPosForCmd() {
 	std::cout << "VSSD : Now at " ;
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
-		std::cout << sjh::vssd_tool::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
+		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
 	}
 	
 	std::cout << " , you will say:";
@@ -18,7 +18,7 @@ void sjh::vssd_pan::ShowNowPos() {
 	std::cout << "VSSD : Now at ";
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
-		std::cout<< sjh::vssd_tool::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
+		std::cout<< sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
 	}
 	std::cout << std::endl;
 }
@@ -56,8 +56,8 @@ sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)
 void sjh::vssd_pan::Serialize(std::vector<unsigned char> &Byte_Toptable)
 {
 	//Ô¤Áô´æ·ÅrootfolderÖ¸Õë£¨index£©
-	sjh::vssd_tool::PushString(root->Name, Byte_Toptable);
-	sjh::vssd_tool::Push0ToNSpace(4 - root->Name.size(), Byte_Toptable);
+	sjh::tools_vssd::PushString(root->Name, Byte_Toptable);
+	sjh::tools_vssd::Push0ToNSpace(4 - root->Name.size(), Byte_Toptable);
 
 }
 

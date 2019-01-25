@@ -1,12 +1,12 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vDel(vssd_disk & MyVssd, std::wstring & DelCommand)
+void sjh::vssdDel::vDel(vssd_disk & MyVssd, std::wstring & DelCommand)
 {
 	std::vector<std::wstring> Dirs;
-	sjh::vssd_tool::split(DelCommand, Dirs, L" ");
+	sjh::tools_vssd::split(DelCommand, Dirs, L" ");
 	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;
-		sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, Dirs[i], a);
+		sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
 		if (folder && a.Folders.size() >= 3) {
 			a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
 		}

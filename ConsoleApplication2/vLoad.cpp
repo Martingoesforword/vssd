@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vLoad(vssd_disk & MyVssd, std::wstring & GetFrom)
+void sjh::vssdLoad::vLoad(vssd_disk & MyVssd, std::wstring & GetFrom)
 {
 	MyVssd.Serial.clear();
 	char ch;
@@ -20,7 +20,7 @@ void sjh::tool_vcmd::vLoad(vssd_disk & MyVssd, std::wstring & GetFrom)
 			MyVssd.Serial.push_back(ch);
 		}
 		unsigned int Bytelength = 0;
-		vssd_tool::Get4BUint(MyVssd.Serial, 32, Bytelength);
+		tools_vssd::Get4BUint(MyVssd.Serial, 32, Bytelength);
 
 		for (size_t i = 0; i < Bytelength - 36; i++)
 		{

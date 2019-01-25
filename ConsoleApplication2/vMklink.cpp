@@ -1,13 +1,13 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vMklink(vssd_disk & MyVssd, std::wstring & Src, std::wstring & LinkName)
+void sjh::vssdMklink::vMklink(vssd_disk & MyVssd, std::wstring & Src, std::wstring & LinkName)
 {
 	tool_path a;
 	//找到需要指向的文件夹
-	sjh::vssd_folder * Srcfolder = v_FindPathForFirst(MyVssd, Src, a);
+	sjh::vssd_folder * Srcfolder = vssd_vcmd::v_FindPathForFirst(MyVssd, Src, a);
 
 	if (Srcfolder && a.Folders.size() >= 3) {
 		//找到之后
-		if (vMd(MyVssd, LinkName)) {
+		if (vssdMd::vMd(MyVssd, LinkName)) {
 			return;
 		}
 

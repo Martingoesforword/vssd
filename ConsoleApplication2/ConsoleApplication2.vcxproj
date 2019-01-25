@@ -162,19 +162,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="vCat.h" />
-    <ClInclude Include="vCd.h" />
-    <ClInclude Include="vCls.h" />
-    <ClInclude Include="vCopy.h" />
-    <ClInclude Include="vDel.h" />
-    <ClInclude Include="vDir.h" />
-    <ClInclude Include="vLoad.h" />
-    <ClInclude Include="vMkdir.h" />
-    <ClInclude Include="vMklink.h" />
-    <ClInclude Include="vMove.h" />
-    <ClInclude Include="vRd.h" />
-    <ClInclude Include="vRen.h" />
-    <ClInclude Include="vSave.h" />
+    <ClInclude Include="vssdCat.h" />
+    <ClInclude Include="vssdCd.h" />
+    <ClInclude Include="vssdCls.h" />
+    <ClInclude Include="vssdCopy.h" />
+    <ClInclude Include="vssdDel.h" />
+    <ClInclude Include="vssdDir.h" />
+    <ClInclude Include="vssdLoad.h" />
+    <ClInclude Include="vssdMkdir.h" />
+    <ClInclude Include="vssdMklink.h" />
+    <ClInclude Include="vssdMove.h" />
+    <ClInclude Include="vssdRd.h" />
+    <ClInclude Include="vssdRen.h" />
+    <ClInclude Include="vssdSave.h" />
     <ClInclude Include="vssd_vcmd.h" />
     <ClInclude Include="vssd_pan.h" />
     <ClInclude Include="vssd_folder.h" />
@@ -185,8 +185,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication2.cpp" />
-    <ClCompile Include="tool_vcmd.cpp" />
-    <ClCompile Include="vCat.cpp" />
+    <ClCompile Include="vssd_vcmd.cpp" />
+    <ClCompile Include="vssdCat.cpp" />
     <ClCompile Include="vCd.cpp" />
     <ClCompile Include="vCls.cpp" />
     <ClCompile Include="vCopy.cpp" />

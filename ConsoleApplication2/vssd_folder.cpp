@@ -66,7 +66,7 @@ void sjh::vssd_folder::ShowOffSub(int pram, std::wstring now) {
 	 
 
 	int p = 0; 
-	std::cout<< sjh::vssd_tool::WStringToString(now) << "文件夾下：" << std::endl;
+	std::cout<< sjh::tools_vssd::WStringToString(now) << "文件夾下：" << std::endl;
 	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
 		
@@ -74,7 +74,7 @@ void sjh::vssd_folder::ShowOffSub(int pram, std::wstring now) {
 		
 		if (SubFolders.at(p) != NULL) {
 			
-			std::cout << sjh::vssd_tool::WStringToString(SubFolders.at(p)->Name) <<"\t\t<"<< sjh::vssd_tool::WStringToString(SubFolders [p]->GetType())<< ">\t" << SubFolders[p]->Content.size()* sizeof(unsigned char)<< "Byte\t"<< std::endl;
+			std::cout << sjh::tools_vssd::WStringToString(SubFolders.at(p)->Name) <<"\t\t<"<< sjh::tools_vssd::WStringToString(SubFolders [p]->GetType())<< ">\t" << SubFolders[p]->Content.size()* sizeof(unsigned char)<< "Byte\t"<< std::endl;
 		}
 		else { p++; goto defeatfolder;}
 		p++;
@@ -201,7 +201,7 @@ sjh::vssd_folder * sjh::vssd_folder::FindForFirst(std::wstring & folder)
 		 
 		if (SubFolders.at(j) != NULL) {
 			 
-			if (SubFolders.at(j)->GetCheck() && sjh::vssd_tool::WStringMatch(SubFolders.at(j)->GetName(), folder) != 0) {
+			if (SubFolders.at(j)->GetCheck() && sjh::tools_vssd::WStringMatch(SubFolders.at(j)->GetName(), folder) != 0) {
 
 				return SubFolders.at(j);
 			}
@@ -284,8 +284,8 @@ int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, st
 	contentsave(Byte_contenttable, indexInit);
 	
 	//预留4+子文件夹个数的空间
-	vssd_tool::Push4BUint(SubFolders.size(), Byte_foldertable);
-	vssd_tool::Push0ToNSpace(SubFolders.size() * 4, Byte_foldertable);
+	tools_vssd::Push4BUint(SubFolders.size(), Byte_foldertable);
+	tools_vssd::Push0ToNSpace(SubFolders.size() * 4, Byte_foldertable);
 	
 	//递归存
 	for (size_t i = 0;VssdTypeCode != 2 && i < SubFolders.size(); i++)
@@ -293,7 +293,7 @@ int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, st
 		int ps = SubFolders.at(i)->Serialize(Byte_foldertable, Byte_contenttable, indexInit);
 		std::vector<unsigned char>::iterator it = Byte_foldertable.begin();
 		it = it + p + 48 + i*4;
-		vssd_tool::Set4BUint(it, ps+52); 
+		tools_vssd::Set4BUint(it, ps+52); 
 	}
 
 
@@ -303,20 +303,20 @@ int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, st
 void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos)
 {
 	 
-	vssd_tool::GetString(ByteVssd, Pos, 32, Name);   Pos += 32; 
-	vssd_tool::Get4BUint(ByteVssd, Pos, VssdTypeCode);   Pos += 4;
+	tools_vssd::GetString(ByteVssd, Pos, 32, Name);   Pos += 32; 
+	tools_vssd::Get4BUint(ByteVssd, Pos, VssdTypeCode);   Pos += 4;
 
 	
 	if (VssdTypeCode != 0) {
 		Pos += 4 * 2;  //跳过文件内容描述 
 		unsigned int Subnum;
-		vssd_tool::Get4BUint(ByteVssd, Pos, Subnum);    Pos += 4;
+		tools_vssd::Get4BUint(ByteVssd, Pos, Subnum);    Pos += 4;
 		for (size_t i = 0; i < Subnum; i++)
 		{
 			sjh::vssd_folder *f1 = new sjh::vssd_folder(L"", 0);
 			VssdFolderLink(f1);
 			unsigned int SubPos = 0;
-			vssd_tool::Get4BUint(ByteVssd, Pos, SubPos);
+			tools_vssd::Get4BUint(ByteVssd, Pos, SubPos);
 			f1->deSerialize(ByteVssd, SubPos);
 			Pos += 4;
 		}
@@ -325,23 +325,23 @@ void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos
 	else {
 
 		unsigned int contentlength = 0;
-		vssd_tool::Get4BUint(ByteVssd, Pos, contentlength);  Pos += 4;
+		tools_vssd::Get4BUint(ByteVssd, Pos, contentlength);  Pos += 4;
 		unsigned int contentindex = 0;
-		vssd_tool::Get4BUint(ByteVssd, Pos, contentindex);
+		tools_vssd::Get4BUint(ByteVssd, Pos, contentindex);
 
 		unsigned int contentpoint = 0;
-		vssd_tool::Get4BUint(ByteVssd, 48, contentpoint);  //content指针
+		tools_vssd::Get4BUint(ByteVssd, 48, contentpoint);  //content指针
 
 		int contentindexx = 0;
 		for (int  i = 0; i < FILEMAXSIZE; i++)
 		{
 			 
 			unsigned int contentindex1 = 0;
-			vssd_tool::Get4BUint(ByteVssd, contentpoint, contentindex1);
+			tools_vssd::Get4BUint(ByteVssd, contentpoint, contentindex1);
 			if (contentindex1 == contentindex) {
 				//读文件
 				std::wstring str1;
-				vssd_tool::GetStringAnd0(ByteVssd, contentpoint+4, contentlength, str1);
+				tools_vssd::GetStringAnd0(ByteVssd, contentpoint+4, contentlength, str1);
 				SetContentString(str1); 
 				break;
 			}
@@ -356,18 +356,18 @@ void sjh::vssd_folder::parmsave(std::vector<unsigned char>& Byte_foldertable,int
 {
 	//需要32+4+4+4 = 44B
 	 
-	vssd_tool::PushString(Name, Byte_foldertable);
-	vssd_tool::Push0ToNSpace(32-Name.length(), Byte_foldertable);
+	tools_vssd::PushString(Name, Byte_foldertable);
+	tools_vssd::Push0ToNSpace(32-Name.length(), Byte_foldertable);
 
-	vssd_tool::Push4BUint(VssdTypeCode, Byte_foldertable);
+	tools_vssd::Push4BUint(VssdTypeCode, Byte_foldertable);
 
-	vssd_tool::Push4BUint(Content.size(),Byte_foldertable);
+	tools_vssd::Push4BUint(Content.size(),Byte_foldertable);
 	//内容指针（index）
 	if (VssdTypeCode != 0) {
-		vssd_tool::Push4BUint(0xffffffff, Byte_foldertable);
+		tools_vssd::Push4BUint(0xffffffff, Byte_foldertable);
 	} 
 	else {
-		vssd_tool::Push4BUint(index, Byte_foldertable);
+		tools_vssd::Push4BUint(index, Byte_foldertable);
 	}
 
 
@@ -378,7 +378,7 @@ void sjh::vssd_folder::contentsave(std::vector<unsigned char>& Byte_contenttable
 
 
 	
-	vssd_tool::Push4BUint(index, Byte_contenttable);
+	tools_vssd::Push4BUint(index, Byte_contenttable);
 	//需要4+4+content.size()长度 
 	
  

@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vDir(sjh::vssd_pan * Top)
+void sjh::vssdDir::vDir(sjh::vssd_pan * Top)
 {
 	sjh::vssd_folder *now = Top->GetNowPos();
 
@@ -12,14 +12,14 @@ void sjh::tool_vcmd::vDir(sjh::vssd_pan * Top)
 	now->ShowOffSub(1, Top->NowPath.FoldersToPath());
 
 }
-void sjh::tool_vcmd::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
+void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 {
 	std::vector<std::wstring> Dirs;
-	sjh::vssd_tool::split(DirCommand, Dirs, L" ");
+	sjh::tools_vssd::split(DirCommand, Dirs, L" ");
 	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;
-		sjh::vssd_folder * Folder = v_FindPathForFirst(MyVssd, Dirs[i], a);
+		sjh::vssd_folder * Folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
 		if (!Folder) {
 			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl; continue;
 		}

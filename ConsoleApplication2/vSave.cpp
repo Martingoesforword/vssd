@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vSave(vssd_disk & MyVssd, std::wstring & JumpTo)
+void sjh::vssdSave::vSave(vssd_disk & MyVssd, std::wstring & JumpTo)
 {
 
 	MyVssd.Serialize(MyVssd.Serial);
@@ -8,7 +8,7 @@ void sjh::tool_vcmd::vSave(vssd_disk & MyVssd, std::wstring & JumpTo)
 	if (Vssdfile.is_open())
 	{
 		std::wstring data;
-		vssd_tool::GetStringAnd0(MyVssd.Serial, 0, MyVssd.Serial.size(), data);
+		tools_vssd::GetStringAnd0(MyVssd.Serial, 0, MyVssd.Serial.size(), data);
 
 		Vssdfile.write((const char*)&data[0], data.size());
 

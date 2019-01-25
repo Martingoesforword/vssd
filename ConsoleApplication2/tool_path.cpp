@@ -20,7 +20,7 @@ void sjh::tool_path::TestPrint()
 {
 	for (size_t i = 0; i < Folders.size(); i++)
 	{
-		std::cout << sjh::vssd_tool::WStringToString(Folders.at(i))<< std::endl;
+		std::cout << sjh::tools_vssd::WStringToString(Folders.at(i))<< std::endl;
 	}
 }
 
@@ -64,14 +64,14 @@ void sjh::tool_path::PathToFolders(std::wstring path)
 				//找到beForePos+1到Pos-1的字符串放入Folders数组里，并更改记录
 				Nowstring = path.substr(beForePos, Pos - beForePos);
 				if (Nowstring != L"." && Nowstring != L"..") {
-					vssd_tool::Trim(&Nowstring);
+					tools_vssd::Trim(&Nowstring);
 					Folders.push_back(Nowstring) ; 
 				}
 				else if (Nowstring == L".." &&Folders.size() > 0 && Folders.at(Folders.size() - 1)!= L"..") {
 					Folders.pop_back();
 				}
 				else if (Nowstring == L"..") {
-					vssd_tool::Trim(&Nowstring);
+					tools_vssd::Trim(&Nowstring);
 					Folders.push_back(Nowstring); 
 				}
 
@@ -83,7 +83,7 @@ void sjh::tool_path::PathToFolders(std::wstring path)
 				Nowstring = path.substr(beForePos, Pos - beForePos);
 
 				if (Nowstring != L"." && Nowstring != L"..") {
-					vssd_tool::Trim(&Nowstring);
+					tools_vssd::Trim(&Nowstring);
 					Folders.push_back(Nowstring); 
 				}
 				else if (Nowstring == L".." && Folders.at(Folders.size() - 1)!= L"..") {
@@ -96,9 +96,9 @@ void sjh::tool_path::PathToFolders(std::wstring path)
 	}
 	if (beForePos <= path.length() - 1) {
 		Nowstring = path.substr(beForePos, path.length() - beForePos);
-		vssd_tool::Trim(&Nowstring);
+		tools_vssd::Trim(&Nowstring);
 		if (Nowstring != L"." && Nowstring != L"..") {
-			vssd_tool::Trim(&Nowstring);
+			tools_vssd::Trim(&Nowstring);
 			Folders.push_back(Nowstring); 
 		}
 		else if (Nowstring == L".." &&Folders.size()>1&& Folders.at(Folders.size() - 1)!= L"..") {

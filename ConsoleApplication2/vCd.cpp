@@ -1,14 +1,14 @@
 #include "pch.h" 
 //当下文件夹下cd
-void sjh::tool_vcmd::vCd(sjh::vssd_pan * MyTop)
+void sjh::vssdCd::vCd(sjh::vssd_pan * MyTop)
 {
 
 	MyTop->ShowNowPos();
 }
-void sjh::tool_vcmd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
+void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 {
 	tool_path a;
-	sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, CdCommand, a);
+	sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
 	if (folder) folder->BackCheck();
 	if (folder && folder->isFile()) {
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
