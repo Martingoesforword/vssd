@@ -3,7 +3,7 @@
 
 sjh::tool_path::tool_path()
 {
-	Type = 1;
+	Type = sjh::tool_path::IS_ABSOLUTE_PATH;
 }
 
 void sjh::tool_path::GetPath(std::wstring apath, int aType)

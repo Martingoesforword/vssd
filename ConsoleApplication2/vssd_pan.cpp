@@ -27,9 +27,9 @@ void sjh::vssd_pan::ShowNowPos()
 sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 {
 	root = aroot;
-	NowPath.GetPath(L" \\c:\\", 1);
-	NowPath.SetRealpath(aGenius, 0);
-	NowPath.SetRealpath(aroot, 1);
+	NowPath.GetPath(L" \\c:\\", sjh::tool_path::IS_ABSOLUTE_PATH);
+	NowPath.SetRealpath(aGenius, sjh::tool_path::IS_RELATIVE_PATH);
+	NowPath.SetRealpath(aroot, sjh::tool_path::IS_ABSOLUTE_PATH);
 
 }
 
