@@ -27,9 +27,9 @@ public:
 	vssd_folder *FindForFirst(std::wstring &Folder);//搜索本目录下文件
 	vssd_folder *Find(sjh::tool_path * apath,int pathPos);//搜索本目录下包括子目录文件
 	//文件类型相关
-	static const int ISFILE = 0;
-	static const int ISFOLDER = 1;
-	static const int ISLINK = 2;
+	static const int IS_FILE = 0;
+	static const int IS_FOLDER = 1;
+	static const int IS_LINK = 2;
 	std::wstring VssdTypeName[3] = { L"FILE",L"FOLDER", L"LINK" };
 	unsigned int VssdTypeCode;   
 

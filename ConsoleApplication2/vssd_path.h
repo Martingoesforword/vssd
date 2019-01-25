@@ -7,7 +7,8 @@ private:
 	int Type;		//2相对 1绝对（genius开头） 
 public: 
 	
-
+	static const int IS_ABSOLUTE_PATH = 1;
+	static const int IS_RELATIVE_PATH = 2;
 	std::vector<std::wstring> Folders;
 	std::vector<sjh::vssd_folder *> RealFolders;
 

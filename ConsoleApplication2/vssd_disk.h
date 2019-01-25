@@ -3,10 +3,10 @@ class vssd_disk
 {
 private:
 	std::wstring Name;
-	vssd_pan *NowTop;
-	std::vector<vssd_pan *> Tops;  
+	sjh::vssd_pan *NowTop;
+	std::vector<sjh::vssd_pan *> Tops;
 	
-	vssd_folder *Genius;
+	sjh::vssd_folder *Genius;
 public: 
 	std::vector<unsigned char> Serial;
 	sjh::vssd_pan *GetNowTop();
