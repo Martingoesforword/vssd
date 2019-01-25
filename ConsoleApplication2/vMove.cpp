@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vMove(vssd & MyVssd, std::wstring & Des) {
+void sjh::tool_vcmd::vMove(vssd_disk & MyVssd, std::wstring & Des) {
 
 	tool_path b;
 	sjh::vssd_folder * disfolder = v_FindPathForFirst(MyVssd, Des, b);
@@ -12,7 +12,7 @@ void sjh::tool_vcmd::vMove(vssd & MyVssd, std::wstring & Des) {
 
 }
 //ÒÆ¶¯ÎÄ¼þ¼Ð
-void sjh::tool_vcmd::vMove(vssd & MyVssd, std::wstring & Src, std::wstring & Des) {
+void sjh::tool_vcmd::vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des) {
 
 	tool_path a;
 	tool_path b;

@@ -1,5 +1,5 @@
 #include "pch.h" 
-int sjh::tool_vcmd::vMd(vssd & MyVssd, std::wstring & mdCommand)
+int sjh::tool_vcmd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
 {
 	tool_path a;
 
@@ -19,8 +19,6 @@ int sjh::tool_vcmd::vMd(vssd & MyVssd, std::wstring & mdCommand)
 	}
 	else {
 		return 1;
-	}
-
-
+	} 
 
 }

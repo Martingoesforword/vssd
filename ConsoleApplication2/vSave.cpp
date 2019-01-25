@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vSave(vssd & MyVssd, std::wstring & JumpTo)
+void sjh::tool_vcmd::vSave(vssd_disk & MyVssd, std::wstring & JumpTo)
 {
 
 	MyVssd.Serialize(MyVssd.Serial);

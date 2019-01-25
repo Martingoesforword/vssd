@@ -1,6 +1,6 @@
 #include "pch.h" 
 //当下文件夹下rd
-void sjh::tool_vcmd::vRd(vssd & MyVssd) {
+void sjh::tool_vcmd::vRd(vssd_disk & MyVssd) {
 	if (MyVssd.GetNowTop()->NowPath.RealFolders.size() >= 3) {
 		MyVssd.GetNowTop()->GetNowPos()->DeleteLinks();
 		MyVssd.GetNowTop()->NowPath.RealFolders.at(MyVssd.GetNowTop()->NowPath.RealFolders.size() - 2)->DeletOne(MyVssd.GetNowTop()->GetNowPos());
@@ -15,7 +15,7 @@ void sjh::tool_vcmd::vRd(vssd & MyVssd) {
 
 }
 
-void sjh::tool_vcmd::vRd(vssd & MyVssd, std::wstring & RdCommand)
+void sjh::tool_vcmd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
 {
 
 	tool_path a;

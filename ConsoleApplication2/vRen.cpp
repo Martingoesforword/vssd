@@ -1,6 +1,6 @@
 #include "pch.h" 
 //改名--目前路径
-void sjh::tool_vcmd::vRen(vssd & MyVssd, std::wstring & renCommand) {
+void sjh::tool_vcmd::vRen(vssd_disk & MyVssd, std::wstring & renCommand) {
 
 
 
@@ -16,7 +16,7 @@ void sjh::tool_vcmd::vRen(vssd & MyVssd, std::wstring & renCommand) {
 
 }
 
-void sjh::tool_vcmd::vRen(vssd & MyVssd, std::wstring & SrcCommand, std::wstring & DesName) {
+void sjh::tool_vcmd::vRen(vssd_disk & MyVssd, std::wstring & SrcCommand, std::wstring & DesName) {
 	tool_path a;
 	sjh::vssd_folder * folder = v_FindPathForFirst(MyVssd, SrcCommand, a);
 	if (folder && a.Folders.size() > 2 && !(a.RealFolders.at(a.RealFolders.size() - 2)->FindForFirst(DesName))) {

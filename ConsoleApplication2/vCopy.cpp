@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vCopy(vssd & MyVssd, std::wstring & Src, std::wstring & Des)
+void sjh::tool_vcmd::vCopy(vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des)
 {
 	tool_path a;
 	tool_path b;

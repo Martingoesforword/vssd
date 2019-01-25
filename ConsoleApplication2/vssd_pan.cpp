@@ -1,11 +1,11 @@
 #include "pch.h" 
   
-sjh::vssd_folder * sjh::vssd_foldertop::GetNowPos()
+sjh::vssd_folder * sjh::vssd_pan::GetNowPos()
 {
 	return NowPath.GetNow();
 }
 
-void sjh::vssd_foldertop::ShowNowPosForCmd() {
+void sjh::vssd_pan::ShowNowPosForCmd() {
 	std::cout << "VSSD : Now at " ;
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
@@ -14,7 +14,7 @@ void sjh::vssd_foldertop::ShowNowPosForCmd() {
 	
 	std::cout << " , you will say:";
 }
-void sjh::vssd_foldertop::ShowNowPos() {
+void sjh::vssd_pan::ShowNowPos() {
 	std::cout << "VSSD : Now at ";
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
@@ -22,7 +22,7 @@ void sjh::vssd_foldertop::ShowNowPos() {
 	}
 	std::cout << std::endl;
 }
-sjh::vssd_foldertop::vssd_foldertop(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
+sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 {
 	root = aroot; 
 	NowPath.GetPath(L" \\c:\\", 1);
@@ -31,12 +31,12 @@ sjh::vssd_foldertop::vssd_foldertop(sjh::vssd_folder * aroot, sjh::vssd_folder *
 
 }
  
-void sjh::vssd_foldertop::SetNewRoot(sjh::vssd_folder * aroot)
+void sjh::vssd_pan::SetNewRoot(sjh::vssd_folder * aroot)
 {
 	root = aroot;
 }
 //根据目前目录位置和相对路径查找
-sjh::vssd_folder * sjh::vssd_foldertop::FindForFirst(tool_path & apath)		
+sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)		
 {
 	sjh::vssd_folder * Nowfolder = GetNowPos();
 	for (size_t i = 0; i < apath.Folders.size(); i++)
@@ -53,7 +53,7 @@ sjh::vssd_folder * sjh::vssd_foldertop::FindForFirst(tool_path & apath)
 
 }
  
-void sjh::vssd_foldertop::Serialize(std::vector<unsigned char> &Byte_Toptable)
+void sjh::vssd_pan::Serialize(std::vector<unsigned char> &Byte_Toptable)
 {
 	//预留存放rootfolder指针（index）
 	sjh::vssd_tool::PushString(root->Name, Byte_Toptable);
@@ -63,6 +63,6 @@ void sjh::vssd_foldertop::Serialize(std::vector<unsigned char> &Byte_Toptable)
 
  
 
-sjh::vssd_foldertop::~vssd_foldertop()
+sjh::vssd_pan::~vssd_pan()
 {
 }

@@ -1,22 +1,22 @@
 #include "pch.h"  
  
  
-sjh::vssd_foldertop * sjh::vssd::GetNowTop()
+sjh::vssd_pan * sjh::vssd_disk::GetNowTop()
 {
 	return NowTop;
 }
-sjh::vssd_folder * sjh::vssd::GetGenius()
+sjh::vssd_folder * sjh::vssd_disk::GetGenius()
 {
 	return Genius;
 }
-void sjh::vssd::SetNowTop(sjh::vssd_foldertop * afolderTop)
+void sjh::vssd_disk::SetNowTop(sjh::vssd_pan * afolderTop)
 {
 	NowTop = afolderTop;
 }
  
  
 
-void sjh::vssd::LinkTop(sjh::vssd_foldertop * aNowTop)
+void sjh::vssd_disk::LinkTop(sjh::vssd_pan * aNowTop)
 {
 	if (Tops.size() == 0) {
 		NowTop = aNowTop;
@@ -27,7 +27,7 @@ void sjh::vssd::LinkTop(sjh::vssd_foldertop * aNowTop)
 	
 }
 
-sjh::vssd::vssd(sjh::vssd_foldertop * Now, sjh::vssd_folder * aGenius, std::wstring aName)
+sjh::vssd_disk::vssd_disk(sjh::vssd_pan * Now, sjh::vssd_folder * aGenius, std::wstring aName)
 {
 	NowTop = Now;
 	Name = aName;
@@ -35,12 +35,12 @@ sjh::vssd::vssd(sjh::vssd_foldertop * Now, sjh::vssd_folder * aGenius, std::wstr
 }
  
  
-sjh::vssd::vssd()
+sjh::vssd_disk::vssd_disk()
 {
 	
 }
  
-sjh::vssd_foldertop * sjh::vssd::FindTop(std::wstring & aName)
+sjh::vssd_pan * sjh::vssd_disk::FindTop(std::wstring & aName)
 {
 	for (size_t i = 0; i < Tops.size(); i++)
 	{
@@ -52,7 +52,7 @@ sjh::vssd_foldertop * sjh::vssd::FindTop(std::wstring & aName)
 
 }
 
-void sjh::vssd::PutToRealFile(FILE * d)
+void sjh::vssd_disk::PutToRealFile(FILE * d)
 {
 
 
@@ -61,11 +61,11 @@ void sjh::vssd::PutToRealFile(FILE * d)
 
 }
 
-void sjh::vssd::GetFromRealfile(FILE * d)
+void sjh::vssd_disk::GetFromRealfile(FILE * d)
 {
 	//按照文档上的格式读取二进制
 }
-void sjh::vssd::DeSerialize(std::vector<unsigned char> &ByteVssd) {
+void sjh::vssd_disk::DeSerialize(std::vector<unsigned char> &ByteVssd) {
 	 
 	std::vector<unsigned char>::iterator it = ByteVssd.begin();
 	
@@ -92,7 +92,7 @@ void sjh::vssd::DeSerialize(std::vector<unsigned char> &ByteVssd) {
 	Tops.clear();
 	for (size_t i = 0; i < Genius->SubFolders.size(); i++)
 	{
-		sjh::vssd_foldertop *pan = new sjh::vssd_foldertop(Genius->SubFolders[i], Genius);
+		sjh::vssd_pan *pan = new sjh::vssd_pan(Genius->SubFolders[i], Genius);
 		Tops.push_back(pan);
 	}
 
@@ -111,7 +111,7 @@ void sjh::vssd::DeSerialize(std::vector<unsigned char> &ByteVssd) {
 
 }
 
-void sjh::vssd::Serialize(std::vector<unsigned char> &ByteVssd) {
+void sjh::vssd_disk::Serialize(std::vector<unsigned char> &ByteVssd) {
 	
 	//Vssd预完成，需要填充指针		48
 	{
@@ -185,7 +185,7 @@ void sjh::vssd::Serialize(std::vector<unsigned char> &ByteVssd) {
 
 }
 
-sjh::vssd::~vssd()
+sjh::vssd_disk::~vssd_disk()
 {
 
 }

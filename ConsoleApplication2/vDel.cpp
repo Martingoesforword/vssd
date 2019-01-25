@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vDel(vssd & MyVssd, std::wstring & DelCommand)
+void sjh::tool_vcmd::vDel(vssd_disk & MyVssd, std::wstring & DelCommand)
 {
 	std::vector<std::wstring> Dirs;
 	sjh::vssd_tool::split(DelCommand, Dirs, L" ");

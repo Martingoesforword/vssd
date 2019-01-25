@@ -3,9 +3,9 @@
 //当下文件夹下dir
 
 
-sjh::vssd_folder * sjh::tool_vcmd::v_FindPathForFirst(vssd & MyVssd, std::wstring & PathCommand, tool_path &aPath)
+sjh::vssd_folder * sjh::tool_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring & PathCommand, tool_path &aPath)
 {
-	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
+	sjh::vssd_pan *MyTop = MyVssd.GetNowTop();
 	static tool_path Nowpath;
 	Nowpath = MyTop->NowPath;//目前位置
 	//Nowpath
@@ -74,15 +74,15 @@ sjh::vssd_folder * sjh::tool_vcmd::v_FindPathForFirst(vssd & MyVssd, std::wstrin
 	 
 }
 
-void sjh::tool_vcmd::v_jump(vssd & MyVssd, std::wstring & JumpTo)
+void sjh::tool_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
 {
-	sjh::vssd_foldertop* Top = MyVssd.FindTop(JumpTo);
+	sjh::vssd_pan* Top = MyVssd.FindTop(JumpTo);
 	MyVssd.SetNowTop(Top);
 }
 
-void sjh::tool_vcmd::v_cmd_comein(vssd & MyVssd, std::wstring & CmdCommand)
+void sjh::tool_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 {
-	sjh::vssd_foldertop *MyTop = MyVssd.GetNowTop();
+	sjh::vssd_pan *MyTop = MyVssd.GetNowTop();
 	vssd_tool::Trim(CmdCommand);
 	std::wstring rear;
 

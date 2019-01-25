@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vMklink(vssd & MyVssd, std::wstring & Src, std::wstring & LinkName)
+void sjh::tool_vcmd::vMklink(vssd_disk & MyVssd, std::wstring & Src, std::wstring & LinkName)
 {
 	tool_path a;
 	//找到需要指向的文件夹

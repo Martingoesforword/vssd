@@ -1,5 +1,5 @@
 #include "pch.h" 
-void sjh::tool_vcmd::vLoad(vssd & MyVssd, std::wstring & GetFrom)
+void sjh::tool_vcmd::vLoad(vssd_disk & MyVssd, std::wstring & GetFrom)
 {
 	MyVssd.Serial.clear();
 	char ch;

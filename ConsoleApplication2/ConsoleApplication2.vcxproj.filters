@@ -21,19 +21,19 @@
     <ClInclude Include="vssd_folder.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vssd_foldertop.h">
+    <ClInclude Include="vssd_vcmd.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vssd.h">
+    <ClInclude Include="vssd_path.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="tool_path.h">
+    <ClInclude Include="vssd_pan.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vssd_tool.h">
+    <ClInclude Include="vssd_disk.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="tool_vcmd.h">
+    <ClInclude Include="tools_vssd.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,12 +42,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleApplication2.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vssd_foldertop.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vssd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="tool_path.cpp">
@@ -96,6 +90,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vSave.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_pan.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_disk.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

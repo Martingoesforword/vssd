@@ -33,7 +33,7 @@ std::wstring sjh::vssd_folder::GetName()
 	return Name;
 }
 
-void sjh::vssd_folder::Build(sjh::vssd & MyVssd, sjh::tool_path &a) {
+void sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &a) {
 	 
 	 
 	sjh::vssd_folder *Now = this;

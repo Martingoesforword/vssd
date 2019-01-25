@@ -1,5 +1,5 @@
 #pragma once 
-class vssd_foldertop
+class vssd_pan
 {
 private:
 	
@@ -9,12 +9,12 @@ public:
 	vssd_folder* GetNowPos();  
 	void ShowNowPosForCmd();
 	void ShowNowPos();
-	vssd_foldertop(vssd_folder* root, vssd_folder * Genius);
+	vssd_pan(vssd_folder* root, vssd_folder * Genius);
 	void SetNewRoot(vssd_folder* root);
 	vssd_folder* FindForFirst(tool_path &apath);
 	void Serialize(std::vector<unsigned char> &Byte_Toptable);
 
 
 
-	~vssd_foldertop();
+	~vssd_pan();
 }; 
