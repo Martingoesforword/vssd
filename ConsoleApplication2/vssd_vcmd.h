@@ -6,7 +6,7 @@ class vssd_vcmd
 public:
 	
 	static void v_cmd_comein(sjh::vssd_disk & MyVssd, std::wstring &Command);
-	static sjh::vssd_folder * v_FindPathForFirst(sjh::vssd_disk & MyVssd, std::wstring & DirCommand, tool_path & aPath);
+	static sjh::vssd_folder * v_FindPathForFirst(sjh::vssd_disk & MyVssd, std::wstring & DirCommand, sjh::tool_path & aPath);
 	static void v_jump(sjh::vssd_disk & MyVssd, std::wstring & JumpTo);
 
 	
