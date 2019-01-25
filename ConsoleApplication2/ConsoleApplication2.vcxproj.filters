@@ -36,6 +36,45 @@
     <ClInclude Include="tools_vssd.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="vMkdir.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vDel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vCopy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vDir.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vLoad.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vMklink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vMove.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vRd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vRen.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vSave.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vCls.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vCd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vCat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

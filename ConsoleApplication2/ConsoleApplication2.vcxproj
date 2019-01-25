@@ -162,6 +162,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="vCat.h" />
+    <ClInclude Include="vCd.h" />
+    <ClInclude Include="vCls.h" />
+    <ClInclude Include="vCopy.h" />
+    <ClInclude Include="vDel.h" />
+    <ClInclude Include="vDir.h" />
+    <ClInclude Include="vLoad.h" />
+    <ClInclude Include="vMkdir.h" />
+    <ClInclude Include="vMklink.h" />
+    <ClInclude Include="vMove.h" />
+    <ClInclude Include="vRd.h" />
+    <ClInclude Include="vRen.h" />
+    <ClInclude Include="vSave.h" />
     <ClInclude Include="vssd_vcmd.h" />
     <ClInclude Include="vssd_pan.h" />
     <ClInclude Include="vssd_folder.h" />
