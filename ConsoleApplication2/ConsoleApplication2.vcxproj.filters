@@ -83,46 +83,7 @@
     <ClCompile Include="ConsoleApplication2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tool_path.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="vssd_folder.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vDir.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vCd.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vCls.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vCopy.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vDel.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vLoad.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vMkdir.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vMklink.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vMove.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vRd.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vRen.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="vSave.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vssd_pan.cpp">
@@ -135,6 +96,45 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vssd_vcmd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_path.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Cd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Copy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Cls.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Del.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Dir.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Load.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Mkdir.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Mklink.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Move.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Rd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Ren.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Save.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

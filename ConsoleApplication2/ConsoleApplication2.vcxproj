@@ -187,18 +187,18 @@
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="vssd_vcmd.cpp" />
     <ClCompile Include="vssdCat.cpp" />
-    <ClCompile Include="vCd.cpp" />
-    <ClCompile Include="vCls.cpp" />
-    <ClCompile Include="vCopy.cpp" />
-    <ClCompile Include="vDel.cpp" />
-    <ClCompile Include="vDir.cpp" />
-    <ClCompile Include="vLoad.cpp" />
-    <ClCompile Include="vMkdir.cpp" />
-    <ClCompile Include="vMklink.cpp" />
-    <ClCompile Include="vMove.cpp" />
-    <ClCompile Include="vRd.cpp" />
-    <ClCompile Include="vRen.cpp" />
-    <ClCompile Include="vSave.cpp" />
+    <ClCompile Include="vssd_Cd.cpp" />
+    <ClCompile Include="vssd_Cls.cpp" />
+    <ClCompile Include="vssd_Copy.cpp" />
+    <ClCompile Include="vssd_Del.cpp" />
+    <ClCompile Include="vssd_Dir.cpp" />
+    <ClCompile Include="vssd_Load.cpp" />
+    <ClCompile Include="vssd_Mkdir.cpp" />
+    <ClCompile Include="vssd_Mklink.cpp" />
+    <ClCompile Include="vssd_Move.cpp" />
+    <ClCompile Include="vssd_Rd.cpp" />
+    <ClCompile Include="vssd_Ren.cpp" />
+    <ClCompile Include="vssd_Save.cpp" />
     <ClCompile Include="vssd_folder.cpp" />
     <ClCompile Include="vssd_pan.cpp" />
     <ClCompile Include="pch.cpp">
@@ -207,7 +207,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="tool_path.cpp" />
+    <ClCompile Include="vssd_path.cpp" />
     <ClCompile Include="vssd_disk.cpp" />
   </ItemGroup>
   <ItemGroup>
