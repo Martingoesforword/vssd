@@ -80,61 +80,72 @@ void sjh::vssd_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
 	MyVssd.SetNowTop(Top);
 }
 
+bool sjh::vssd_vcmd::v_match(std::wstring & CmdCommand,std::wstring  MatchString)
+{
+	if (CmdCommand.length() >= MatchString.size() && CmdCommand.substr(0, MatchString.size()).compare(MatchString) == 0) {
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+std::wstring sjh::vssd_vcmd::v_getrear(std::wstring & CmdCommand,std::wstring  Command)
+{
+	return CmdCommand.substr(Command.size(), CmdCommand.size() - 3);
+}
 void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 {
 	sjh::vssd_pan *MyTop = MyVssd.GetNowTop();
 	tools_vssd::Trim(CmdCommand);
-	std::wstring rear;
-
+	std::wstring rear; 
 	//·ÖÎöÃüÁîÃûÓëÃüÁî²ÎÊý
-	if (CmdCommand.length() == 0) {
-			
-	}
+	if (CmdCommand.length() == 0) {  }
 	//dirÃüÁî½âÎö
-	else if (CmdCommand.length() >= 3 && CmdCommand.substr(0,3).compare(L"dir") == 0) {			
+	else if (v_match(CmdCommand, L"dir"))  {
 		if (CmdCommand.length() == 3) {
 			sjh::vssdDir::vDir(MyTop);
 		}
 		else {
-			rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+			rear = v_getrear(CmdCommand, L"dir");
 			tools_vssd::Trim(rear);
 			sjh::vssdDir::vDir(MyVssd,rear);
 		}
 		
 	}
 	//delÃüÁî½âÎö
-	else if (CmdCommand.length() >= 3 && CmdCommand.substr(0, 3).compare(L"del") == 0) {
+	else if (v_match(CmdCommand, L"del")) {
 		 
-		rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+		rear = v_getrear(CmdCommand, L"del");
 		tools_vssd::Trim(rear);
 		sjh::vssdDel::vDel(MyVssd, rear);
 		 
 
 	}
 	//saveÃüÁî½âÎö
-	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare(L"save") == 0) {
+	else if (v_match(CmdCommand, L"save")) {
 
 
-		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+		rear = v_getrear(CmdCommand, L"save");
 		tools_vssd::Trim(rear);
 		 
 		sjh::vssdSave::vSave(MyVssd, rear);
 
 	}
 	//loadÃüÁî½âÎö
-	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare(L"load") == 0) {
+	else if (v_match(CmdCommand, L"load") ) {
 
 
-		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+		rear = v_getrear(CmdCommand, L"load");
 		tools_vssd::Trim(rear);
 
 		sjh::vssdLoad::vLoad(MyVssd, rear);
 
 	}
 	//mkLinkÃüÁî½âÎö
-	else if (CmdCommand.length() > 6 && CmdCommand.substr(0, 6).compare(L"mklink") == 0) {
+	else if (v_match(CmdCommand, L"mklink") ) {
 
-		rear = CmdCommand.substr(6, CmdCommand.length() - 6);
+		rear = v_getrear(CmdCommand, L"mklink");
 		int spacePos = rear.find(L" ", 1);
 		if (spacePos != -1) {
 
@@ -143,43 +154,40 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 			sjh::vssdMklink::vMklink(MyVssd, rearSrc, reardisName);
 
-		}
-		 
-
-		 
+		} 
 
 	}
 	//cdÃüÁî½âÎö
-	else if (CmdCommand.length() >= 2 && CmdCommand.substr(0, 2).compare(L"cd") == 0) {
+	else if (v_match(CmdCommand, L"cd") ) {
 		if (CmdCommand.length() == 2) {
 			sjh::vssdCd::vCd(MyTop);
 		}
 		else {
 
-			rear = CmdCommand.substr(2, CmdCommand.length() - 2);
+			rear = v_getrear(CmdCommand, L"cd");
 			tools_vssd::Trim(rear);
 			sjh::vssdCd::vCd(MyVssd, rear);
 		}
 
 	} 
 	//rdÃüÁî½âÎö
-	else if (CmdCommand.length() >= 2 && CmdCommand.substr(0, 2).compare(L"rd") == 0) {
+	else if (v_match(CmdCommand, L"rd")) {
 		if (CmdCommand.length() == 2) {
 			sjh::vssdRd::vRd(MyVssd);
 		}
 		else {
-			rear = CmdCommand.substr(2, CmdCommand.length() - 2);
+			rear = v_getrear(CmdCommand, L"rd");
 			tools_vssd::Trim(rear);
 			sjh::vssdRd::vRd(MyVssd, rear);
 		}
 
 	}
 	//renÃüÁî½âÎö
-	else if (CmdCommand.length() > 3 && CmdCommand.substr(0, 3).compare(L"ren") == 0) {
+	else if (v_match(CmdCommand, L"ren")) {
 		
 		 
 
-		rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+		rear = v_getrear(CmdCommand, L"ren");
 		int spacePos = rear.find(L" ", 1);
 		if (spacePos != -1) {
 
@@ -202,10 +210,10 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 	}
 	//copyÃüÁî½âÎö
-	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare(L"copy") == 0) {
+	else if (v_match(CmdCommand, L"copy")) {
 
 
-		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+	rear = v_getrear(CmdCommand, L"copy");
 		tools_vssd::Trim(rear);
 		int spacePos = rear.find(L" ", 0);
 		if (spacePos != -1) {
@@ -296,10 +304,10 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 	}
 	//moveÃüÁî½âÎö
-	else if (CmdCommand.length() > 4 && CmdCommand.substr(0, 4).compare(L"move") == 0) {
+	else if (v_match(CmdCommand, L"move")) {
 
 		 
-		rear = CmdCommand.substr(4, CmdCommand.length() - 4);
+	rear = v_getrear(CmdCommand, L"move");
 		tools_vssd::Trim(rear);
 		int spacePos = rear.find(L" ", 0);
 		if (spacePos != -1) {
@@ -328,21 +336,21 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 		v_jump(MyVssd, rear);
 	}
 	//ÇåÆÁÃüÁî½âÎö
-	else if (CmdCommand.length() == 3 && CmdCommand.compare(L"cls") == 0) {
+	else if (v_match(CmdCommand, L"cls")) {
 		sjh::vssdCls::vCls();
 	}
 	//´´½¨ÎÄ¼þ¼ÐÃüÁî½âÎö
-	else if (CmdCommand.length() > 5 && CmdCommand.substr(0, 5).compare(L"mkdir") == 0) {
+	else if (v_match(CmdCommand, L"mkdir")) {
 		 
-		rear = CmdCommand.substr(5, CmdCommand.length() - 5);
+	rear = v_getrear(CmdCommand, L"mkdir");
 		tools_vssd::Trim(rear);
 		sjh::vssdMd::vMd(MyVssd, rear);
 
 	}
 	//²é¿´ÎÄ¼þÄÚÈÝÃüÁî½âÎö
-	else if (CmdCommand.length() > 3 && CmdCommand.substr(0, 3).compare(L"cat") == 0) {
+	else if (v_match(CmdCommand, L"cat")) {
 
-	rear = CmdCommand.substr(3, CmdCommand.length() - 3);
+	rear = v_getrear(CmdCommand, L"cat");
 	tools_vssd::Trim(rear);
 	sjh::vssdCat::vCat(MyVssd, rear);
 
