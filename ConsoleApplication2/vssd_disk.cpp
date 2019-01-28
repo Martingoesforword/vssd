@@ -40,7 +40,7 @@ sjh::vssd_disk* sjh::vssd_disk::CreatVssd()
 {
 
 	sjh::vssd_folder *Genius = new sjh::vssd_folder(L"", sjh::vssd_folder::IS_FOLDER);
-	sjh::vssd_folder *c_pan = new sjh::vssd_folder(L"c:", sjh::vssd_folder::IS_FOLDER);
+	sjh::vssd_folder *c_pan = new sjh::vssd_folder(L"C:", sjh::vssd_folder::IS_FOLDER);
 	 
 	sjh::vssd_folder *folder = new sjh::vssd_folder(L"sjh", sjh::vssd_folder::IS_FOLDER);
 	c_pan->VssdFolderLink(folder);

@@ -114,10 +114,15 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	 
 	tools_vssd::Trim(CmdCommand); 
 	std::wstring rear; 
+	std::wstring cmd;
 	int spacePos = CmdCommand.find(L" ", 1);
 	if (spacePos != CmdCommand.npos) {
 		rear = CmdCommand.substr(spacePos+1, CmdCommand.size()-spacePos-1);
-	}  
+		cmd = CmdCommand.substr(0, CmdCommand.size() - 0);
+	}
+	else {
+		cmd = CmdCommand;
+	}
 	//分析命令名与命令参数
 	if (CmdCommand.length() == 0)
 	{
@@ -241,6 +246,12 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	else if (v_match(CmdCommand, L"cat"))
 	{  
 		sjh::vssdCat::vCat(MyVssd, rear); 
-	} 
+	}
+	else { 
+	std::string a =  sjh::tools_vssd::WStringToString(cmd);
+	std::cout << "\'" << a << "\' 不是内部或外部命令，也不是可运行的程序\n或批处理文件。";
+		 
+	}
+
 }
 

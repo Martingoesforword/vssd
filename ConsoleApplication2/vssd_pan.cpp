@@ -10,18 +10,25 @@ void sjh::vssd_pan::ShowNowPosForCmd()
 	 
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
-		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
+		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << "\\";
 	} 
-	 
+	if (NowPath.Folders.size() == 1) {
+		std::cout << ">";
+	}
+	else {
+		std::cout << "\b>";
+	}
+	
 }
 void sjh::vssd_pan::ShowNowPos()
 {
  
 	for (size_t i = 1; i < NowPath.Folders.size(); i++)
 	{
-		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << '/';
+		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName());
 	}
-	std::cout << std::endl;
+	if(NowPath.Folders.size() == 2) std::cout<< "\\\n" << std::endl;
+	else std::cout << "\n\n" << std::endl;
 }
 sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 {

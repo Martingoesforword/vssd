@@ -125,12 +125,13 @@ void sjh::tool_path::PathToFolders(std::wstring path)
 }
 std::wstring sjh::tool_path::FoldersToPath()
 {
-	std::wstring *Path = new std::wstring();
+	std::wstring Path;
 	for (size_t i = 1; i < RealFolders.size(); i++)
-	{
-		Path->append(RealFolders[i]->Name + L"\\");
+	{ 
+		Path.append(RealFolders[i]->Name + L"\\");
 	}
-	return *Path;
+	if (RealFolders.size() == 3) Path.append(L"\b");
+	return Path;
 }
 void sjh::tool_path::DeletOne()
 {

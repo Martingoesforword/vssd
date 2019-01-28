@@ -19,8 +19,8 @@ public:
 
 	//初始化加显示相关
 	vssd_folder(std::wstring Name, int Code);
-	void VssdFolderInit();     
-	void ShowOffSub(int pram, std::wstring now);
+	void VssdFolderInit();      
+	void ShowOffSub(sjh::vssd_disk & MyVssd, int pram, std::wstring now);
 	void DeletOne(vssd_folder *DeletFolder);
 	void OffOne(vssd_folder * DeletFolder);
 	void DeleteEvery(); 
@@ -57,7 +57,7 @@ public:
 	static const int IS_FILE = 0;
 	static const int IS_FOLDER = 1;
 	static const int IS_LINK = 2;
-	const std::wstring VssdTypeName[3] = { L"FILE",L"FOLDER", L"LINK" };
+	const std::wstring VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
 	unsigned int VssdTypeCode;
 	
 };
