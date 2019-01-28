@@ -104,7 +104,7 @@ bool sjh::vssd_vcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchStrin
 }
 std::wstring sjh::vssd_vcmd::v_getrear(std::wstring & CmdCommand, std::wstring  Command)
 {
-	return CmdCommand.substr(Command.size(), CmdCommand.size() - 3);
+	return CmdCommand.substr(Command.size(), CmdCommand.size() - Command.size());
 }
 void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 {
@@ -191,7 +191,12 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 
 			rear = v_getrear(CmdCommand, L"cd");
 			tools_vssd::Trim(rear);
-			sjh::vssdCd::vCd(MyVssd, rear);
+			std::wstring MyTopName = MyTop->root->GetName();
+			if (v_match(rear, L"/") || v_match(rear, L"\\"))
+			{
+				while (MyTop->NowPath.Folders.size() > 2) MyTop->NowPath.DeletOne();
+			}
+			else sjh::vssdCd::vCd(MyVssd, rear);
 		}
 
 	}
@@ -270,9 +275,9 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 					{
 						MyVssd.GetGenius()->Build(MyVssd, a);
 					}
-
+					folder = v_FindPathForFirst(MyVssd, rearDes, a);
 				}
-				folder = v_FindPathForFirst(MyVssd, rearDes, a);
+				
 				folder->VssdTypeCode = 0;
 
 				std::wstring RealSrc = rearSrc.substr(1, rearSrc.length() - 1);

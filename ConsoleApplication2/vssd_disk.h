@@ -6,23 +6,25 @@ private:
 	sjh::vssd_pan *NowTop;
 	std::vector<sjh::vssd_pan *> Tops;
 	
-	sjh::vssd_folder *Genius;
+	sjh::
+		vssd_folder *Genius;
 public: 
-	std::vector<unsigned char> Serial;
+	std::vector<wchar_t> Serial;
 	sjh::vssd_pan *GetNowTop();
 	sjh::vssd_folder *GetGenius();
 	void SetNowTop(sjh::vssd_pan * afolderTop);
 	void LinkTop(sjh::vssd_pan *aNowTop);
 	vssd_disk(sjh::vssd_pan * Now, sjh::vssd_folder * aGenius, std::wstring aName);
+	static sjh::vssd_disk* CreatVssd();
 
 	vssd_disk();
 	sjh::vssd_pan *FindTop(std::wstring &aName);
 	void PutToRealFile(FILE *d);
 	void GetFromRealfile(FILE *d);
 
-	void DeSerialize(std::vector<unsigned char>& ByteVssd);
+	void DeSerialize(std::vector<wchar_t>& ByteVssd);
 
-	void Serialize(std::vector<unsigned char> &Byte);
+	void Serialize(std::vector<wchar_t> &Byte);
 	~vssd_disk();
 };
  

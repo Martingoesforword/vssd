@@ -24,26 +24,22 @@ public:
 
 	}
 	//输入：四字节整形数据 一个字节型vector引用   目的：将四字节整形数据按大端放入引用中
-	static void Push4BUint(unsigned int Uint4, std::vector<unsigned char> &Byte)
+	static void Push4BUint(unsigned int Uint4, std::vector<wchar_t> &Byte)
 	{
 
-		Byte.push_back((Uint4 >> 24) & 0x0FF);
-		Byte.push_back((Uint4 >> 16) & 0x0FF);
-		Byte.push_back((Uint4 >> 8) & 0x0FF);
-		Byte.push_back((Uint4) & 0x0FF);
+		Byte.push_back((Uint4 >> 16) & 0x0FFFF);
+		Byte.push_back((Uint4) & 0x0FFFF);
 		return;
 	}
 	//输入：四字节整形数据 一个字节型vector引用   目的：将四字节整形数据按大端放入引用中
-	static void Push4BUintForPos(unsigned int Uint4, int Pos, std::vector<unsigned char> &Byte)
+	static void Push4BUintForPos(unsigned int Uint4, int Pos, std::vector<wchar_t> &Byte)
 	{
 
-		Byte[Pos] = ((Uint4 >> 24) & 0x0FF);
-		Byte[Pos + 1] = ((Uint4 >> 16) & 0x0FF);
-		Byte[Pos + 2] = ((Uint4 >> 8) & 0x0FF);
-		Byte[Pos + 3] = ((Uint4) & 0x0FF);
+		Byte[Pos] = ((Uint4 >> 16) & 0x0FFFF);
+		Byte[Pos + 1] = ((Uint4) & 0x0FFFF);
 		return;
 	}
-	static unsigned int Get4BUint(const std::vector<unsigned char>& ByteVssd, int Pos, unsigned int &Num)
+	static unsigned int Get4BUint(const std::vector<wchar_t>& ByteVssd, int Pos, unsigned int &Num)
 	{
 		unsigned int a = 0;
 		a += ByteVssd.at(Pos + 3);
@@ -54,39 +50,37 @@ public:
 		Num = a;
 		return 1;
 	}
-	static void GetString(const std::vector<unsigned char>& ByteVssd, int Pos, int Length, std::wstring &Str)
+	static void GetString(const std::vector<wchar_t>& ByteVssd, int Pos, int Length, std::wstring &Str)
 	{
 		Str.clear();
 		int i = 0;
-		char ch;
+		wchar_t ch;
 		for (; i < Length && (ch = ByteVssd.at(Pos + i)); i++)
 		{
 			Str.push_back(ByteVssd[Pos + i]);
 		}
 		return;
 	}
-	static void GetStringAnd0(const std::vector<unsigned char>& ByteVssd, int Pos, int Length, std::wstring &Str)
+	static void GetStringAnd0(const std::vector<wchar_t>& ByteVssd, int Pos, int Length, std::wstring &Str)
 	{
 
 		int i = 0;
-		char ch = '0';
+		wchar_t ch = '0';
 		for (; i < Length; i++)
 		{
 			Str.push_back(ByteVssd[Pos + i]);
 		}
 		return;
 	}
-	static void Set4BUint(std::vector<unsigned char>::iterator & It, unsigned int Uint4)
+	static void Set4BUint(std::vector<wchar_t>::iterator & It, unsigned int Uint4)
 	{
 
-		*It = (unsigned char)((Uint4 >> 24) & 0x0FF);
-		*(It + 1) = (unsigned char)((Uint4 >> 16) & 0x0FF);
-		*(It + 2) = (unsigned char)((Uint4 >> 8) & 0x0FF);
-		*(It + 3) = (unsigned char)((Uint4) & 0x0FF);
+		*It = (wchar_t)((Uint4 >> 16) & 0x0FFFF);
+		*(It + 1) = (wchar_t)((Uint4) & 0x0FFFF);
 		return;
 	}
 
-	static void Push0ToNSpace(unsigned int N, std::vector<unsigned char> &Byte)
+	static void Push0ToNSpace(unsigned int N, std::vector<wchar_t> &Byte)
 	{
 		for (size_t i = 0; i < N; i++)
 		{
@@ -94,12 +88,12 @@ public:
 		}
 		return;
 	}
-	static void PushString(std::wstring Str, std::vector<unsigned char> &Byte)
+	static void PushString(std::wstring Str, std::vector<wchar_t> &Byte)
 	{
 		for (size_t i = 0; i < Str.length(); i++)
 		{
-			Byte.push_back(*((unsigned char*)&Str[i] + 0));
-			Byte.push_back(*((unsigned char*)&Str[i] + 1));
+			Byte.push_back(*((wchar_t*)&Str[i] + 0));
+			Byte.push_back(*((wchar_t*)&Str[i] + 1));
 		}
 		return;
 	}
@@ -111,7 +105,7 @@ public:
 		}
 		return;
 	}
-	static void CopyAppend(std::vector<unsigned char> &From, std::vector<unsigned char> &To)
+	static void CopyAppend(std::vector<wchar_t> &From, std::vector<wchar_t> &To)
 	{
 		for (size_t i = 0; i < From.size(); i++)
 		{
@@ -181,7 +175,7 @@ public:
 		int slen2 = str2.size();
 
 		//实际使用时根据strl的长度来动态分配表的内存
-		char matchmap[128][128];
+		wchar_t matchmap[128][128];
 		memset(matchmap, 0, 128 * 128);
 		matchmap[0][0] = 1;
 		int i, j, k;

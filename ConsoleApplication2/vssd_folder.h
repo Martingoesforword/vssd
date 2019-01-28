@@ -33,15 +33,15 @@ public:
 	std::wstring VssdTypeName[3] = { L"FILE",L"FOLDER", L"LINK" };
 	unsigned int VssdTypeCode;   
 
-	std::vector<unsigned char> Content;		//文件内容 
+	std::vector<wchar_t> Content;		//文件内容 
 	bool isFile();
-	void SetContent(unsigned char Byte);
+	void SetContent(wchar_t Byte); 
 	void SetContentString(std::wstring str);
 	void PrintContent(); 
-	int Serialize(std::vector<unsigned char>& Byte_foldertable, std::vector<unsigned char>& Byte_contenttable, int & indexInit);
-	void deSerialize(std::vector<unsigned char>& ByteVssd, int Pos);
-	void parmsave(std::vector<unsigned char>& Byte_foldertable, int a);
-	void contentsave(std::vector<unsigned char>& Byte_foldertable, int a);
+	int Serialize(std::vector<wchar_t>& Byte_foldertable, std::vector<wchar_t>& Byte_contenttable, int & indexInit);
+	void deSerialize(std::vector<wchar_t>& ByteVssd, int Pos);
+	void parmsave(std::vector<wchar_t>& Byte_foldertable, int a);
+	void contentsave(std::vector<wchar_t>& Byte_foldertable, int a);
 	void DeleteLinks();
 	void AddLink(sjh::vssd_folder * link);
 	~vssd_folder();

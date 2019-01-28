@@ -56,7 +56,7 @@ sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)
 
 }
 
-void sjh::vssd_pan::Serialize(std::vector<unsigned char> &Byte_Toptable)
+void sjh::vssd_pan::Serialize(std::vector<wchar_t> &Byte_Toptable)
 {
 	//Ô¤Áô´æ·ÅrootfolderÖ¸Õë£¨index£©
 	sjh::tools_vssd::PushString(root->Name, Byte_Toptable);

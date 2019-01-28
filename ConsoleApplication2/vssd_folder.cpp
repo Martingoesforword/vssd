@@ -37,7 +37,11 @@ std::wstring sjh::vssd_folder::GetName()
 void sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &a)
 {
 
-
+	if (VssdTypeCode == IS_LINK)
+	{
+		SubFolders[0]->Build(MyVssd, a);
+		return;
+	}
 	sjh::vssd_folder *Now = this;
 	int flag = 0;
 	for (size_t i = 0; i < a.Folders.size(); i++)
@@ -52,6 +56,7 @@ void sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &a)
 		else
 		{
 			Now = Now->FindForFirst(a.Folders[i]);
+			while (Now->VssdTypeCode == IS_LINK) Now = Now->SubFolders[0];
 		}
 
 
@@ -265,7 +270,7 @@ bool sjh::vssd_folder::isFile()
 
 }
 
-void sjh::vssd_folder::SetContent(unsigned char Byte)		//追加字符
+void sjh::vssd_folder::SetContent(wchar_t Byte)		//追加字符
 {
 	if (isFile())
 	{
@@ -309,7 +314,7 @@ void sjh::vssd_folder::PrintContent()			//返回NULL 和 下一个字符
 	}
 }
 
-int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, std::vector<unsigned char>& Byte_contenttable, int &indexInit)
+int sjh::vssd_folder::Serialize(std::vector<wchar_t>& Byte_foldertable, std::vector<wchar_t>& Byte_contenttable, int &indexInit)
 {
 
 	int p = Byte_foldertable.size();
@@ -327,7 +332,7 @@ int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, st
 	for (size_t i = 0; VssdTypeCode != 2 && i < SubFolders.size(); i++)
 	{
 		int ps = SubFolders.at(i)->Serialize(Byte_foldertable, Byte_contenttable, indexInit);
-		std::vector<unsigned char>::iterator it = Byte_foldertable.begin();
+		std::vector<wchar_t>::iterator it = Byte_foldertable.begin();
 		it = it + p + 48 + i * 4;
 		tools_vssd::Set4BUint(it, ps + 52);
 	}
@@ -336,7 +341,7 @@ int sjh::vssd_folder::Serialize(std::vector<unsigned char>& Byte_foldertable, st
 	return p;
 
 }
-void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos)
+void sjh::vssd_folder::deSerialize(std::vector<wchar_t>& ByteVssd, int Pos)
 {
 
 	tools_vssd::GetString(ByteVssd, Pos, 32, Name);   Pos += 32;
@@ -391,7 +396,7 @@ void sjh::vssd_folder::deSerialize(std::vector<unsigned char>& ByteVssd, int Pos
 
 
 }
-void sjh::vssd_folder::parmsave(std::vector<unsigned char>& Byte_foldertable, int index)
+void sjh::vssd_folder::parmsave(std::vector<wchar_t>& Byte_foldertable, int index)
 {
 	//需要32+4+4+4 = 44B
 
@@ -413,7 +418,7 @@ void sjh::vssd_folder::parmsave(std::vector<unsigned char>& Byte_foldertable, in
 
 
 }
-void sjh::vssd_folder::contentsave(std::vector<unsigned char>& Byte_contenttable, int index)
+void sjh::vssd_folder::contentsave(std::vector<wchar_t>& Byte_contenttable, int index)
 {
 	if (VssdTypeCode != 0) return;
 

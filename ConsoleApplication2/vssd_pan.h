@@ -12,7 +12,7 @@ public:
 	vssd_pan(sjh::vssd_folder* root, sjh::vssd_folder * Genius);
 	void SetNewRoot(sjh::vssd_folder* root);
 	sjh::vssd_folder* FindForFirst(sjh::tool_path &apath);
-	void Serialize(std::vector<unsigned char> &Byte_Toptable);
+	void Serialize(std::vector<wchar_t> &Byte_Toptable);
 
 
 
