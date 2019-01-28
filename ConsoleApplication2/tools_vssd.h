@@ -2,117 +2,6 @@
 class tools_vssd
 {
 public:
-
-	static void Trim(std::wstring * s)
-	{
-
-		if (!s->empty())
-		{
-			s->erase(0, s->find_first_not_of(L" "));
-			s->erase(s->find_last_not_of(L" ") + 1);
-		}
-
-	}
-	static void Trim(std::wstring & s)
-	{
-
-		if (!s.empty())
-		{
-			s.erase(0, s.find_first_not_of(L" "));
-			s.erase(s.find_last_not_of(L" ") + 1);
-		}
-
-	}
-	//输入：四字节整形数据 一个字节型vector引用   目的：将四字节整形数据按大端放入引用中
-	static void Push4BUint(unsigned int Uint4, std::vector<wchar_t> &Byte)
-	{
-
-		Byte.push_back((Uint4 >> 16) & 0x0FFFF);
-		Byte.push_back((Uint4) & 0x0FFFF);
-		return;
-	}
-	//输入：四字节整形数据 一个字节型vector引用   目的：将四字节整形数据按大端放入引用中
-	static void Push4BUintForPos(unsigned int Uint4, int Pos, std::vector<wchar_t> &Byte)
-	{
-
-		Byte[Pos] = ((Uint4 >> 16) & 0x0FFFF);
-		Byte[Pos + 1] = ((Uint4) & 0x0FFFF);
-		return;
-	}
-	static unsigned int Get4BUint(const std::vector<wchar_t>& ByteVssd, int Pos, unsigned int &Num)
-	{
-		unsigned int a = 0;
-		a += ByteVssd.at(Pos + 3);
-
-		a += ByteVssd.at(Pos + 2) * 256;
-		a += ByteVssd.at(Pos + 1) * 256 * 256;
-		a += ByteVssd.at(Pos + 0) * 256 * 256 * 256;
-		Num = a;
-		return 1;
-	}
-	static void GetString(const std::vector<wchar_t>& ByteVssd, int Pos, int Length, std::wstring &Str)
-	{
-		Str.clear();
-		int i = 0;
-		wchar_t ch;
-		for (; i < Length && (ch = ByteVssd.at(Pos + i)); i++)
-		{
-			Str.push_back(ByteVssd[Pos + i]);
-		}
-		return;
-	}
-	static void GetStringAnd0(const std::vector<wchar_t>& ByteVssd, int Pos, int Length, std::wstring &Str)
-	{
-
-		int i = 0;
-		wchar_t ch = '0';
-		for (; i < Length; i++)
-		{
-			Str.push_back(ByteVssd[Pos + i]);
-		}
-		return;
-	}
-	static void Set4BUint(std::vector<wchar_t>::iterator & It, unsigned int Uint4)
-	{
-
-		*It = (wchar_t)((Uint4 >> 16) & 0x0FFFF);
-		*(It + 1) = (wchar_t)((Uint4) & 0x0FFFF);
-		return;
-	}
-
-	static void Push0ToNSpace(unsigned int N, std::vector<wchar_t> &Byte)
-	{
-		for (size_t i = 0; i < N; i++)
-		{
-			Byte.push_back(0);
-		}
-		return;
-	}
-	static void PushString(std::wstring Str, std::vector<wchar_t> &Byte)
-	{
-		for (size_t i = 0; i < Str.length(); i++)
-		{
-			Byte.push_back(*((wchar_t*)&Str[i] + 0));
-			Byte.push_back(*((wchar_t*)&Str[i] + 1));
-		}
-		return;
-	}
-	static void PushWString(std::string Str, std::vector<wchar_t> &Byte)
-	{
-		for (size_t i = 0; i < Str.length(); i++)
-		{
-			Byte.push_back(Str[i]);
-		}
-		return;
-	}
-	static void CopyAppend(std::vector<wchar_t> &From, std::vector<wchar_t> &To)
-	{
-		for (size_t i = 0; i < From.size(); i++)
-		{
-			To.push_back(From[i]);
-		}
-		return;
-	}
 	static void split(std::wstring str, std::vector<std::wstring> &ret, std::wstring pattern)
 	{
 
@@ -131,6 +20,76 @@ public:
 			ret.push_back(str.substr(start));
 
 	}
+	static void Trim(std::wstring & s)
+	{ 
+		if (!s.empty())
+		{
+			s.erase(0, s.find_first_not_of(L" "));
+			s.erase(s.find_last_not_of(L" ") + 1);
+		} 
+	} 
+	static size_t PushLengthValue(unsigned int Uint4, std::vector<wchar_t> &Byte)
+	{
+		size_t Start= Byte.size();
+		Byte.push_back((Uint4 >> 16) & 0x0FFFF);
+		Byte.push_back((Uint4) & 0x0FFFF);
+		return Start;
+	}
+	static void PushString(std::wstring Str, std::vector<wchar_t> &Byte)
+	{
+		PushLengthValue(Str.size(), Byte);
+		for (size_t i = 0; i < Str.size(); i++)
+		{
+			Byte.push_back(Str[i]); 
+		}
+		return;
+	}
+	static void PushWcharVector(std::vector<wchar_t> &StringArray, std::vector<wchar_t> &Byte)
+	{
+		PushLengthValue(StringArray.size(), Byte);
+		for (size_t i = 0; i < StringArray.size(); i++)
+		{
+			Byte.push_back(StringArray[i]);
+		}
+		return;
+	}
+
+
+
+	static unsigned int GetLengthValue(const std::vector<wchar_t>& ByteVssd, int &Pos)
+	{
+		unsigned int LengthValue = 0;
+		LengthValue += ByteVssd.at(Pos) * 256 * 256;  Pos++;
+		LengthValue += ByteVssd.at(Pos);				Pos++;
+		 
+		return LengthValue;
+	}
+	static std::wstring GetString(const std::vector<wchar_t>& ByteVssd, int &Pos)
+	{
+		unsigned int LengthValue = GetLengthValue(ByteVssd, Pos);
+
+		std::wstring ws;
+		 
+		for (int i = 0; i < LengthValue; i++)
+		{
+			ws.push_back(ByteVssd[Pos++]); 
+		} 
+		return ws;
+	}
+	static void GetWcharVector(std::vector<wchar_t> &WcharVector, std::vector<wchar_t> &ByteVssd, int &Pos)
+	{
+		unsigned int LengthValue = GetLengthValue(ByteVssd, Pos); 
+		for (size_t i = 0; i < LengthValue; i++)
+		{ 
+			WcharVector.push_back(ByteVssd[Pos + i]);
+			Pos++;
+		}
+		return;
+	}
+
+
+
+	
 
 
 	static std::string WStringToString(const std::wstring &wstrSrc)

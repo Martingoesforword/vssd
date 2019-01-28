@@ -92,9 +92,6 @@
     <ClCompile Include="vssd_disk.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vssdCat.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="vssd_vcmd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -135,6 +132,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vssd_Save.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_Cat.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #include "pch.h" 
-void sjh::vssdDir::vDir(sjh::vssd_pan * Top)
+void sjh::vssdDir::vDir(vssd_disk & MyVssd)
 {
-	sjh::vssd_folder *now = Top->GetNowPos();
+	sjh::vssd_folder *now = MyVssd.GetNowTop()->GetNowPos();
 
 	while (now->VssdTypeCode == 2)
 	{
@@ -11,13 +11,14 @@ void sjh::vssdDir::vDir(sjh::vssd_pan * Top)
 			return;
 		}
 	}
-	now->ShowOffSub(1, Top->NowPath.FoldersToPath());
+	now->ShowOffSub(1, MyVssd.GetNowTop()->NowPath.FoldersToPath());
 
 }
 void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 {
 	std::vector<std::wstring> Dirs;
 	sjh::tools_vssd::split(DirCommand, Dirs, L" ");
+	if (!Dirs.size()) vDir(MyVssd);
 	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;

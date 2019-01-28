@@ -12,7 +12,7 @@ public:
 	
 	static bool v_match(std::wstring & CmdCommand, std::wstring MatchString);
 
-	static std::wstring v_getrear(std::wstring & CmdCommand, std::wstring Command);
+	static std::wstring v_getrear_trim(std::wstring & CmdCommand, std::wstring Command);
 	 
 
 

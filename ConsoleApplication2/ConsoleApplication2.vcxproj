@@ -186,7 +186,7 @@
   <ItemGroup>
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="vssd_vcmd.cpp" />
-    <ClCompile Include="vssdCat.cpp" />
+    <ClCompile Include="vssd_Cat.cpp" />
     <ClCompile Include="vssd_Cd.cpp" />
     <ClCompile Include="vssd_Cls.cpp" />
     <ClCompile Include="vssd_Copy.cpp" />

@@ -19,14 +19,9 @@ sjh::vssd_folder::vssd_folder(std::wstring aName, int aCode)
 
 void sjh::vssd_folder::VssdFolderLink(sjh::vssd_folder *LinktoSub)
 {
-
-
-	if (SubFolders.size() < SubFolders.max_size())
-	{
-		SubFolders.push_back(LinktoSub);
-
-	}
-	else std::cout << "This folder had overflowed for Folders!" << std::endl;
+	 
+	SubFolders.push_back(LinktoSub);
+		 
 }
 
 std::wstring sjh::vssd_folder::GetName()
@@ -314,128 +309,40 @@ void sjh::vssd_folder::PrintContent()			//返回NULL 和 下一个字符
 	}
 }
 
-int sjh::vssd_folder::Serialize(std::vector<wchar_t>& Byte_foldertable, std::vector<wchar_t>& Byte_contenttable, int &indexInit)
-{
-
-	int p = Byte_foldertable.size();
-	indexInit++;
-	//存属性
-	parmsave(Byte_foldertable, indexInit);
-	//存文件内容
-	contentsave(Byte_contenttable, indexInit);
-
-	//预留4+子文件夹个数的空间
-	tools_vssd::Push4BUint(SubFolders.size(), Byte_foldertable);
-	tools_vssd::Push0ToNSpace(SubFolders.size() * 4, Byte_foldertable);
-
-	//递归存
-	for (size_t i = 0; VssdTypeCode != 2 && i < SubFolders.size(); i++)
-	{
-		int ps = SubFolders.at(i)->Serialize(Byte_foldertable, Byte_contenttable, indexInit);
-		std::vector<wchar_t>::iterator it = Byte_foldertable.begin();
-		it = it + p + 48 + i * 4;
-		tools_vssd::Set4BUint(it, ps + 52);
+int sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
+{ 
+	int Start = Bytes.size();
+	sjh::tools_vssd::PushString(Name, Bytes);
+	sjh::tools_vssd::PushLengthValue(VssdTypeCode, Bytes);
+	sjh::tools_vssd::PushWcharVector(Content, Bytes);
+	sjh::tools_vssd::PushLengthValue(SubFolders.size(), Bytes);
+	if (VssdTypeCode == IS_FOLDER) {
+		for (size_t i = 0; i < SubFolders.size(); i++)
+		{
+			SubFolders.at(i)->Serialize(Bytes); 
+		}
 	}
-
-
-	return p;
-
+	return Start;
 }
 void sjh::vssd_folder::deSerialize(std::vector<wchar_t>& ByteVssd, int Pos)
 {
 
-	tools_vssd::GetString(ByteVssd, Pos, 32, Name);   Pos += 32;
-	tools_vssd::Get4BUint(ByteVssd, Pos, VssdTypeCode);   Pos += 4;
-
-
-	if (VssdTypeCode != 0)
-	{
-		Pos += 4 * 2;  //跳过文件内容描述 
-		unsigned int Subnum;
-		tools_vssd::Get4BUint(ByteVssd, Pos, Subnum);    Pos += 4;
-		for (size_t i = 0; i < Subnum; i++)
+	Name = tools_vssd::GetString(ByteVssd, Pos);   
+	VssdTypeCode = tools_vssd::GetLengthValue(ByteVssd, Pos);
+	tools_vssd::GetWcharVector(Content, ByteVssd, Pos);
+	int SubSize = sjh::tools_vssd::GetLengthValue(ByteVssd,Pos);
+	 
+	if (VssdTypeCode == IS_FOLDER) {
+		for (int i = 0; i < SubSize; i++)
 		{
-			sjh::vssd_folder *f1 = new sjh::vssd_folder(L"", 0);
-			VssdFolderLink(f1);
-			unsigned int SubPos = 0;
-			tools_vssd::Get4BUint(ByteVssd, Pos, SubPos);
-			f1->deSerialize(ByteVssd, SubPos);
-			Pos += 4;
+			sjh::vssd_folder *sub = new sjh::vssd_folder(L"",IS_FOLDER);
+			VssdFolderLink(sub);
+			sub->deSerialize(ByteVssd,Pos);
 		}
 	}
-	//连接content
-	else
-	{
+	     
 
-		unsigned int contentlength = 0;
-		tools_vssd::Get4BUint(ByteVssd, Pos, contentlength);  Pos += 4;
-		unsigned int contentindex = 0;
-		tools_vssd::Get4BUint(ByteVssd, Pos, contentindex);
-
-		unsigned int contentpoint = 0;
-		tools_vssd::Get4BUint(ByteVssd, 48, contentpoint);  //content指针
-
-		int contentindexx = 0;
-		for (int i = 0; i < FILEMAXSIZE; i++)
-		{
-
-			unsigned int contentindex1 = 0;
-			tools_vssd::Get4BUint(ByteVssd, contentpoint, contentindex1);
-			if (contentindex1 == contentindex)
-			{
-				//读文件
-				std::wstring str1;
-				tools_vssd::GetStringAnd0(ByteVssd, contentpoint + 4, contentlength, str1);
-				SetContentString(str1);
-				break;
-			}
-		}
-
-
-	}
-
-
-}
-void sjh::vssd_folder::parmsave(std::vector<wchar_t>& Byte_foldertable, int index)
-{
-	//需要32+4+4+4 = 44B
-
-	tools_vssd::PushString(Name, Byte_foldertable);
-	tools_vssd::Push0ToNSpace(32 - Name.length(), Byte_foldertable);
-
-	tools_vssd::Push4BUint(VssdTypeCode, Byte_foldertable);
-
-	tools_vssd::Push4BUint(Content.size(), Byte_foldertable);
-	//内容指针（index）
-	if (VssdTypeCode != 0)
-	{
-		tools_vssd::Push4BUint(0xffffffff, Byte_foldertable);
-	}
-	else
-	{
-		tools_vssd::Push4BUint(index, Byte_foldertable);
-	}
-
-
-}
-void sjh::vssd_folder::contentsave(std::vector<wchar_t>& Byte_contenttable, int index)
-{
-	if (VssdTypeCode != 0) return;
-
-
-
-	tools_vssd::Push4BUint(index, Byte_contenttable);
-	//需要4+4+content.size()长度 
-
-
-	//存放内容
-	for (size_t i = 0; i < Content.size(); i++)
-	{
-		Byte_contenttable.push_back(Content.at(i));
-	}
-
-
-}
+} 
 void sjh::vssd_folder::DeleteLinks()
 {
 	for (size_t i = 0; i < LinkFolders.size(); i++)

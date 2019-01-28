@@ -1,23 +1,6 @@
 #include "pch.h" 
 //当下文件夹下rd
-void sjh::vssdRd::vRd(vssd_disk & MyVssd)
-{
-	if (MyVssd.GetNowTop()->NowPath.RealFolders.size() >= 3)
-	{
-		MyVssd.GetNowTop()->GetNowPos()->DeleteLinks();
-		MyVssd.GetNowTop()->NowPath.RealFolders.at(MyVssd.GetNowTop()->NowPath.RealFolders.size() - 2)->DeletOne(MyVssd.GetNowTop()->GetNowPos());
-
-		MyVssd.GetNowTop()->NowPath.DeletOne();
-		std::cout << "VSSD ERROR : NowPos folder is deleted just！" << std::endl;
-	}
-	else
-	{
-		std::cout << "VSSD ERROR : Root folder cannot be deleted！" << std::endl;
-	}
-
-
-}
-
+ 
 void sjh::vssdRd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
 {
 
