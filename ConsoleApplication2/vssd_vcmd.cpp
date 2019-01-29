@@ -21,8 +21,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 		//说明是磁盘开头，则为绝对路径
 		if (flag_tofirstif && path.Folders[i].length() == 2 && path.Folders[i].at(1) == ':')
 		{
-			Nowpath.clear(); 
-			Nowpath.AddOneSub(MyVssd.GetGenius());
+			Nowpath.clear();  
 
 			longNowf = Nowpath.GetNow()->FindForFirst(path.Folders[i]);
 
@@ -37,7 +36,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 		}
 		else if (path.Folders.at(i) == L"..")
 		{
-			if (Nowpath.RealFolders.size() < 3)
+			if (Nowpath.RealFolders.size() < 2)
 			{
 				return nullptr;
 			}
@@ -230,7 +229,7 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 		sjh::vssdCls::vCls();
 	}
 	//创建文件夹命令解析
-	else if (v_match(CmdCommand, L"mkdir"))
+	else if (v_match(CmdCommand, L"md"))
 	{  
 		sjh::vssdMd::vMd(MyVssd, rear);
 	}

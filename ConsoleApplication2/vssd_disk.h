@@ -13,10 +13,11 @@ public:
 	virtual int Serialize(std::vector<wchar_t>& aByteVssd);
 	virtual void DeSerialize(std::vector<wchar_t>& aByteVssd, int &aPos);
 	 
-	sjh::vssd_pan *GetNooowPan();
+	sjh::vssd_pan *		GetNooowPan();
+	sjh::vssd_folder *	GetGenius();
 	void SetNooowPan(sjh::vssd_pan * afolderTop);
 	void AddNewPan(sjh::vssd_pan *aNowTop); 
-	sjh::vssd_folder *GetGenius();  
+	
 	sjh::vssd_pan *FindPanFromName(std::wstring &aName); 
 	  
 	void PutToRealFile(std::wstring aJumpTo, std::vector<wchar_t> aSerial);

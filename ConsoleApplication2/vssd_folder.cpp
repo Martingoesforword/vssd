@@ -45,8 +45,10 @@ sjh::vssd_folder *sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_pat
 
 		for (size_t i = 0; i < aPath.Folders.size(); i++)
 		{
-			if(CheckedFlag && (Now = Now->FindForFirst(aPath.Folders[i])))
+			sjh::vssd_folder *Change;
+			if(CheckedFlag && (Change = Now->FindForFirst(aPath.Folders[i])))
 			{  
+				Now = Change;
 				while (Now->IsLink())
 				{
 					Now = Now->SubFolders[0];
@@ -78,9 +80,10 @@ void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring
 	std::cout << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(&MyVssd) / 0x10000 << " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(&MyVssd) % 0x10000 << "\n";
 	
 	int p = 0;
+	 
 	std::cout <<"\n "<< sjh::tools_vssd::WStringToString(now) << " µÄÄ¿Â¼\n" << std::endl;
-	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right) << "<" << sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << ">" << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << "." << std::endl;
-	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right) << "<" << sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << ">" << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << ".." << std::endl;
+	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right)  << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << "." << std::endl;
+	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right)  << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << ".." << std::endl;
 
 
 	for (size_t i = 0; i < SubFolders.size(); i++)

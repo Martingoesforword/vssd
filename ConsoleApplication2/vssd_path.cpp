@@ -121,11 +121,21 @@ void sjh::tool_path::SetFoldersByWstring(std::wstring pathString)
 std::wstring sjh::tool_path::GetPathWstring()
 {
 	std::wstring Path;
-	for (size_t i = 0; i < RealFolders.size(); i++)
-	{ 
-		Path.append(RealFolders[i]->GetName() + L"\\");
+	if (Folders.size() == 1)
+	{
+		Path.append( Folders.at(0) );
+		Path.append(L"\\");
 	}
-	if (RealFolders.size() == 3) Path.append(L"\b");
+	else
+	{
+		size_t i = 0;
+		for (i = 0; i < Folders.size() - 1; i++)
+		{
+			Path.append(Folders.at(i));
+			Path.append(L"\\"); 
+		}
+		Path.append(Folders.at(i)); 
+	} 
 	return Path;
 }
 int sjh::tool_path::GetTypeCode()

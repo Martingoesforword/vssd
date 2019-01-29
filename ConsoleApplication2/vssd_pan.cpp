@@ -23,20 +23,7 @@ void sjh::vssd_pan::ShowNowPathForCmd()
 } 
 void sjh::vssd_pan::PrintNowPath()
 {
-	if (NowPath.Folders.size() == 1) 
-	{
-		std::wcout << NowPath.Folders.at(0)   << "\\";
-	}
-	else 
-	{
-		size_t i = 0;
-		for (i = 0; i < NowPath.Folders.size()-1; i++)
-		{
-			std::wcout << NowPath.Folders.at(i) << "\\";
-		} 
-		std::wcout <<  NowPath.Folders.at(i);
-	} 
-		
+	std::wcout << NowPath.GetPathWstring(); 
 }
 int sjh::vssd_pan::Serialize(std::vector<wchar_t>& Byte_Toptable)
 {
