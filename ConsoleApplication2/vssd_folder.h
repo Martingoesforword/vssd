@@ -1,33 +1,34 @@
 #pragma once 
 
 
-class vssd_folder
+class vssd_folder :public sjh::base_namedable,sjh::base_displayable,sjh::base_serializable
 {
 private: 
-	bool mycheck = true; 
-	std::wstring Name;
+	bool mycheck = true;  
+	unsigned int VssdTypeCode;
 public: 
-	
+	void VssdFolderInit();
+	vssd_folder(std::wstring Name, int Code);
+
+
 	std::vector<vssd_folder *>SubFolders; 
-	std::vector<vssd_folder *>LinkFolders; 
-	 
-	virtual std::wstring GetType();
-	
-	void VssdFolderLink(vssd_folder * LinkToSub);
-	std::wstring GetName();
+	std::vector<vssd_folder *>LinkFolders;  
+
+	std::wstring GetType();
+	int GetTypeCode();
+
+	void LinkNewFolder(vssd_folder * LinkToSub); 
 
 	//初始化加显示相关
 
-	vssd_folder(std::wstring Name, int Code);
-	void VssdFolderInit();      
-	void ShowOffSub(sjh::vssd_disk & MyVssd, int pram, std::wstring now);
-	void DeletOne(vssd_folder *DeletFolder);
+	
+	     
+	
+	void DeleteOne(vssd_folder *DeletFolder);
 	void OffOne(vssd_folder * DeletFolder);
-	void DeleteEvery(); 
-	void SetName(std::wstring &Name); 
-
+	void DeleteEvery();  
 	//寻找建立相关
-	void Build(sjh::vssd_disk & MyVssd, sjh::tool_path & a);
+	sjh::vssd_folder* Build(sjh::vssd_disk & MyVssd, sjh::tool_path & a);
 	vssd_folder ** FindNext(); 
 	vssd_folder *FindForFirst(std::wstring &Folder);//搜索本目录下文件
 	vssd_folder *Find(sjh::tool_path * apath,int pathPos);//搜索本目录下包括子目录文件
@@ -38,10 +39,11 @@ public:
 	void SetContent(wchar_t Byte); 
 	void SetContentString(std::wstring str);
 	void PrintContent();  
+	 
 	
-	//序列化相关
-	int  Serialize(std::vector<wchar_t>& Byte);
-	void deSerialize(std::vector<wchar_t>& ByteVssd, int Pos); 
+	void ShowOffSub(sjh::vssd_disk & MyVssd, int pram, std::wstring now);
+
+	
 
 	//链接相关
 	void DeleteLinks();
@@ -57,7 +59,10 @@ public:
 	static const int IS_FILE = 0;
 	static const int IS_FOLDER = 1;
 	static const int IS_LINK = 2;
-	const std::wstring VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
-	unsigned int VssdTypeCode;
+	static const std::wstring VssdTypeName[3];
+
 	
+	virtual void Display();
+	virtual size_t Serialize(std::vector<wchar_t>& Byte);  
+	virtual  void DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos);
 };

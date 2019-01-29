@@ -133,7 +133,11 @@ std::wstring sjh::tool_path::FoldersToPath()
 	if (RealFolders.size() == 3) Path.append(L"\b");
 	return Path;
 }
-void sjh::tool_path::DeletOne()
+int sjh::tool_path::GetTypeCode()
+{
+	return TypeCode;
+}
+void sjh::tool_path::DeleteOne()
 {
 	Folders.pop_back();
 	RealFolders.pop_back();

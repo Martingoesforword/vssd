@@ -4,18 +4,18 @@
 class tool_path
 { 
 private:
-	int TypeCode;	 
+	int TypeCode = 1;	 
 public: 
 	 
 	std::vector<std::wstring> Folders;
 	std::vector<sjh::vssd_folder *> RealFolders;
 
 	tool_path();
-	void DeletOne();
+	void DeleteOne();
 	void AddOne(sjh::vssd_folder * folder);
 	void PathToFolders(std::wstring path); //路径字符串到路径对象
 	std::wstring FoldersToPath();
-	 
+	int GetTypeCode();
 	
 	void GetPath(std::wstring path, int TypeCode);
 	void SetRealpath(sjh::vssd_folder * apath,int Pos);

@@ -7,7 +7,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 {
 	 
 	
-	static tool_path Nowpath = MyVssd.GetNowTop()->NowPath;
+	static tool_path Nowpath = MyVssd.GetNooowPan()->NowPath;
 	std::wstring pathstring = PathCommand;
 	tools_vssd::Trim(pathstring);
 
@@ -35,7 +35,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 				return nullptr;
 			}
 			Nowpath.AddOne(longNowf);
-			while (longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
+			while (longNowf->GetTypeCode() == 2) longNowf = longNowf->SubFolders[0];
 			flag_tofirstif = 0;
 		}
 		else if (path.Folders.at(i) == L"..")
@@ -46,7 +46,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 			}
 			else
 			{
-				Nowpath.DeletOne();
+				Nowpath.DeleteOne();
 			}
 
 		}
@@ -65,7 +65,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 				return nullptr;
 			}
 			Nowpath.AddOne(longNowf);
-			if (longNowf->VssdTypeCode == 2 && i + 1 == path.Folders.size())
+			if (longNowf->GetTypeCode() == 2 && i + 1 == path.Folders.size())
 			{
 				aPath = Nowpath; return longNowf;
 			}
@@ -73,7 +73,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 
 
 
-			while (longNowf->VssdTypeCode == 2) longNowf = longNowf->SubFolders[0];
+			while (longNowf->GetTypeCode() == 2) longNowf = longNowf->SubFolders[0];
 		}
 
 	}
@@ -87,8 +87,8 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 
 void sjh::vssd_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
 {
-	sjh::vssd_pan* Top = MyVssd.FindTop(JumpTo);
-	MyVssd.SetNowTop(Top);
+	sjh::vssd_pan* Top = MyVssd.FindPanFromName(JumpTo);
+	MyVssd.SetNooowPan(Top);
 }
 
 bool sjh::vssd_vcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchString)
@@ -162,10 +162,10 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	//cdÃüÁî½âÎö
 	else if (v_match(CmdCommand, L"cd"))
 	{   
-		sjh::vssd_pan *Pan = MyVssd.GetNowTop(); 
+		sjh::vssd_pan *Pan = MyVssd.GetNooowPan(); 
 		if (v_match(rear, L"/") || v_match(rear, L"\\"))
 		{
-			while (Pan->NowPath.Folders.size() > 2) Pan->NowPath.DeletOne();
+			while (Pan->NowPath.Folders.size() > 2) Pan->NowPath.DeleteOne();
 		}
 		else
 		{

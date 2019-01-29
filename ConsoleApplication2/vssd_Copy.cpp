@@ -9,19 +9,33 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		if (!folder)
 		{
 			a.PathToFolders(rearDes);
+			a.DeleteOne();
 			if (a.Folders[0].size() > 1 && a.Folders[0].at(1) != L':')
 			{
-				MyVssd.GetNowTop()->GetNowPos()->Build(MyVssd, a);
+				MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, a);
 			}
 			else
 			{
 				MyVssd.GetGenius()->Build(MyVssd, a);
-			}
-			folder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a);
+			} 
+			folder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a); 
+
+			sjh::vssd_folder *newFile = new sjh::vssd_folder(L"", vssd_folder::IS_FILE);
+			folder->LinkNewFolder(newFile);
+			folder = newFile;
 		}
+		else {
+			if (folder->GetTypeCode() == sjh::vssd_folder::IS_FILE) {
+				//处理文件是否覆盖或是...但最终要产生folder指针
+			}
+			else if (folder->GetTypeCode() == sjh::vssd_folder::IS_FOLDER) {
+				//处理文件夹      但最终要产生folder指针
+			}
+			else if (folder->GetTypeCode() == sjh::vssd_folder::IS_LINK) {
 
-		folder->VssdTypeCode = 0;
-
+			}
+		}
+		 
 		std::wstring RealSrc = rearSrc.substr(1, rearSrc.length() - 1); 
 
 		char ch;
@@ -82,7 +96,7 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2)
 		{
 			a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
-			disfolder->VssdFolderLink(Srcfolder);
+			disfolder->LinkNewFolder(Srcfolder);
 		}
 		else
 		{

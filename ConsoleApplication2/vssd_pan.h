@@ -8,7 +8,7 @@ public:
 	sjh::vssd_folder* root;
 	
 	
-	sjh::vssd_folder* GetNowPos();
+	sjh::vssd_folder* GetNooowPos();
 	sjh::vssd_folder* FindForFirst(sjh::tool_path &apath);
 
 	void ShowNowPosForCmd();
@@ -18,4 +18,6 @@ public:
 
 	vssd_pan(sjh::vssd_folder* root, sjh::vssd_folder * Genius);
 	~vssd_pan();
+
+	virtual void Display();
 }; 

@@ -1,4 +1,7 @@
-#include "pch.h"   
+#include "pch.h"  
+
+const std::wstring sjh::vssd_folder::VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
+
 void sjh::vssd_folder::VssdFolderInit()
 {
 }
@@ -7,44 +10,47 @@ std::wstring sjh::vssd_folder::GetType()
 {
 	return VssdTypeName[VssdTypeCode];
 }
-
-sjh::vssd_folder::vssd_folder(std::wstring aName, int aCode)
+int sjh::vssd_folder::GetTypeCode()
 {
-	Name = aName;
+	return VssdTypeCode;
+}
+sjh::vssd_folder::vssd_folder(std::wstring aName, int aCode) :base_namedable(aName)
+{ 
 	VssdTypeCode = aCode;
 	VssdFolderInit();
 
 }
 
 
-void sjh::vssd_folder::VssdFolderLink(sjh::vssd_folder *LinktoSub)
+void sjh::vssd_folder::LinkNewFolder(sjh::vssd_folder *LinktoSub)
 {
 
 	SubFolders.push_back(LinktoSub);
 
 }
 
-std::wstring sjh::vssd_folder::GetName()
-{
-	return Name;
-}
+ 
 
-void sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &a)
-{
-
-	if (VssdTypeCode == IS_LINK)
+sjh::vssd_folder *sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &a)
+{ 
+	if (a.GetTypeCode == sjh::tool_path::IS_ABSOLUTE_PATH) 
+	{
+		//出错
+	}
+	else if (VssdTypeCode == IS_LINK)
 	{
 		SubFolders[0]->Build(MyVssd, a);
 		return;
 	}
 	sjh::vssd_folder *Now = this;
 	int flag = 0;
+	sjh::vssd_folder *f1;
 	for (size_t i = 0; i < a.Folders.size(); i++)
 	{
 		if (flag || !Now->FindForFirst(a.Folders[i]))
 		{
-			sjh::vssd_folder *f1 = new sjh::vssd_folder(a.Folders[i], 1);
-			Now->VssdFolderLink(f1);
+			f1 = new sjh::vssd_folder(a.Folders[i], 1);
+			Now->LinkNewFolder(f1);
 			Now = f1;
 			flag = 1;
 		}
@@ -59,13 +65,7 @@ void sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &a)
 
 }
 
-void sjh::vssd_folder::SetName(std::wstring &aName)
-{
-
-	Name = aName;
-}
-
-
+ 
 
 void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
 { 
@@ -88,10 +88,10 @@ void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring
 		{
 			if(VssdTypeCode == IS_FILE)
 			{
-				std::cout<< "2019/01/22"<<"  " << "20:26" << "    " << sjh::tools_vssd::WStringToString(SubFolders[p]->GetType()) << SubFolders[p]->Content.size() * sizeof(unsigned char) <<" "<< sjh::tools_vssd::WStringToString(SubFolders.at(p)->Name) << std::endl;
+				std::cout<< "2019/01/22"<<"  " << "20:26" << "    " << sjh::tools_vssd::WStringToString(SubFolders[p]->GetType()) << SubFolders[p]->Content.size() * sizeof(unsigned char) <<" "<< sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
 			}
 			else {
-				std::cout << "2019/01/22" << "  " << "20:26" << "    "  << std::setiosflags(std::ios::right) << "<"<<sjh::tools_vssd::WStringToString(SubFolders[p]->GetType())<<">" << std::setfill(' ') << std::setw(9)<<" " << sjh::tools_vssd::WStringToString(SubFolders.at(p)->Name) << std::endl;
+				std::cout << "2019/01/22" << "  " << "20:26" << "    "  << std::setiosflags(std::ios::right) << "<"<<sjh::tools_vssd::WStringToString(SubFolders[p]->GetType())<<">" << std::setfill(' ') << std::setw(9)<<" " << sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
 			}
 		}
 		else
@@ -104,7 +104,7 @@ void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring
 
 }
 
-void sjh::vssd_folder::DeletOne(sjh::vssd_folder * deletfolder)
+void sjh::vssd_folder::DeleteOne(sjh::vssd_folder * deletfolder)
 {
 	size_t j = 0;
 	for (size_t i = 0; i < SubFolders.size(); i++)
@@ -313,10 +313,10 @@ void sjh::vssd_folder::PrintContent()			//返回NULL 和 下一个字符
 	}
 }
 
-int sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
+size_t sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
 {
 	int Start = Bytes.size();
-	sjh::tools_vssd::PushString(Name, Bytes);
+	sjh::tools_vssd::PushString(GetName(), Bytes);
 	sjh::tools_vssd::PushLengthValue(VssdTypeCode, Bytes);
 	sjh::tools_vssd::PushWcharVector(Content, Bytes);
 	sjh::tools_vssd::PushLengthValue(SubFolders.size(), Bytes);
@@ -328,10 +328,10 @@ int sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
 	}
 	return Start;
 }
-void sjh::vssd_folder::deSerialize(std::vector<wchar_t>& ByteVssd, int Pos)
+ 
+void sjh::vssd_folder::DeSerialize(std::vector<wchar_t>& ByteVssd, int& Pos)
 {
-
-	Name = tools_vssd::GetString(ByteVssd, Pos);
+	SetName(tools_vssd::GetString(ByteVssd, Pos)); 
 	VssdTypeCode = tools_vssd::GetLengthValue(ByteVssd, Pos);
 	tools_vssd::GetWcharVector(Content, ByteVssd, Pos);
 	int SubSize = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos);
@@ -340,8 +340,8 @@ void sjh::vssd_folder::deSerialize(std::vector<wchar_t>& ByteVssd, int Pos)
 		for (int i = 0; i < SubSize; i++)
 		{
 			sjh::vssd_folder *sub = new sjh::vssd_folder(L"", IS_FOLDER);
-			VssdFolderLink(sub);
-			sub->deSerialize(ByteVssd, Pos);
+			LinkNewFolder(sub);
+			sub->DeSerialize(ByteVssd, Pos);
 		}
 	}
 
@@ -376,3 +376,10 @@ void sjh::vssd_folder::BackCheck()
 {
 	mycheck = true;
 }
+
+void sjh::vssd_folder::Display()
+{
+	std::wcout << L"<vssd_folder class>" << std::endl;
+	std::wcout << L"\tName = " << Name << std::endl;
+}
+ 

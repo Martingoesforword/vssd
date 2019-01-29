@@ -2,7 +2,7 @@
 //当下文件夹下cd
 void sjh::vssdCd::vCd(sjh::vssd_disk & MyVssd)
 { 
-	MyVssd.GetNowTop()->ShowNowPos();
+	MyVssd.GetNooowPan()->ShowNowPos();
 }
 void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 {
@@ -16,9 +16,9 @@ void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 		return;
 	}
 
-	if (folder && ((folder->VssdTypeCode != 2) || (folder->VssdTypeCode == 2 && folder->SubFolders[0])))
+	if (folder && ((folder->GetTypeCode() != 2) || (folder->GetTypeCode() == 2 && folder->SubFolders[0])))
 	{
-		MyVssd.GetNowTop()->NowPath = a;
+		MyVssd.GetNooowPan()->NowPath = a;
 	}
 	else
 	{

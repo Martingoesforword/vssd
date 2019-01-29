@@ -162,8 +162,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="base_info.h" />
+    <ClInclude Include="base_namedable.h" />
     <ClInclude Include="base_progress.h" />
+    <ClInclude Include="base_serializable.h" />
+    <ClInclude Include="base_displayable.h" />
     <ClInclude Include="vssdCat.h" />
     <ClInclude Include="vssdCd.h" />
     <ClInclude Include="vssdCls.h" />
@@ -186,8 +188,10 @@
     <ClInclude Include="tools_vssd.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="base_serializable.cpp" />
+    <ClCompile Include="base_displayable.cpp" />
     <ClCompile Include="ConsoleApplication2.cpp" />
-    <ClCompile Include="base_info.cpp" />
+    <ClCompile Include="base_namedable.cpp" />
     <ClCompile Include="base_progress.cpp" />
     <ClCompile Include="vssd_vcmd.cpp" />
     <ClCompile Include="vssd_Cat.cpp" />

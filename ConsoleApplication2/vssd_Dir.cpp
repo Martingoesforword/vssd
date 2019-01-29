@@ -1,9 +1,9 @@
 #include "pch.h" 
 void sjh::vssdDir::vDir(vssd_disk & MyVssd)
 {
-	sjh::vssd_folder *now = MyVssd.GetNowTop()->GetNowPos();
+	sjh::vssd_folder *now = MyVssd.GetNooowPan()->GetNooowPos();
 
-	while (now->VssdTypeCode == 2)
+	while (now->GetTypeCode() == 2)
 	{
 		if (now) now = now->SubFolders[0];
 		else
@@ -11,7 +11,7 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd)
 			return;
 		}
 	}
-	now->ShowOffSub(MyVssd,1, MyVssd.GetNowTop()->NowPath.FoldersToPath());
+	now->ShowOffSub(MyVssd,1, MyVssd.GetNooowPan()->NowPath.FoldersToPath());
 
 }
 void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)

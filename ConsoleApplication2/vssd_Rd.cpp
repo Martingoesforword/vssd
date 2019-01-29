@@ -19,7 +19,7 @@ void sjh::vssdRd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
 	}
 	if (folder && a.Folders.size() >= 3)
 	{
-		a.RealFolders.at(a.RealFolders.size() - 2)->DeletOne(folder);
+		a.RealFolders.at(a.RealFolders.size() - 2)->DeleteOne(folder);
 	}
 
 

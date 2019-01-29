@@ -6,7 +6,7 @@ void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Des)
 	sjh::vssd_folder * disfolder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Des, b);
 	if (disfolder)
 	{
-		disfolder->VssdFolderLink(MyVssd.GetNowTop()->GetNowPos());
+		disfolder->LinkNewFolder(MyVssd.GetNooowPan()->GetNooowPos());
 	}
 	else
 	{
@@ -39,7 +39,7 @@ void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring &
 	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2)
 	{
 		a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
-		disfolder->VssdFolderLink(Srcfolder);
+		disfolder->LinkNewFolder(Srcfolder);
 	}
 	else
 	{

@@ -1,9 +1,9 @@
 #include "pch.h" 
 void sjh::vssdLoad::vLoad(vssd_disk & MyVssd, std::wstring & GetFrom)
 {
-	 
-	MyVssd.Serial.clear();
-	MyVssd.GetFromRealfile(GetFrom);
-	
-	MyVssd.DeSerialize(MyVssd.Serial); 
+	std::vector<wchar_t> aSerial; 
+	MyVssd.GetFromRealfile(GetFrom, aSerial); 
+	int Pos = 0;
+	MyVssd.DeSerialize(aSerial, Pos);
+	aSerial.clear();
 }

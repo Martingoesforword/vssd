@@ -1,6 +1,6 @@
 #include "pch.h" 
 
-sjh::vssd_folder * sjh::vssd_pan::GetNowPos()
+sjh::vssd_folder * sjh::vssd_pan::GetNooowPos()
 {
 	return NowPath.GetNow();
 }
@@ -42,7 +42,7 @@ sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 //根据目前目录位置和相对路径查找
 sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)
 {
-	sjh::vssd_folder * Nowfolder = GetNowPos();
+	sjh::vssd_folder * Nowfolder = GetNooowPos();
 	for (size_t i = 0; i < apath.Folders.size(); i++)
 	{
 		Nowfolder = Nowfolder->FindForFirst(apath.Folders[i]);
@@ -59,5 +59,9 @@ sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)
 
 
 sjh::vssd_pan::~vssd_pan()
+{
+}
+
+void sjh::vssd_pan::Display()
 {
 }
