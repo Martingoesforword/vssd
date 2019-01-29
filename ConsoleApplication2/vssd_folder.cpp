@@ -63,6 +63,9 @@ sjh::vssd_folder *sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_pat
 		}
 		return Now;
 	}
+	else {
+		return nullptr;
+	}
 	
 
 }
@@ -125,7 +128,7 @@ void sjh::vssd_folder::DeleteOneSub(sjh::vssd_folder * deletfolder)
 			}
 		}
 
-		if (SubFolders.at(j)->GetName().compare(deletfolder->GetName()) == 0)
+		if (SubFolders.at(j)->GetName().compare(deletfolder->GetName()) == IS_SAMESTRING)
 		{
 			SubFolders.at(j)->DeleteWholeTree();
 			SubFolders.at(j)->~vssd_folder();
@@ -160,7 +163,7 @@ void sjh::vssd_folder::OffOneSub(sjh::vssd_folder * deletfolder)
 			}
 		}
 
-		if (SubFolders.at(j)->GetName().compare(deletfolder->GetName()) == 0)
+		if (SubFolders.at(j)->GetName().compare(deletfolder->GetName()) == IS_SAMESTRING)
 		{
 			std::vector<sjh::vssd_folder*>::iterator it = SubFolders.begin();
 			SubFolders.erase(it + j);
@@ -205,7 +208,7 @@ void sjh::vssd_folder::DeleteWholeTree()
 
  
 
-sjh::vssd_folder * sjh::vssd_folder::FindForFirst(std::wstring & folder)
+sjh::vssd_folder * sjh::vssd_folder::FindForFirst(std::wstring folder)
 {
 	size_t j = 0;
 	for (size_t i = 0; i < SubFolders.size(); i++)
@@ -290,7 +293,7 @@ void sjh::vssd_folder::PrintContent()			//返回NULL 和 下一个字符
 	}
 }
 
-size_t sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
+int sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
 {
 	int Start = Bytes.size();
 	sjh::tools_vssd::PushString(GetName(), Bytes);

@@ -11,7 +11,7 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd)
 			return;
 		}
 	}
-	now->ShowOffSub(MyVssd,1, MyVssd.GetNooowPan()->NowPath.FoldersToPath());
+	now->ShowOffSub(MyVssd,1, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
 
 }
 void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
@@ -34,7 +34,7 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 		}
 		else
 		{
-			Folder->ShowOffSub(MyVssd,1, a.FoldersToPath());
+			Folder->ShowOffSub(MyVssd,1, a.GetPathWstring());
 		}
 
 

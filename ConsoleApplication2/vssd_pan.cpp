@@ -1,40 +1,59 @@
 #include "pch.h" 
 
+sjh::vssd_folder * sjh::vssd_pan::GetRoot()
+{
+	return root;
+}
+
+sjh::tool_path & sjh::vssd_pan::GetNowPath()
+{
+	return NowPath;
+}
+
 sjh::vssd_folder * sjh::vssd_pan::GetNooowPos()
 {
 	return NowPath.GetNow();
 }
 
-void sjh::vssd_pan::ShowNowPosForCmd()
-{
-	 
-	for (size_t i = 0; i < NowPath.Folders.size(); i++)
-	{
-		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << "\\";
-	} 
-	if (NowPath.Folders.size() == 1) {
-		std::cout << ">";
-	}
-	else {
-		std::cout << "\b>";
-	}
+void sjh::vssd_pan::ShowNowPathForCmd()
+{ 
+	PrintNowPath(); 
+	std::cout << ">"; 
 	
-}
-void sjh::vssd_pan::ShowNowPos()
+} 
+void sjh::vssd_pan::PrintNowPath()
 {
- 
-	for (size_t i = 0; i < NowPath.Folders.size(); i++)
+	if (NowPath.Folders.size() == 1) 
 	{
-		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName());
+		std::wcout << NowPath.Folders.at(0)   << "\\";
 	}
-	if(NowPath.Folders.size() == 2) std::cout<< "\\\n" << std::endl;
-	else std::cout << "\n\n" << std::endl;
+	else 
+	{
+		size_t i = 0;
+		for (i = 0; i < NowPath.Folders.size()-1; i++)
+		{
+			std::wcout << NowPath.Folders.at(i) << "\\";
+		} 
+		std::wcout <<  NowPath.Folders.at(i);
+	} 
+		
 }
+int sjh::vssd_pan::Serialize(std::vector<wchar_t>& Byte_Toptable)
+{
+	int Start = Byte_Toptable.size();
+	sjh::tools_vssd::PushString(root->GetName(), Byte_Toptable);
+	NowPath.Serialize(Byte_Toptable); 
+	return Start;
+}
+void sjh::vssd_pan::DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos)
+{
+	std::wstring panName = sjh::tools_vssd::GetString(ByteVssd,Pos);
+	NowPath.DeSerialize(ByteVssd,Pos);
+} 
 sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 {
-	root = aroot;
-	NowPath.GetPath(L"C:\\", sjh::tool_path::IS_ABSOLUTE_PATH); 
-	NowPath.SetRealpath(aroot, sjh::tool_path::IS_ABSOLUTE_PATH); 
+	root = aroot; 
+	NowPath.AddOneSub(aroot); 
 }
 
  

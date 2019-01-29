@@ -108,6 +108,9 @@
     <ClInclude Include="base_contentable.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
+    <ClInclude Include="vssd_structure.h">
+      <Filter>头文件\vssd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="base_contentable.cpp">
       <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_structure.cpp">
+      <Filter>源文件\vssd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -57,7 +57,7 @@ sjh::vssd_pan * sjh::vssd_disk::FindPanFromName(std::wstring & aName)
 {
 	for (size_t i = 0; i < Pans.size(); i++)
 	{
-		if (aName.compare(Pans[i]->root->GetName()) == 0)
+		if (aName.compare(Pans[i]->GetRoot()->GetName()) == IS_SAMESTRING)
 		{
 			return Pans[i];
 		}
@@ -136,7 +136,7 @@ void sjh::vssd_disk::GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t> 
 }
  
 
-size_t sjh::vssd_disk::Serialize(std::vector<wchar_t> &ByteVssd)
+int sjh::vssd_disk::Serialize(std::vector<wchar_t> &ByteVssd)
 { 
 	
 	sjh::tools_vssd::PushString(GetName(), ByteVssd); 

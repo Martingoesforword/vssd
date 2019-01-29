@@ -2,7 +2,8 @@
 //当下文件夹下cd
 void sjh::vssdCd::vCd(sjh::vssd_disk & MyVssd)
 { 
-	MyVssd.GetNooowPan()->ShowNowPos();
+	MyVssd.GetNooowPan()->PrintNowPath();
+	std::wcout << "\n";
 }
 void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 {
@@ -18,7 +19,7 @@ void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 
 	if (folder && ((! folder->IsLink() ) || (folder->IsLink() && folder->SubFolders[0])))
 	{
-		MyVssd.GetNooowPan()->NowPath = a;
+		MyVssd.GetNooowPan()->GetNowPath() = a;
 	}
 	else
 	{

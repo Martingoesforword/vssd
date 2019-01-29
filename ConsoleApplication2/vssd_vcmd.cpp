@@ -7,12 +7,12 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 {
 	tools_vssd::Trim(PathCommand);
 
-	tool_path Nowpath = MyVssd.GetNooowPan()->NowPath;
+	tool_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
 	std::wstring pathstring = PathCommand;
 	
 
 	tool_path path;
-	path.WstringToFolders(pathstring); 
+	path.SetFoldersByWstring(pathstring); 
 	sjh::vssd_folder * longNowf = Nowpath.GetNow();
 
 	int flag_tofirstif = 1;
@@ -21,10 +21,8 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 		//说明是磁盘开头，则为绝对路径
 		if (flag_tofirstif && path.Folders[i].length() == 2 && path.Folders[i].at(1) == ':')
 		{
-			Nowpath.Folders.clear();
-			Nowpath.RealFolders.clear();
-			Nowpath.Folders.push_back(L"");
-			Nowpath.SetRealpath(MyVssd.GetGenius(), 0);
+			Nowpath.clear(); 
+			Nowpath.AddOneSub(MyVssd.GetGenius());
 
 			longNowf = Nowpath.GetNow()->FindForFirst(path.Folders[i]);
 
@@ -33,7 +31,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 			{
 				return nullptr;
 			}
-			Nowpath.AddOne(longNowf);
+			Nowpath.AddOneSub(longNowf);
 			while (longNowf->IsLink()) longNowf = longNowf->SubFolders[0];
 			flag_tofirstif = 0;
 		}
@@ -63,7 +61,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 
 				return nullptr;
 			}
-			Nowpath.AddOne(longNowf);
+			Nowpath.AddOneSub(longNowf);
 			if (longNowf->IsLink() && i + 1 == path.Folders.size())
 			{
 				aPath = Nowpath; return longNowf;
@@ -86,12 +84,13 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 void sjh::vssd_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
 {
 	sjh::vssd_pan* Top = MyVssd.FindPanFromName(JumpTo);
-	MyVssd.SetNooowPan(Top);
+	if(Top) MyVssd.SetNooowPan(Top);
 }
 
 bool sjh::vssd_vcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchString)
 {
-	if (CmdCommand.length() >= MatchString.size() && CmdCommand.substr(0, MatchString.size()).compare(MatchString) == 0)
+	if (CmdCommand.length() >= MatchString.size() &&
+		CmdCommand.substr(0, MatchString.size()).compare(MatchString) == IS_SAMESTRING)
 	{
 		return true;
 	}
@@ -100,12 +99,7 @@ bool sjh::vssd_vcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchStrin
 		return false;
 	}
 }
-std::wstring sjh::vssd_vcmd::v_getrear_trim(std::wstring & CmdCommand, std::wstring  Command)
-{
-	std::wstring rear = CmdCommand.substr(Command.size(), CmdCommand.size() - Command.size());
-	tools_vssd::Trim(rear);
-	return rear;
-}
+ 
 
 void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 {
@@ -163,7 +157,7 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 		sjh::vssd_pan *Pan = MyVssd.GetNooowPan(); 
 		if (v_match(rear, L"/") || v_match(rear, L"\\"))
 		{
-			while (Pan->NowPath.Folders.size() > 2) Pan->NowPath.DeleteOneSub();
+			while (Pan->GetNowPath().Folders.size() > 2) Pan->GetNowPath().DeleteOneSub();
 		}
 		else
 		{

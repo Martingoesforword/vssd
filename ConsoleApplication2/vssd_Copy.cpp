@@ -8,7 +8,7 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		sjh::vssd_folder *folder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a);
 		if (nullptr == folder)
 		{
-			a.WstringToFolders(rearDes); 
+			a.SetFoldersByWstring(rearDes); 
 			if (a.IsAbsolutePath())
 			{
 				folder = MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, a, vssd_folder::IS_FILE);

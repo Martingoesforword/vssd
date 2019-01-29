@@ -8,7 +8,7 @@ sjh::vssd_folder * sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand
 	
 	if (nullptr == folder)
 	{
-		Path.WstringToFolders(mdCommand);
+		Path.SetFoldersByWstring(mdCommand);
 		if (Path.IsRelativePath())
 		{
 			return MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, Path, vssd_folder::IS_FOLDER);
@@ -21,6 +21,7 @@ sjh::vssd_folder * sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand
 	else
 	{
 		std::wcout << L"子目录或文件 "  << folder->GetName() << " 已经存在。"; 
+		return nullptr;
 	}
 
 }

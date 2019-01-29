@@ -22,8 +22,4 @@ sjh::base_namedable::~base_namedable()
 {
 }
 
-void sjh::base_namedable::Display()
-{
-	std::wcout << L"<base_info class>"<<std::endl;
-	std::wcout << L"\tName = " << Name << std::endl; 
-}
+ 

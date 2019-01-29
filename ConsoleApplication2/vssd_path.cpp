@@ -1,68 +1,63 @@
 
 #include "pch.h"    
 
+int sjh::tool_path::Serialize(std::vector<wchar_t>& Byte_Toptable)
+{
+	int Start = Byte_Toptable.size();
+	sjh::tools_vssd::PushLengthValue(PathTypeCode, Byte_Toptable);
+	sjh::tools_vssd::PushLengthValue(Folders.size(), Byte_Toptable);
+	for (size_t i = 0; i < Folders.size(); i++)
+	{
+		sjh::tools_vssd::PushString(Folders[i], Byte_Toptable);
+	}
+	return Start;
+}
+
+void sjh::tool_path::DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos)
+{ 
+	Folders.clear();
+	RealFolders.clear();
+	PathTypeCode = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos); 
+	int FoldersSize = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos);
+	for (size_t i = 0; i < FoldersSize; i++)
+	{
+		Folders.push_back(sjh::tools_vssd::GetString(ByteVssd, Pos));
+	}
+}
+
 sjh::tool_path::tool_path()
 {
 	PathTypeCode = sjh::tool_path::IS_ABSOLUTE_PATH;
 }
 
-void sjh::tool_path::GetPath(std::wstring apath, int aType)
-{
-	PathTypeCode = aType;
-	WstringToFolders(apath);
-}
-void sjh::tool_path::SetRealpath(vssd_folder *apath, int Pos)
-{
-
-	RealFolders.push_back(apath);
-}
-void sjh::tool_path::TestPrint()
-{
-	for (size_t i = 0; i < Folders.size(); i++)
-	{
-		std::cout << sjh::tools_vssd::WStringToString(Folders.at(i)) << std::endl;
-	}
-}
-
-bool sjh::tool_path::include(sjh::tool_path & path1)
-{
-	for (size_t i = 0; i < path1.Folders.size(); i++)
-	{
-		if (path1.Folders.at(i) == Folders[i]) continue;
-		else
-		{
-			if (path1.Folders.size() == Folders.size())
-			{
-				return 0;
-			}
-		}
-	}
-	return 0;
-}
-
-sjh::vssd_folder * sjh::tool_path::GetNowFather()
-{
-	return RealFolders.at(RealFolders.size() - 2);
-}
+ 
+ 
+ 
 
 sjh::vssd_folder * sjh::tool_path::GetNow()
 {
 	return RealFolders.at(RealFolders.size() - 1);
 }
 
-
-void sjh::tool_path::WstringToFolders(std::wstring path)
+void sjh::tool_path::clear()
 {
-	tools_vssd::Trim(path);
+	Folders.clear();
+	RealFolders.clear();
+}
+
+
+void sjh::tool_path::SetFoldersByWstring(std::wstring pathString)
+{
+	tools_vssd::Trim(pathString);
 	size_t Pos = 0;
 	size_t beForePos = 0;
 	std::wstring Nowstring; 
 
 	while ( Pos != std::wstring::npos )
 	{
-		if ((Pos = path.find('\\', beForePos)) != std::wstring::npos && beForePos <= Pos - 1)
+		if ((Pos = pathString.find('\\', beForePos)) != std::wstring::npos && beForePos <= Pos - 1)
 		{ 
-				Nowstring = path.substr(beForePos, Pos - beForePos);
+				Nowstring = pathString.substr(beForePos, Pos - beForePos);
 
 				if (Nowstring != L"." && Nowstring != L"..")
 				{
@@ -80,12 +75,12 @@ void sjh::tool_path::WstringToFolders(std::wstring path)
 				} 
 				 
 		}
-		else if ((Pos = path.find('/', beForePos)) != std::wstring::npos)
+		else if ((Pos = pathString.find('/', beForePos)) != std::wstring::npos)
 		{
 			if (Pos != 0 && beForePos <= Pos - 1)
 			{
 				//找到beForePos+1到Pos-1的字符串放入Folders数组里，并更改记录
-				Nowstring = path.substr(beForePos, Pos - beForePos);
+				Nowstring = pathString.substr(beForePos, Pos - beForePos);
 
 				if (Nowstring != L"." && Nowstring != L"..")
 				{
@@ -101,9 +96,9 @@ void sjh::tool_path::WstringToFolders(std::wstring path)
 		if (Pos != std::wstring::npos)
 			beForePos = Pos + 1;
 	}
-	if (beForePos <= path.length() - 1)
+	if (beForePos <= pathString.length() - 1)
 	{
-		Nowstring = path.substr(beForePos, path.length() - beForePos);
+		Nowstring = pathString.substr(beForePos, pathString.length() - beForePos);
 		tools_vssd::Trim(Nowstring);
 		if (Nowstring != L"." && Nowstring != L"..")
 		{
@@ -123,7 +118,7 @@ void sjh::tool_path::WstringToFolders(std::wstring path)
 	if (Folders[0].size() && Folders[0].at(1) == ':') PathTypeCode = IS_ABSOLUTE_PATH;
 	else PathTypeCode = IS_RELATIVE_PATH;
 }
-std::wstring sjh::tool_path::FoldersToPath()
+std::wstring sjh::tool_path::GetPathWstring()
 {
 	std::wstring Path;
 	for (size_t i = 0; i < RealFolders.size(); i++)
@@ -139,11 +134,17 @@ int sjh::tool_path::GetTypeCode()
 }
 void sjh::tool_path::DeleteOneSub()
 {
-	Folders.pop_back();
-	RealFolders.pop_back();
-
+	if (IsAbsolutePath() && Folders.size() < 2)
+	{ 
+		return;
+	}
+	else 
+	{
+		Folders.pop_back();
+		RealFolders.pop_back();
+	} 
 }
-void sjh::tool_path::AddOne(vssd_folder *folder)
+void sjh::tool_path::AddOneSub(vssd_folder *folder)
 {
 	Folders.push_back(folder->GetName());
 	RealFolders.push_back(folder);
