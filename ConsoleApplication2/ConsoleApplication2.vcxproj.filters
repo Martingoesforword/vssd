@@ -105,6 +105,9 @@
     <ClInclude Include="base_namedable.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
+    <ClInclude Include="base_contentable.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -177,6 +180,9 @@
       <Filter>源文件\base</Filter>
     </ClCompile>
     <ClCompile Include="base_displayable.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="base_contentable.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
   </ItemGroup>

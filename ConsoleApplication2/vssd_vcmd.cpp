@@ -3,17 +3,16 @@
 //当下文件夹下dir
 
 
-sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring & PathCommand, tool_path &aPath)
+sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring  PathCommand, tool_path &aPath)
 {
-	 
-	
-	static tool_path Nowpath = MyVssd.GetNooowPan()->NowPath;
+	tools_vssd::Trim(PathCommand);
+
+	tool_path Nowpath = MyVssd.GetNooowPan()->NowPath;
 	std::wstring pathstring = PathCommand;
-	tools_vssd::Trim(pathstring);
+	
 
 	tool_path path;
-	path.PathToFolders(pathstring);
-	//path，pathstring
+	path.WstringToFolders(pathstring); 
 	sjh::vssd_folder * longNowf = Nowpath.GetNow();
 
 	int flag_tofirstif = 1;
@@ -35,7 +34,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 				return nullptr;
 			}
 			Nowpath.AddOne(longNowf);
-			while (longNowf->GetTypeCode() == 2) longNowf = longNowf->SubFolders[0];
+			while (longNowf->IsLink()) longNowf = longNowf->SubFolders[0];
 			flag_tofirstif = 0;
 		}
 		else if (path.Folders.at(i) == L"..")
@@ -46,7 +45,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 			}
 			else
 			{
-				Nowpath.DeleteOne();
+				Nowpath.DeleteOneSub();
 			}
 
 		}
@@ -65,7 +64,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 				return nullptr;
 			}
 			Nowpath.AddOne(longNowf);
-			if (longNowf->GetTypeCode() == 2 && i + 1 == path.Folders.size())
+			if (longNowf->IsLink() && i + 1 == path.Folders.size())
 			{
 				aPath = Nowpath; return longNowf;
 			}
@@ -73,13 +72,12 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 
 
 
-			while (longNowf->GetTypeCode() == 2) longNowf = longNowf->SubFolders[0];
+			while (longNowf->IsLink()) longNowf = longNowf->SubFolders[0];
 		}
 
 	}
 
-	aPath = Nowpath;
-	if (longNowf) longNowf->SetCheck();
+	aPath = Nowpath; 
 	return longNowf;
 
 
@@ -165,7 +163,7 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 		sjh::vssd_pan *Pan = MyVssd.GetNooowPan(); 
 		if (v_match(rear, L"/") || v_match(rear, L"\\"))
 		{
-			while (Pan->NowPath.Folders.size() > 2) Pan->NowPath.DeleteOne();
+			while (Pan->NowPath.Folders.size() > 2) Pan->NowPath.DeleteOneSub();
 		}
 		else
 		{
@@ -240,7 +238,7 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 	//创建文件夹命令解析
 	else if (v_match(CmdCommand, L"mkdir"))
 	{  
-		sjh::vssdMd::vMd(MyVssd, rear); 
+		sjh::vssdMd::vMd(MyVssd, rear);
 	}
 	//查看文件内容命令解析
 	else if (v_match(CmdCommand, L"cat"))

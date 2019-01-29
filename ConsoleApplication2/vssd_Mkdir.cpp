@@ -1,25 +1,26 @@
 #include "pch.h" 
 sjh::vssd_folder * sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
 {
-	tool_path a; 
-	sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, mdCommand, a); 
 	tools_vssd::Trim(mdCommand);
-	if (!folder)
+
+	tool_path Path; 
+	vssd_folder * folder = vssd_vcmd::v_FindPathForFirst(MyVssd, mdCommand, Path);
+	
+	if (nullptr == folder)
 	{
-		a.PathToFolders(mdCommand);
-		if (a.Folders[0].length() > 1 && a.Folders[0].at(1) != ':')
+		Path.WstringToFolders(mdCommand);
+		if (Path.IsRelativePath())
 		{
-			return MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, a);
+			return MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, Path, vssd_folder::IS_FOLDER);
 		}
 		else
 		{
-			return MyVssd.GetGenius()->Build(MyVssd, a);
-		} 
-
+			return MyVssd.GetGenius()->Build(MyVssd, Path, vssd_folder::IS_FOLDER);
+		}  
 	}
 	else
 	{
-		return nullptr;
+		std::wcout << L"子目录或文件 "  << folder->GetName() << " 已经存在。"; 
 	}
 
 }

@@ -3,13 +3,13 @@
 
 sjh::tool_path::tool_path()
 {
-	TypeCode = sjh::tool_path::IS_ABSOLUTE_PATH;
+	PathTypeCode = sjh::tool_path::IS_ABSOLUTE_PATH;
 }
 
 void sjh::tool_path::GetPath(std::wstring apath, int aType)
 {
-	TypeCode = aType;
-	PathToFolders(apath);
+	PathTypeCode = aType;
+	WstringToFolders(apath);
 }
 void sjh::tool_path::SetRealpath(vssd_folder *apath, int Pos)
 {
@@ -26,7 +26,7 @@ void sjh::tool_path::TestPrint()
 
 bool sjh::tool_path::include(sjh::tool_path & path1)
 {
-	for (size_t i = 1; i < path1.Folders.size(); i++)
+	for (size_t i = 0; i < path1.Folders.size(); i++)
 	{
 		if (path1.Folders.at(i) == Folders[i]) continue;
 		else
@@ -51,13 +51,14 @@ sjh::vssd_folder * sjh::tool_path::GetNow()
 }
 
 
-void sjh::tool_path::PathToFolders(std::wstring path)
+void sjh::tool_path::WstringToFolders(std::wstring path)
 {
 	tools_vssd::Trim(path);
 	size_t Pos = 0;
 	size_t beForePos = 0;
-	std::wstring Nowstring;
-	while (Folders.size() <= Folders.max_size() && Pos != std::wstring::npos)
+	std::wstring Nowstring; 
+
+	while ( Pos != std::wstring::npos )
 	{
 		if ((Pos = path.find('\\', beForePos)) != std::wstring::npos && beForePos <= Pos - 1)
 		{ 
@@ -118,15 +119,14 @@ void sjh::tool_path::PathToFolders(std::wstring path)
 			Folders.push_back(L"..");
 		}
 
-	}
-
-
-
+	} 
+	if (Folders[0].size() && Folders[0].at(1) == ':') PathTypeCode = IS_ABSOLUTE_PATH;
+	else PathTypeCode = IS_RELATIVE_PATH;
 }
 std::wstring sjh::tool_path::FoldersToPath()
 {
 	std::wstring Path;
-	for (size_t i = 1; i < RealFolders.size(); i++)
+	for (size_t i = 0; i < RealFolders.size(); i++)
 	{ 
 		Path.append(RealFolders[i]->GetName() + L"\\");
 	}
@@ -135,9 +135,9 @@ std::wstring sjh::tool_path::FoldersToPath()
 }
 int sjh::tool_path::GetTypeCode()
 {
-	return TypeCode;
+	return PathTypeCode;
 }
-void sjh::tool_path::DeleteOne()
+void sjh::tool_path::DeleteOneSub()
 {
 	Folders.pop_back();
 	RealFolders.pop_back();

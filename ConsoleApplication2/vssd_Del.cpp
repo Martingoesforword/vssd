@@ -9,7 +9,7 @@ void sjh::vssdDel::vDel(vssd_disk & MyVssd, std::wstring & DelCommand)
 		sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
 		if (folder && a.Folders.size() >= 3)
 		{
-			a.RealFolders.at(a.RealFolders.size() - 2)->DeleteOne(folder);
+			a.RealFolders.at(a.RealFolders.size() - 2)->DeleteOneSub(folder);
 		}
 		else
 		{

@@ -6,23 +6,20 @@ void sjh::vssd_folder::VssdFolderInit()
 {
 }
 
-std::wstring sjh::vssd_folder::GetType()
+std::wstring sjh::vssd_folder::GetTypeName()
 {
-	return VssdTypeName[VssdTypeCode];
+	return VssdTypeName[FolderTypeCode];
 }
-int sjh::vssd_folder::GetTypeCode()
-{
-	return VssdTypeCode;
-}
+ 
 sjh::vssd_folder::vssd_folder(std::wstring aName, int aCode) :base_namedable(aName)
 { 
-	VssdTypeCode = aCode;
+	FolderTypeCode = aCode;
 	VssdFolderInit();
 
 }
 
 
-void sjh::vssd_folder::LinkNewFolder(sjh::vssd_folder *LinktoSub)
+void sjh::vssd_folder::AddOneSub(sjh::vssd_folder *LinktoSub)
 {
 
 	SubFolders.push_back(LinktoSub);
@@ -31,37 +28,42 @@ void sjh::vssd_folder::LinkNewFolder(sjh::vssd_folder *LinktoSub)
 
  
 
-sjh::vssd_folder *sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &a)
+sjh::vssd_folder *sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &aPath,int aType)
 { 
-	if (a.GetTypeCode == sjh::tool_path::IS_ABSOLUTE_PATH) 
+	if (aPath.IsAbsolutePath()) 
 	{
-		//³ö´í
+		return MyVssd.GetGenius()->Build(MyVssd, aPath,aType);
 	}
-	else if (VssdTypeCode == IS_LINK)
-	{
-		SubFolders[0]->Build(MyVssd, a);
-		return;
+	else if (IsLink())
+	{ 
+		return SubFolders[0]->Build(MyVssd, aPath,aType);
 	}
-	sjh::vssd_folder *Now = this;
-	int flag = 0;
-	sjh::vssd_folder *f1;
-	for (size_t i = 0; i < a.Folders.size(); i++)
+	else if (IsFolder()) 
 	{
-		if (flag || !Now->FindForFirst(a.Folders[i]))
-		{
-			f1 = new sjh::vssd_folder(a.Folders[i], 1);
-			Now->LinkNewFolder(f1);
-			Now = f1;
-			flag = 1;
-		}
-		else
-		{
-			Now = Now->FindForFirst(a.Folders[i]);
-			while (Now->VssdTypeCode == IS_LINK) Now = Now->SubFolders[0];
-		}
+		sjh::vssd_folder *Now = this;
+		bool CheckedFlag = true;  
 
-
+		for (size_t i = 0; i < aPath.Folders.size(); i++)
+		{
+			if(CheckedFlag && (Now = Now->FindForFirst(aPath.Folders[i])))
+			{  
+				while (Now->IsLink())
+				{
+					Now = Now->SubFolders[0];
+				}
+				CheckedFlag = false;
+			}
+			else 
+			{
+				sjh::vssd_folder *f1 = new sjh::vssd_folder(aPath.Folders[i], aType);
+				Now->AddOneSub(f1);
+				Now = f1; 
+			}
+			
+		}
+		return Now;
 	}
+	
 
 }
 
@@ -74,8 +76,8 @@ void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring
 	
 	int p = 0;
 	std::cout <<"\n "<< sjh::tools_vssd::WStringToString(now) << " µÄÄ¿Â¼\n" << std::endl;
-	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right) << "<" << sjh::tools_vssd::WStringToString(SubFolders[p]->GetType()) << ">" << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << "." << std::endl;
-	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right) << "<" << sjh::tools_vssd::WStringToString(SubFolders[p]->GetType()) << ">" << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << ".." << std::endl;
+	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right) << "<" << sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << ">" << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << "." << std::endl;
+	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right) << "<" << sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << ">" << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << ".." << std::endl;
 
 
 	for (size_t i = 0; i < SubFolders.size(); i++)
@@ -86,12 +88,12 @@ void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring
 
 		if (SubFolders.at(p) != NULL)
 		{
-			if(VssdTypeCode == IS_FILE)
+			if(FolderTypeCode == IS_FILE)
 			{
-				std::cout<< "2019/01/22"<<"  " << "20:26" << "    " << sjh::tools_vssd::WStringToString(SubFolders[p]->GetType()) << SubFolders[p]->Content.size() * sizeof(unsigned char) <<" "<< sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
+				std::cout<< "2019/01/22"<<"  " << "20:26" << "    " << sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << SubFolders[p]->GetContent().size() * sizeof(unsigned char) <<" "<< sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
 			}
 			else {
-				std::cout << "2019/01/22" << "  " << "20:26" << "    "  << std::setiosflags(std::ios::right) << "<"<<sjh::tools_vssd::WStringToString(SubFolders[p]->GetType())<<">" << std::setfill(' ') << std::setw(9)<<" " << sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
+				std::cout << "2019/01/22" << "  " << "20:26" << "    "  << std::setiosflags(std::ios::right) << "<"<<sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName())<<">" << std::setfill(' ') << std::setw(9)<<" " << sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
 			}
 		}
 		else
@@ -104,7 +106,7 @@ void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring
 
 }
 
-void sjh::vssd_folder::DeleteOne(sjh::vssd_folder * deletfolder)
+void sjh::vssd_folder::DeleteOneSub(sjh::vssd_folder * deletfolder)
 {
 	size_t j = 0;
 	for (size_t i = 0; i < SubFolders.size(); i++)
@@ -125,7 +127,7 @@ void sjh::vssd_folder::DeleteOne(sjh::vssd_folder * deletfolder)
 
 		if (SubFolders.at(j)->GetName().compare(deletfolder->GetName()) == 0)
 		{
-			SubFolders.at(j)->DeleteEvery();
+			SubFolders.at(j)->DeleteWholeTree();
 			SubFolders.at(j)->~vssd_folder();
 			std::vector<sjh::vssd_folder *>::iterator it = SubFolders.begin();
 
@@ -140,7 +142,7 @@ void sjh::vssd_folder::DeleteOne(sjh::vssd_folder * deletfolder)
 	}
 }
 
-void sjh::vssd_folder::OffOne(sjh::vssd_folder * deletfolder)
+void sjh::vssd_folder::OffOneSub(sjh::vssd_folder * deletfolder)
 {
 	size_t j = 0;
 	for (size_t i = 0; i < SubFolders.size(); i++)
@@ -172,7 +174,7 @@ void sjh::vssd_folder::OffOne(sjh::vssd_folder * deletfolder)
 	}
 }
 
-void sjh::vssd_folder::DeleteEvery()
+void sjh::vssd_folder::DeleteWholeTree()
 {
 	size_t j = 0;
 	for (size_t i = 0; i < SubFolders.size(); i++)
@@ -186,7 +188,7 @@ void sjh::vssd_folder::DeleteEvery()
 			}
 			else
 			{
-				SubFolders.at(j)->DeleteEvery();
+				SubFolders.at(j)->DeleteWholeTree();
 				SubFolders.at(j)->~vssd_folder();
 				break;
 			}
@@ -201,27 +203,7 @@ void sjh::vssd_folder::DeleteEvery()
 
 
 
-sjh::vssd_folder ** sjh::vssd_folder::FindNext()
-{
-	if (SubFolders.size() < SubFolders.max_size())
-	{
-		for (size_t i = 0; i < SubFolders.max_size(); i++)
-		{
-			if (SubFolders.at(i) == nullptr)
-			{
-				return &SubFolders.at(i);
-			}
-
-		}
-		return nullptr;
-	}
-	else
-	{
-		return nullptr;
-	}
-
-
-}
+ 
 
 sjh::vssd_folder * sjh::vssd_folder::FindForFirst(std::wstring & folder)
 {
@@ -232,7 +214,7 @@ sjh::vssd_folder * sjh::vssd_folder::FindForFirst(std::wstring & folder)
 		if (SubFolders.at(j) != NULL)
 		{
 
-			if (SubFolders.at(j)->GetCheck() && sjh::tools_vssd::WStringMatch(SubFolders.at(j)->GetName(), folder) != 0)
+			if (sjh::tools_vssd::WStringMatch(SubFolders.at(j)->GetName(), folder) != 0)
 			{
 
 				return SubFolders.at(j);
@@ -251,7 +233,9 @@ sjh::vssd_folder * sjh::vssd_folder::FindForFirst(std::wstring & folder)
 	return nullptr;
 }
 
-sjh::vssd_folder * sjh::vssd_folder::Find(tool_path * apath, int pathPos)
+ 
+
+sjh::vssd_folder * sjh::vssd_folder::FindTree(tool_path * apath, int pathPos)
 {
 
 	sjh::vssd_folder* reserchout;
@@ -261,19 +245,12 @@ sjh::vssd_folder * sjh::vssd_folder::Find(tool_path * apath, int pathPos)
 
 }
 
-bool sjh::vssd_folder::isFile()
+ 
+void sjh::vssd_folder::AddContent(wchar_t Byte)		//×·¼Ó×Ö·û
 {
-	if (!VssdTypeCode) return true;
-	else return false;
-
-
-}
-
-void sjh::vssd_folder::SetContent(wchar_t Byte)		//×·¼Ó×Ö·û
-{
-	if (isFile())
+	if (IsFile())
 	{
-		Content.push_back(Byte);
+		GetContent().push_back(Byte);
 	}
 	else
 	{
@@ -282,12 +259,12 @@ void sjh::vssd_folder::SetContent(wchar_t Byte)		//×·¼Ó×Ö·û
 }
 void sjh::vssd_folder::SetContentString(std::wstring str)		//×·¼Ó×Ö·û
 {
-	if (isFile())
+	if (IsFile())
 	{
 		for (size_t i = 0; i < str.length(); i++)
 		{
-			Content.push_back(*((unsigned char*)&str[i] + 0));
-			Content.push_back(*((unsigned char*)&str[i] + 1));
+			GetContent().push_back(*((unsigned char*)&str[i] + 0));
+			GetContent().push_back(*((unsigned char*)&str[i] + 1));
 		}
 
 	}
@@ -299,11 +276,11 @@ void sjh::vssd_folder::SetContentString(std::wstring str)		//×·¼Ó×Ö·û
 void sjh::vssd_folder::PrintContent()			//·µ»ØNULL ºÍ ÏÂÒ»¸ö×Ö·û
 {
 	static int index = -1;
-	if (isFile())
+	if (IsFile())
 	{
-		for (size_t i = 0; i < Content.size(); i++)
+		for (size_t i = 0; i < GetContent().size(); i++)
 		{
-			std::cout << Content[i];
+			std::cout << GetContent()[i];
 		}
 		std::cout << std::endl;
 	}
@@ -317,10 +294,10 @@ size_t sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
 {
 	int Start = Bytes.size();
 	sjh::tools_vssd::PushString(GetName(), Bytes);
-	sjh::tools_vssd::PushLengthValue(VssdTypeCode, Bytes);
-	sjh::tools_vssd::PushWcharVector(Content, Bytes);
+	sjh::tools_vssd::PushLengthValue(FolderTypeCode, Bytes);
+	sjh::tools_vssd::PushWcharVector(GetContent(), Bytes);
 	sjh::tools_vssd::PushLengthValue(SubFolders.size(), Bytes);
-	if (VssdTypeCode == IS_FOLDER) {
+	if (FolderTypeCode == IS_FOLDER) {
 		for (size_t i = 0; i < SubFolders.size(); i++)
 		{
 			SubFolders.at(i)->Serialize(Bytes);
@@ -332,51 +309,26 @@ size_t sjh::vssd_folder::Serialize(std::vector<wchar_t>& Bytes)
 void sjh::vssd_folder::DeSerialize(std::vector<wchar_t>& ByteVssd, int& Pos)
 {
 	SetName(tools_vssd::GetString(ByteVssd, Pos)); 
-	VssdTypeCode = tools_vssd::GetLengthValue(ByteVssd, Pos);
-	tools_vssd::GetWcharVector(Content, ByteVssd, Pos);
+	FolderTypeCode = tools_vssd::GetLengthValue(ByteVssd, Pos);
+	tools_vssd::GetWcharVector(GetContent(), ByteVssd, Pos);
 	int SubSize = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos);
 
-	if (VssdTypeCode == IS_FOLDER) {
+	if (FolderTypeCode == IS_FOLDER) {
 		for (int i = 0; i < SubSize; i++)
 		{
 			sjh::vssd_folder *sub = new sjh::vssd_folder(L"", IS_FOLDER);
-			LinkNewFolder(sub);
+			AddOneSub(sub);
 			sub->DeSerialize(ByteVssd, Pos);
 		}
 	}
 
 
-}
-void sjh::vssd_folder::DeleteLinks()
-{
-	for (size_t i = 0; i < LinkFolders.size(); i++)
-	{
-		LinkFolders[i]->SubFolders[0] = nullptr;
-	}
-}
-void sjh::vssd_folder::AddLink(sjh::vssd_folder * link)
-{
-	LinkFolders.push_back(link);
-}
+} 
+ 
 sjh::vssd_folder::~vssd_folder()
 {
 }
-
-void sjh::vssd_folder::SetCheck()
-{
-	mycheck = false;
-}
-
-bool sjh::vssd_folder::GetCheck()
-{
-	return mycheck;
-}
-
-void sjh::vssd_folder::BackCheck()
-{
-	mycheck = true;
-}
-
+ 
 void sjh::vssd_folder::Display()
 {
 	std::wcout << L"<vssd_folder class>" << std::endl;

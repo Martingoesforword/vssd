@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="base_contentable.h" />
     <ClInclude Include="base_namedable.h" />
     <ClInclude Include="base_progress.h" />
     <ClInclude Include="base_serializable.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="tools_vssd.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="base_contentable.cpp" />
     <ClCompile Include="base_serializable.cpp" />
     <ClCompile Include="base_displayable.cpp" />
     <ClCompile Include="ConsoleApplication2.cpp" />

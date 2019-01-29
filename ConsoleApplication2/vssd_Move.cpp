@@ -6,7 +6,7 @@ void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Des)
 	sjh::vssd_folder * disfolder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Des, b);
 	if (disfolder)
 	{
-		disfolder->LinkNewFolder(MyVssd.GetNooowPan()->GetNooowPos());
+		disfolder->AddOneSub(MyVssd.GetNooowPan()->GetNooowPos());
 	}
 	else
 	{
@@ -30,7 +30,7 @@ void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring &
 	{
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return;
 	}
-	if (Srcfolder->isFile())
+	if (Srcfolder->IsFile())
 	{
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
 		vssdCopy::vCopy(MyVssd, Src, Des);
@@ -38,8 +38,8 @@ void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring &
 	}
 	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2)
 	{
-		a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
-		disfolder->LinkNewFolder(Srcfolder);
+		a.RealFolders.at(a.RealFolders.size() - 2)->OffOneSub(Srcfolder);
+		disfolder->AddOneSub(Srcfolder);
 	}
 	else
 	{

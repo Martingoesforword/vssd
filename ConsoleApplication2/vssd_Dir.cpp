@@ -3,7 +3,7 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd)
 {
 	sjh::vssd_folder *now = MyVssd.GetNooowPan()->GetNooowPos();
 
-	while (now->GetTypeCode() == 2)
+	while (now->IsLink())
 	{
 		if (now) now = now->SubFolders[0];
 		else
@@ -27,7 +27,7 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 		{
 			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl; continue;
 		}
-		if (Folder->isFile())
+		if (Folder->IsFile())
 		{
 			std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 			return;

@@ -9,9 +9,8 @@ void sjh::vssdRd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
 	if (!folder)
 	{
 		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return;
-	}
-	folder->DeleteLinks();
-	if (folder->isFile())
+	} 
+	if (folder->IsFile())
 	{
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
 		vssdDel::vDel(MyVssd, RdCommand);
@@ -19,7 +18,7 @@ void sjh::vssdRd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
 	}
 	if (folder && a.Folders.size() >= 3)
 	{
-		a.RealFolders.at(a.RealFolders.size() - 2)->DeleteOne(folder);
+		a.RealFolders.at(a.RealFolders.size() - 2)->DeleteOneSub(folder);
 	}
 
 

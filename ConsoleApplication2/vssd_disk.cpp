@@ -42,13 +42,13 @@ sjh::vssd_disk* sjh::vssd_disk::CreatVssd()
 	sjh::vssd_folder *c_pan = new sjh::vssd_folder(L"C:", sjh::vssd_folder::IS_FOLDER);
 	 
 	sjh::vssd_folder *folder = new sjh::vssd_folder(L"sjh", sjh::vssd_folder::IS_FOLDER);
-	c_pan->LinkNewFolder(folder);
+	c_pan->AddOneSub(folder);
 	sjh::vssd_pan *MyTopcpan = new sjh::vssd_pan(c_pan, Genius);//¼ÓÔØ¸ùÄ¿Â¼
 	sjh::vssd_disk *MyVssd = new sjh::vssd_disk(MyTopcpan, Genius, L"firstVssd");
 
-	MyVssd->AddNewPan(MyTopcpan);
-	  
-	Genius->LinkNewFolder(c_pan);
+	MyVssd->AddNewPan(MyTopcpan); 
+
+	Genius->AddOneSub(c_pan);
 	return MyVssd;
 }
 

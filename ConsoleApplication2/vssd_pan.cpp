@@ -8,7 +8,7 @@ sjh::vssd_folder * sjh::vssd_pan::GetNooowPos()
 void sjh::vssd_pan::ShowNowPosForCmd()
 {
 	 
-	for (size_t i = 1; i < NowPath.Folders.size(); i++)
+	for (size_t i = 0; i < NowPath.Folders.size(); i++)
 	{
 		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName()) << "\\";
 	} 
@@ -23,7 +23,7 @@ void sjh::vssd_pan::ShowNowPosForCmd()
 void sjh::vssd_pan::ShowNowPos()
 {
  
-	for (size_t i = 1; i < NowPath.Folders.size(); i++)
+	for (size_t i = 0; i < NowPath.Folders.size(); i++)
 	{
 		std::cout << sjh::tools_vssd::WStringToString(NowPath.RealFolders.at(i)->GetName());
 	}
@@ -33,8 +33,7 @@ void sjh::vssd_pan::ShowNowPos()
 sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
 {
 	root = aroot;
-	NowPath.GetPath(L" \\c:\\", sjh::tool_path::IS_ABSOLUTE_PATH);
-	NowPath.SetRealpath(aGenius, sjh::tool_path::IS_RELATIVE_PATH);
+	NowPath.GetPath(L"C:\\", sjh::tool_path::IS_ABSOLUTE_PATH); 
 	NowPath.SetRealpath(aroot, sjh::tool_path::IS_ABSOLUTE_PATH); 
 }
 

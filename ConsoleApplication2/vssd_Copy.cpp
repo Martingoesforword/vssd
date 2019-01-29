@@ -6,32 +6,26 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 
 		sjh::tool_path a;
 		sjh::vssd_folder *folder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a);
-		if (!folder)
+		if (nullptr == folder)
 		{
-			a.PathToFolders(rearDes);
-			a.DeleteOne();
-			if (a.Folders[0].size() > 1 && a.Folders[0].at(1) != L':')
+			a.WstringToFolders(rearDes); 
+			if (a.IsAbsolutePath())
 			{
-				MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, a);
+				folder = MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, a, vssd_folder::IS_FILE);
 			}
 			else
 			{
-				MyVssd.GetGenius()->Build(MyVssd, a);
-			} 
-			folder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a); 
-
-			sjh::vssd_folder *newFile = new sjh::vssd_folder(L"", vssd_folder::IS_FILE);
-			folder->LinkNewFolder(newFile);
-			folder = newFile;
+				folder = MyVssd.GetGenius()->Build(MyVssd, a, vssd_folder::IS_FILE);
+			}    
 		}
 		else {
-			if (folder->GetTypeCode() == sjh::vssd_folder::IS_FILE) {
+			if (folder->IsFile()) {
 				//处理文件是否覆盖或是...但最终要产生folder指针
 			}
-			else if (folder->GetTypeCode() == sjh::vssd_folder::IS_FOLDER) {
+			else if (folder->IsFolder()) {
 				//处理文件夹      但最终要产生folder指针
 			}
-			else if (folder->GetTypeCode() == sjh::vssd_folder::IS_LINK) {
+			else if (folder->IsLink()) {
 
 			}
 		}
@@ -51,7 +45,7 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		{
 			ch = ' ';
 			RealFile.read(&ch, 1);
-			folder->Content.push_back(ch); 
+			folder->GetContent().push_back(ch);
 		}
 		RealFile.close();
 		//读并放入vector<std::wstring>
@@ -95,8 +89,8 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		sjh::vssd_folder	* disfolder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, b);
 		if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2)
 		{
-			a.RealFolders.at(a.RealFolders.size() - 2)->OffOne(Srcfolder);
-			disfolder->LinkNewFolder(Srcfolder);
+			a.RealFolders.at(a.RealFolders.size() - 2)->OffOneSub(Srcfolder);
+			disfolder->AddOneSub(Srcfolder);
 		}
 		else
 		{

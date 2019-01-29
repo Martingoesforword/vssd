@@ -1,5 +1,5 @@
 #pragma once 
-class vssd_disk:public sjh::base_namedable,sjh::base_serializable
+class vssd_disk:public sjh::base_namedable, public  sjh::base_displayable, public sjh::base_serializable
 {
 private: 
 	sjh::vssd_pan *NowPan; 
@@ -19,8 +19,7 @@ public:
 	void AddNewPan(sjh::vssd_pan *aNowTop); 
 	sjh::vssd_folder *GetGenius();  
 	sjh::vssd_pan *FindPanFromName(std::wstring &aName);
-	 
-
+	  
 
 	void PutToRealFile(std::wstring JumpTo, std::vector<wchar_t> aSerial);
 	void GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t> aSerial);

@@ -9,14 +9,14 @@ void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 	if (!CdCommand.size()) { vCd(MyVssd); return; }
 	tool_path a;
 	sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
-	if (folder) folder->BackCheck();
-	if (folder && folder->isFile())
+	 
+	if (folder && folder->IsFile())
 	{
 		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
 		return;
 	}
 
-	if (folder && ((folder->GetTypeCode() != 2) || (folder->GetTypeCode() == 2 && folder->SubFolders[0])))
+	if (folder && ((! folder->IsLink() ) || (folder->IsLink() && folder->SubFolders[0])))
 	{
 		MyVssd.GetNooowPan()->NowPath = a;
 	}
