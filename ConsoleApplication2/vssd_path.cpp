@@ -128,7 +128,7 @@ std::wstring sjh::tool_path::FoldersToPath()
 	std::wstring Path;
 	for (size_t i = 1; i < RealFolders.size(); i++)
 	{ 
-		Path.append(RealFolders[i]->Name + L"\\");
+		Path.append(RealFolders[i]->GetName() + L"\\");
 	}
 	if (RealFolders.size() == 3) Path.append(L"\b");
 	return Path;

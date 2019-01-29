@@ -1,16 +1,15 @@
 #pragma once 
 
 
-class vssd_folder  
+class vssd_folder
 {
-private:
-	
-	bool mycheck = true;
-
+private: 
+	bool mycheck = true; 
+	std::wstring Name;
 public: 
-	std::wstring Name; 
-	std::vector<vssd_folder *>SubFolders;   
-	std::vector<vssd_folder *>LinkFolders;
+	
+	std::vector<vssd_folder *>SubFolders; 
+	std::vector<vssd_folder *>LinkFolders; 
 	 
 	virtual std::wstring GetType();
 	
@@ -18,6 +17,7 @@ public:
 	std::wstring GetName();
 
 	//初始化加显示相关
+
 	vssd_folder(std::wstring Name, int Code);
 	void VssdFolderInit();      
 	void ShowOffSub(sjh::vssd_disk & MyVssd, int pram, std::wstring now);

@@ -70,7 +70,7 @@ public:
 
 		std::wstring ws;
 		 
-		for (int i = 0; i < LengthValue; i++)
+		for (size_t i = 0; i < LengthValue; i++)
 		{
 			ws.push_back(ByteVssd[Pos++]); 
 		} 

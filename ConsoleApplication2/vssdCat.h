@@ -1,7 +1,7 @@
 #include "pch.h" 
 
-class vssdCat 
+class vssdCat:public sjh::base_progress
 {
-public:
+public: 
 	static void vCat(sjh::vssd_disk & MyVssd, std::wstring & Rear);
 };

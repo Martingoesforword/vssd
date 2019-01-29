@@ -162,6 +162,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="base_info.h" />
+    <ClInclude Include="base_progress.h" />
     <ClInclude Include="vssdCat.h" />
     <ClInclude Include="vssdCd.h" />
     <ClInclude Include="vssdCls.h" />
@@ -185,6 +187,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication2.cpp" />
+    <ClCompile Include="base_info.cpp" />
+    <ClCompile Include="base_progress.cpp" />
     <ClCompile Include="vssd_vcmd.cpp" />
     <ClCompile Include="vssd_Cat.cpp" />
     <ClCompile Include="vssd_Cd.cpp" />

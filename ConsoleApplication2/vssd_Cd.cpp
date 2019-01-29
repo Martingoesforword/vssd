@@ -1,8 +1,7 @@
 #include "pch.h" 
 //当下文件夹下cd
 void sjh::vssdCd::vCd(sjh::vssd_disk & MyVssd)
-{
-
+{ 
 	MyVssd.GetNowTop()->ShowNowPos();
 }
 void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
