@@ -1,12 +1,11 @@
 #pragma once 
 
 
-class vssd_folder :public sjh::base_namedable, public  sjh::base_displayable, public sjh::base_serializable, public sjh::base_contentable
+class vssd_folder :public sjh::base_namedable, public  sjh::base_displayable, public sjh::base_serializable, public sjh::base_contentable,public sjh::base_timeable
 {
 private:  
-	std::time_t CreateTime;
 	unsigned int FolderTypeCode;
-	std::vector<vssd_folder *> SubFolders;
+	std::vector<vssd_folder *> SubFolders; 
 
 public: 
 	virtual void Display();

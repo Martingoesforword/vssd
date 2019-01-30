@@ -1,5 +1,5 @@
 #pragma once 
-class vssd_disk:public sjh::base_namedable, public sjh::base_displayable, public sjh::base_serializable
+class vssd_disk:public sjh::base_namedable, public sjh::base_displayable, public sjh::base_serializable,public sjh::base_timeable
 {
 private: 
 	sjh::vssd_pan *NowPan; 

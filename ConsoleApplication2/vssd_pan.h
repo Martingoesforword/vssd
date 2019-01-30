@@ -1,5 +1,5 @@
 #pragma once 
-class vssd_pan :public sjh::base_serializable
+class vssd_pan :public sjh::base_serializable, public sjh::base_timeable
 {
 private:
 	sjh::tool_path NowPath;
