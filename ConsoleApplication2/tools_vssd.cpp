@@ -136,7 +136,7 @@ void sjh::tools_vssd::GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t>
 		unsigned int Bytelength = 0;
 		int pos = 0;
 		Bytelength = tools_vssd::GetLengthValue(aSerial, pos);
-		aSerial.Clear();
+		aSerial.clear();
 
 		for (size_t i = 0; i < Bytelength; i++)
 		{
@@ -154,8 +154,15 @@ void sjh::tools_vssd::GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t>
 	//按照文档上的格式读取二进制
 }
 
-
-
+std::wstring sjh::tools_vssd::GetTimeString(time_t tm)
+{
+	std::tm *ltm = new std::tm();
+	localtime_s(ltm,&tm);
+	std::wstringstream oss;
+	oss << ltm->tm_year+1900 <<"/"<< ltm->tm_mon+1<<"/"<<ltm->tm_mday<<"  "<<ltm->tm_hour<<":"<<ltm->tm_min;
+	return oss.str();
+}
+  
 
 std::string sjh::tools_vssd::WStringToString(const std::wstring &wstrSrc)
 {

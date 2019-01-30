@@ -5,5 +5,5 @@ void sjh::vssdSave::vSave(vssd_disk & MyVssd, std::wstring & JumpTo)
 	MyVssd.Serialize(Serial);
 
 	tools_vssd::PushToRealFile(JumpTo, Serial);
-	Serial.Clear();
+	Serial.clear();
 }

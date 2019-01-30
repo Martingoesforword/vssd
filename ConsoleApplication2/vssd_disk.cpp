@@ -87,7 +87,7 @@ void sjh::vssd_disk::DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos)
 	GeniusNow->DeSerialize(ByteVssd, Pos);
 
 
-	Pans.Clear();
+	Pans.clear();
 	for (size_t i = 0; i < GeniusNow->GetSubFolders().size(); i++)
 	{
 		sjh::vssd_pan *pan = new sjh::vssd_pan(GeniusNow->GetSubFolders()[i], GeniusNow);

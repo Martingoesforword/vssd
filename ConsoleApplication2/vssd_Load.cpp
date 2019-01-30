@@ -5,5 +5,5 @@ void sjh::vssdLoad::vLoad(vssd_disk & MyVssd, std::wstring & GetFrom)
 	tools_vssd::GetFromRealfile(GetFrom, aSerial); 
 	int Pos = 0;
 	MyVssd.DeSerialize(aSerial, Pos);
-	aSerial.Clear();
+	aSerial.clear();
 }

@@ -10,8 +10,8 @@ std::wstring sjh::vssd_folder::GetTypeName()
  
 sjh::vssd_folder::vssd_folder(std::wstring aName, int aCode) :base_namedable(aName)
 { 
-	FolderTypeCode = aCode; 
-
+	CreateTime = std::time(0);
+	FolderTypeCode = aCode;  
 }
 
 
@@ -72,15 +72,15 @@ sjh::vssd_folder *sjh::vssd_folder::BuildPath(sjh::vssd_disk & MyVssd, sjh::tool
 
 void sjh::vssd_folder::PrintAllSub(sjh::vssd_disk& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
 { 
-	std::wcout << " 驱动器 C 中的卷是 " << MyVssd.GetName() << "。\n 卷的序列号是 ";
+	using namespace sjh;
+	//std::cout << " 驱动器 C 中的卷是 " << tools_vssd::WStringToString(MyVssd.GetName()) << "。\n 卷的序列号是 ";
 	std::cout << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(&MyVssd) / 0x10000 << " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(&MyVssd) % 0x10000 << "\n";
 	
 	int p = 0;
 	 
-	std::cout <<"\n "<< sjh::tools_vssd::WStringToString(now) << " 的目录\n" << std::endl;
-	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right)  << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << "." << std::endl;
-	std::cout << "2019/01/22" << "  " << "20:26" << "    " << std::setiosflags(std::ios::right)  << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << ".." << std::endl;
-
+	std::cout << "\n "<< tools_vssd::WStringToString(now) << " 的目录\n" << std::endl;
+	std::cout << tools_vssd::WStringToString(tools_vssd::GetTimeString(CreateTime) )<< "    " << std::setiosflags(std::ios::right)  << std::setfill(' ') << std::setw(10) << " " << std::setiosflags(std::ios::left) << "." << std::endl;
+	 
 
 	for (size_t i = 0; i < SubFolders.size(); i++)
 	{
@@ -92,10 +92,10 @@ void sjh::vssd_folder::PrintAllSub(sjh::vssd_disk& MyVssd, int pram, std::wstrin
 		{
 			if(FolderTypeCode == IS_FILE)
 			{
-				std::cout<< "2019/01/22"<<"  " << "20:26" << "    " << sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << SubFolders[p]->GetContent().size() * sizeof(unsigned char) <<" "<< sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
+				std::cout<< tools_vssd::WStringToString(tools_vssd::GetTimeString(SubFolders.at(p)->CreateTime)) << "    " << tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << SubFolders[p]->GetContent().size() * sizeof(unsigned char) << " "<< tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
 			}
 			else {
-				std::cout << "2019/01/22" << "  " << "20:26" << "    "  << std::setiosflags(std::ios::right) << "<"<<sjh::tools_vssd::WStringToString(SubFolders[p]->GetTypeName())<<">" << std::setfill(' ') << std::setw(9)<<" " << sjh::tools_vssd::WStringToString(SubFolders.at(p)->GetName()) << std::endl;
+				std::cout << tools_vssd::WStringToString(tools_vssd::GetTimeString(SubFolders.at(p)->CreateTime)) << "    "  << std::setiosflags(std::ios::right) << "<"<< tools_vssd::WStringToString(SubFolders[p]->GetTypeName()) << ">" << std::setfill(' ') << std::setw(9)<< " " << tools_vssd::WStringToString(SubFolders.at(p)->GetName() )<< std::endl;
 			}
 		}
 		else

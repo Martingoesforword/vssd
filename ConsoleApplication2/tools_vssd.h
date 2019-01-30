@@ -17,5 +17,6 @@ public :
 	static void				GetWcharVector(std::vector<wchar_t> &WcharVector, std::vector<wchar_t> &ByteVssd, int &Pos);
 	static unsigned int		GetLengthValue(const std::vector<wchar_t>& ByteVssd, int &Pos);
 	static void				GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t> aSerial);
+	static std::wstring		GetTimeString(time_t tm);
 
 };

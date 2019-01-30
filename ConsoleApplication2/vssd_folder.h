@@ -4,25 +4,26 @@
 class vssd_folder :public sjh::base_namedable, public  sjh::base_displayable, public sjh::base_serializable, public sjh::base_contentable
 {
 private:  
+	std::time_t CreateTime;
 	unsigned int FolderTypeCode;
 	std::vector<vssd_folder *> SubFolders;
 
 public: 
 	virtual void Display();
-	virtual int  Serialize(std::vector<wchar_t>& Byte);
-	virtual void DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos);
+	virtual int  Serialize(std::vector<wchar_t>& aByte);
+	virtual void DeSerialize(std::vector<wchar_t>& aByteVssd, int & aPos);
 	 
-	vssd_folder(std::wstring Name, int Code); 
+	vssd_folder(std::wstring aName, int aCode); 
 	~vssd_folder(); 
 	
 	//ÐÞ¸ÄÏà¹Ø 
-	void AddContent(wchar_t Byte);
-	void AddOneSub(vssd_folder * LinkToSub); 
-	void UnloadOneSub(vssd_folder * OffFolder); 
-	void SetContentString(std::wstring str); 
+	void AddContent(wchar_t aByte);
+	void AddOneSub(vssd_folder * aLinkToSub); 
+	void UnloadOneSub(vssd_folder * aOffFolder); 
+	void SetContentString(std::wstring aStr); 
 	void DeleteWholeTree();
-	void DeleteOneSub(vssd_folder *DeletFolder);
-	sjh::vssd_folder* BuildPath(sjh::vssd_disk & MyVssd, sjh::tool_path & Path, int Type);
+	void DeleteOneSub(vssd_folder *aDeletFolder);
+	sjh::vssd_folder* BuildPath(sjh::vssd_disk & aMyVssd, sjh::tool_path & aPath, int aType);
 
 
 	

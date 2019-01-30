@@ -15,8 +15,8 @@ int sjh::tool_path::Serialize(std::vector<wchar_t>& Byte_Toptable)
 
 void sjh::tool_path::DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos)
 { 
-	Folders.Clear();
-	RealFolders.Clear();
+	Folders.clear();
+	RealFolders.clear();
 	PathTypeCode = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos); 
 	int FoldersSize = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos);
 	for (size_t i = 0; i < FoldersSize; i++)
@@ -41,8 +41,8 @@ sjh::vssd_folder * sjh::tool_path::GetNow()
 
 void sjh::tool_path::Clear()
 {
-	Folders.Clear();
-	RealFolders.Clear();
+	Folders.clear();
+	RealFolders.clear();
 }
 
 
