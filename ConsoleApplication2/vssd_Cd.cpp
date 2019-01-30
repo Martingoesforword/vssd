@@ -17,7 +17,7 @@ void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 		return;
 	}
 
-	if (folder && ((! folder->IsLink() ) || (folder->IsLink() && folder->SubFolders[0])))
+	if (folder && ((! folder->IsLink() ) || (folder->IsLink() && folder->GetSubFolders()[0])))
 	{
 		MyVssd.GetNooowPan()->GetNowPath() = a;
 	}

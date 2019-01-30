@@ -15,7 +15,7 @@ sjh::vssd_folder * sjh::vssd_pan::GetNooowPos()
 	return NowPath.GetNow();
 }
 
-void sjh::vssd_pan::ShowNowPathForCmd()
+void sjh::vssd_pan::PrintNowPathForCmd()
 { 
 	PrintNowPath(); 
 	std::cout << ">"; 

@@ -35,7 +35,7 @@ sjh::vssd_disk::vssd_disk(sjh::vssd_pan * Now, sjh::vssd_folder * aGenius, std::
 	Genius = aGenius;
 }
 
-sjh::vssd_disk* sjh::vssd_disk::CreatVssd()
+sjh::vssd_disk* sjh::vssd_disk::CreateVssd()
 {
 
 	sjh::vssd_folder *Genius = new sjh::vssd_folder(L"", sjh::vssd_folder::IS_FOLDER);
@@ -67,73 +67,7 @@ sjh::vssd_pan * sjh::vssd_disk::FindPanFromName(std::wstring & aName)
 }
 
  
-void sjh::vssd_disk::PutToRealFile(std::wstring JumpTo, std::vector<wchar_t> aSerial)
-{
 
-	unsigned int FileLength = aSerial.size(); 
-	std::ofstream Vssdfile(JumpTo, std::ios::binary);
-	if (Vssdfile.is_open())
-	{ 
-		Vssdfile.write(((const char*)&FileLength) + 3, 1);
-		Vssdfile.write(((const char*)&FileLength) + 2, 1);
-		Vssdfile.write(((const char*)&FileLength) + 1, 1);
-		Vssdfile.write((const char*)&FileLength, 1);  
-		int pos = 0; 
-		Vssdfile.write((const char*)&aSerial[0], aSerial.size() * 2);
-		Vssdfile.close(); 
-	}
-	else
-	{
-		std::cout << "Error opening file";
-	}
-	//按照文档上的格式保存二进制
-
-
-}
-
-void sjh::vssd_disk::GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t> aSerial)
-{
-	std::ifstream Vssdfile(GetFrom, std::ios::binary);
-	if (!Vssdfile.is_open())
-	{
-		std::cout << "Error opening file"; exit(1);
-	}
-	else
-	{
-		char chp = ' ';
-		char chq = ' ';
-		wchar_t ch;
-
-		Vssdfile.read(&chp, 1);
-		Vssdfile.read(&chq, 1);
-
-		ch = chp * 256 * 256 + chq;
-		Vssdfile.read(&chp, 1);
-		Vssdfile.read(&chq, 1);
-		aSerial.push_back(ch);
-		ch = chp * 256 * 256 + chq;
-		aSerial.push_back(ch);
-
-		unsigned int Bytelength = 0;
-		int pos = 0;
-		Bytelength = tools_vssd::GetLengthValue(aSerial, pos);
-		aSerial.clear();
-
-		for (size_t i = 0; i < Bytelength; i++)
-		{
-			Vssdfile.read(&chp, 1);
-			Vssdfile.read(&chq, 1);
-
-			wchar_t ch = chp + chq * 256 * 256;
-			aSerial.push_back(ch);
-		}
-
-		Vssdfile.close();
-
-
-	}
-	//按照文档上的格式读取二进制
-}
  
 
 int sjh::vssd_disk::Serialize(std::vector<wchar_t> &ByteVssd)
@@ -153,10 +87,10 @@ void sjh::vssd_disk::DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos)
 	GeniusNow->DeSerialize(ByteVssd, Pos);
 
 
-	Pans.clear();
-	for (size_t i = 0; i < GeniusNow->SubFolders.size(); i++)
+	Pans.Clear();
+	for (size_t i = 0; i < GeniusNow->GetSubFolders().size(); i++)
 	{
-		sjh::vssd_pan *pan = new sjh::vssd_pan(GeniusNow->SubFolders[i], GeniusNow);
+		sjh::vssd_pan *pan = new sjh::vssd_pan(GeniusNow->GetSubFolders()[i], GeniusNow);
 		Pans.push_back(pan);
 	}
 

@@ -2,7 +2,7 @@
 void sjh::vssdDel::vDel(vssd_disk & MyVssd, std::wstring & DelCommand)
 {
 	std::vector<std::wstring> Dirs;
-	sjh::tools_vssd::split(DelCommand, Dirs, L" ");
+	sjh::tools_vssd::Split(DelCommand, Dirs, L" ");
 	for (size_t i = 0; i < Dirs.size(); i++)
 	{
 		tool_path a;

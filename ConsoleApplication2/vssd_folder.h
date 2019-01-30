@@ -5,37 +5,36 @@ class vssd_folder :public sjh::base_namedable, public  sjh::base_displayable, pu
 {
 private:  
 	unsigned int FolderTypeCode;
+	std::vector<vssd_folder *> SubFolders;
 
 public: 
 	virtual void Display();
-	virtual int Serialize(std::vector<wchar_t>& Byte);
+	virtual int  Serialize(std::vector<wchar_t>& Byte);
 	virtual void DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos);
-
-	void VssdFolderInit();
+	 
 	vssd_folder(std::wstring Name, int Code); 
-	~vssd_folder();
-
-	std::vector<vssd_folder *>SubFolders;  
+	~vssd_folder(); 
 	
-	//修改方法
-	std::wstring GetTypeName(); 
-	void AddOneSub(vssd_folder * LinkToSub);  
-	void DeleteOneSub(vssd_folder *DeletFolder);
-	void OffOneSub(vssd_folder * OffFolder);
-	void DeleteWholeTree();
-	 
-	
-	//寻找建立相关
-	sjh::vssd_folder* Build(sjh::vssd_disk & MyVssd, sjh::tool_path & Path, int Type);
-	vssd_folder *FindForFirst(std::wstring Folder);//搜索本目录下文件
-	vssd_folder *FindTree(sjh::tool_path * apath,int pathPos);//搜索本目录下包括子目录文件
-		 
-
-	void AddContent(wchar_t Byte);  
-	void PrintContent(); 
+	//修改相关 
+	void AddContent(wchar_t Byte);
+	void AddOneSub(vssd_folder * LinkToSub); 
+	void UnloadOneSub(vssd_folder * OffFolder); 
 	void SetContentString(std::wstring str); 
-	void ShowOffSub(sjh::vssd_disk & MyVssd, int pram, std::wstring now);
+	void DeleteWholeTree();
+	void DeleteOneSub(vssd_folder *DeletFolder);
+	sjh::vssd_folder* BuildPath(sjh::vssd_disk & MyVssd, sjh::tool_path & Path, int Type);
+
+
+	
+	//获取相关  
+	std::wstring				GetTypeName();
+	std::vector<vssd_folder *>& GetSubFolders();
+	vssd_folder *				FindForFirst(std::wstring Folder);//搜索本目录下文件
+	vssd_folder *				FindTree(sjh::tool_path * apath, int pathPos);//搜索本目录下包括子目录文件 
+	void						PrintContent();
+	void						PrintAllSub(sjh::vssd_disk & MyVssd, int pram, std::wstring now);
 	 
+	
 	//检查相关 
 	bool IsFile() { return  FolderTypeCode == IS_FILE; }
 	bool IsFolder() { return  FolderTypeCode == IS_FOLDER; }

@@ -2,10 +2,7 @@
 
 const std::wstring sjh::vssd_folder::VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
 
-void sjh::vssd_folder::VssdFolderInit()
-{
-}
-
+ 
 std::wstring sjh::vssd_folder::GetTypeName()
 {
 	return VssdTypeName[FolderTypeCode];
@@ -13,8 +10,7 @@ std::wstring sjh::vssd_folder::GetTypeName()
  
 sjh::vssd_folder::vssd_folder(std::wstring aName, int aCode) :base_namedable(aName)
 { 
-	FolderTypeCode = aCode;
-	VssdFolderInit();
+	FolderTypeCode = aCode; 
 
 }
 
@@ -28,15 +24,15 @@ void sjh::vssd_folder::AddOneSub(sjh::vssd_folder *LinktoSub)
 
  
 
-sjh::vssd_folder *sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_path &aPath,int aType)
+sjh::vssd_folder *sjh::vssd_folder::BuildPath(sjh::vssd_disk & MyVssd, sjh::tool_path &aPath,int aType)
 { 
 	if (aPath.IsAbsolutePath()) 
 	{
-		return MyVssd.GetGenius()->Build(MyVssd, aPath,aType);
+		return MyVssd.GetGenius()->BuildPath(MyVssd, aPath,aType);
 	}
 	else if (IsLink())
 	{ 
-		return SubFolders[0]->Build(MyVssd, aPath,aType);
+		return SubFolders[0]->BuildPath(MyVssd, aPath,aType);
 	}
 	else if (IsFolder()) 
 	{
@@ -74,7 +70,7 @@ sjh::vssd_folder *sjh::vssd_folder::Build(sjh::vssd_disk & MyVssd, sjh::tool_pat
 
  
 
-void sjh::vssd_folder::ShowOffSub(sjh::vssd_disk& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
+void sjh::vssd_folder::PrintAllSub(sjh::vssd_disk& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
 { 
 	std::wcout << " 驱动器 C 中的卷是 " << MyVssd.GetName() << "。\n 卷的序列号是 ";
 	std::cout << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(&MyVssd) / 0x10000 << " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(&MyVssd) % 0x10000 << "\n";
@@ -148,7 +144,7 @@ void sjh::vssd_folder::DeleteOneSub(sjh::vssd_folder * deletfolder)
 	}
 }
 
-void sjh::vssd_folder::OffOneSub(sjh::vssd_folder * deletfolder)
+void sjh::vssd_folder::UnloadOneSub(sjh::vssd_folder * deletfolder)
 {
 	size_t j = 0;
 	for (size_t i = 0; i < SubFolders.size(); i++)
@@ -278,6 +274,10 @@ void sjh::vssd_folder::SetContentString(std::wstring str)		//追加字符
 	{
 		std::cout << "Can not write to or read From a folder or a Link" << std::endl;
 	}
+}
+std::vector<sjh::vssd_folder*>& sjh::vssd_folder::GetSubFolders()
+{
+	return SubFolders;
 }
 void sjh::vssd_folder::PrintContent()			//返回NULL 和 下一个字符
 {

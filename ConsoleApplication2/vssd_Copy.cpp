@@ -11,11 +11,11 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 			a.SetFoldersByWstring(rearDes); 
 			if (a.IsAbsolutePath())
 			{
-				folder = MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, a, vssd_folder::IS_FILE);
+				folder = MyVssd.GetNooowPan()->GetNooowPos()->BuildPath(MyVssd, a, vssd_folder::IS_FILE);
 			}
 			else
 			{
-				folder = MyVssd.GetGenius()->Build(MyVssd, a, vssd_folder::IS_FILE);
+				folder = MyVssd.GetGenius()->BuildPath(MyVssd, a, vssd_folder::IS_FILE);
 			}    
 		}
 		else {
@@ -89,7 +89,7 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		sjh::vssd_folder	* disfolder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, b);
 		if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2)
 		{
-			a.RealFolders.at(a.RealFolders.size() - 2)->OffOneSub(Srcfolder);
+			a.RealFolders.at(a.RealFolders.size() - 2)->UnloadOneSub(Srcfolder);
 			disfolder->AddOneSub(Srcfolder);
 		}
 		else

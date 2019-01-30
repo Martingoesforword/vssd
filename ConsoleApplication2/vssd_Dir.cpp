@@ -5,19 +5,19 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd)
 
 	while (now->IsLink())
 	{
-		if (now) now = now->SubFolders[0];
+		if (now) now = now->GetSubFolders()[0];
 		else
 		{
 			return;
 		}
 	}
-	now->ShowOffSub(MyVssd,1, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
+	now->PrintAllSub(MyVssd,1, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
 
 }
 void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 {
 	std::vector<std::wstring> Dirs;
-	sjh::tools_vssd::split(DirCommand, Dirs, L" ");
+	sjh::tools_vssd::Split(DirCommand, Dirs, L" ");
 	if (!Dirs.size()) vDir(MyVssd);
 	for (size_t i = 0; i < Dirs.size(); i++)
 	{
@@ -34,7 +34,7 @@ void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 		}
 		else
 		{
-			Folder->ShowOffSub(MyVssd,1, a.GetPathWstring());
+			Folder->PrintAllSub(MyVssd,1, a.GetPathWstring());
 		}
 
 

@@ -191,6 +191,9 @@
     <ClCompile Include="vssd_structure.cpp">
       <Filter>源文件\vssd</Filter>
     </ClCompile>
+    <ClCompile Include="tools_vssd.cpp">
+      <Filter>源文件\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="DAILY.txt">

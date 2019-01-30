@@ -196,6 +196,7 @@
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="base_namedable.cpp" />
     <ClCompile Include="base_progress.cpp" />
+    <ClCompile Include="tools_vssd.cpp" />
     <ClCompile Include="vssd_structure.cpp" />
     <ClCompile Include="vssd_vcmd.cpp" />
     <ClCompile Include="vssd_Cat.cpp" />

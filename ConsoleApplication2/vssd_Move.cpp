@@ -38,7 +38,7 @@ void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring &
 	}
 	if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2)
 	{
-		a.RealFolders.at(a.RealFolders.size() - 2)->OffOneSub(Srcfolder);
+		a.RealFolders.at(a.RealFolders.size() - 2)->UnloadOneSub(Srcfolder);
 		disfolder->AddOneSub(Srcfolder);
 	}
 	else

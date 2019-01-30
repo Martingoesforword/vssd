@@ -21,7 +21,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 		//说明是磁盘开头，则为绝对路径
 		if (flag_tofirstif && path.Folders[i].length() == 2 && path.Folders[i].at(1) == ':')
 		{
-			Nowpath.clear();  
+			Nowpath.Clear();  
 
 			longNowf = Nowpath.GetNow()->FindForFirst(path.Folders[i]);
 
@@ -31,7 +31,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 				return nullptr;
 			}
 			Nowpath.AddOneSub(longNowf);
-			while (longNowf->IsLink()) longNowf = longNowf->SubFolders[0];
+			while (longNowf->IsLink()) longNowf = longNowf->GetSubFolders()[0];
 			flag_tofirstif = 0;
 		}
 		else if (path.Folders.at(i) == L"..")
@@ -69,7 +69,7 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 
 
 
-			while (longNowf->IsLink()) longNowf = longNowf->SubFolders[0];
+			while (longNowf->IsLink()) longNowf = longNowf->GetSubFolders()[0];
 		}
 
 	}

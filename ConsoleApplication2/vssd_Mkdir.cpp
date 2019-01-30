@@ -11,11 +11,11 @@ sjh::vssd_folder * sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand
 		Path.SetFoldersByWstring(mdCommand);
 		if (Path.IsRelativePath())
 		{
-			return MyVssd.GetNooowPan()->GetNooowPos()->Build(MyVssd, Path, vssd_folder::IS_FOLDER);
+			return MyVssd.GetNooowPan()->GetNooowPos()->BuildPath(MyVssd, Path, vssd_folder::IS_FOLDER);
 		}
 		else
 		{
-			return MyVssd.GetGenius()->Build(MyVssd, Path, vssd_folder::IS_FOLDER);
+			return MyVssd.GetGenius()->BuildPath(MyVssd, Path, vssd_folder::IS_FOLDER);
 		}  
 	}
 	else
