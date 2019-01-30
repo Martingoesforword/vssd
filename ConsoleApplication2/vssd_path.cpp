@@ -5,23 +5,23 @@ int sjh::tool_path::Serialize(std::vector<wchar_t>& Byte_Toptable)
 {
 	int Start = Byte_Toptable.size();
 	sjh::tools_vssd::PushLengthValue(PathTypeCode, Byte_Toptable);
-	sjh::tools_vssd::PushLengthValue(Folders.size(), Byte_Toptable);
-	for (size_t i = 0; i < Folders.size(); i++)
+	sjh::tools_vssd::PushLengthValue(Inodes.size(), Byte_Toptable);
+	for (size_t i = 0; i < Inodes.size(); i++)
 	{
-		sjh::tools_vssd::PushString(Folders[i], Byte_Toptable);
+		sjh::tools_vssd::PushString(Inodes[i], Byte_Toptable);
 	}
 	return Start;
 }
 
 void sjh::tool_path::DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos)
 { 
-	Folders.clear();
-	RealFolders.clear();
+	Inodes.clear();
+	RealInodes.clear();
 	PathTypeCode = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos); 
-	int FoldersSize = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos);
-	for (size_t i = 0; i < FoldersSize; i++)
+	int InodesSize = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos);
+	for (int i = 0; i < InodesSize; i++)
 	{
-		Folders.push_back(sjh::tools_vssd::GetString(ByteVssd, Pos));
+		Inodes.push_back(sjh::tools_vssd::GetString(ByteVssd, Pos));
 	}
 }
 
@@ -34,19 +34,19 @@ sjh::tool_path::tool_path()
  
  
 
-sjh::vssd_folder * sjh::tool_path::GetNow()
+sjh::vssd_Inode * sjh::tool_path::GetNow()
 {
-	return RealFolders.at(RealFolders.size() - 1);
+	return RealInodes.at(RealInodes.size() - 1);
 }
 
 void sjh::tool_path::Clear()
 {
-	Folders.clear();
-	RealFolders.clear();
+	Inodes.clear();
+	RealInodes.clear();
 }
 
 
-void sjh::tool_path::SetFoldersByWstring(std::wstring pathString)
+void sjh::tool_path::SetInodesByWstring(std::wstring pathString)
 {
 	tools_vssd::Trim(pathString);
 	size_t Pos = 0;
@@ -62,16 +62,18 @@ void sjh::tool_path::SetFoldersByWstring(std::wstring pathString)
 				if (Nowstring != L"." && Nowstring != L"..")
 				{
 					tools_vssd::Trim(Nowstring);
-					Folders.push_back(Nowstring);
+					Inodes.push_back(Nowstring);
+					RealInodes.push_back(nullptr);
 				}
-				else if (Nowstring == L".." &&Folders.size() > 0 && Folders.at(Folders.size() - 1) != L"..")
+				else if (Nowstring == L".." &&Inodes.size() > 0 && Inodes.at(Inodes.size() - 1) != L"..")
 				{
-					Folders.pop_back();
+					Inodes.pop_back();
 				}
 				else if (Nowstring == L"..")
 				{
 					tools_vssd::Trim(Nowstring);
-					Folders.push_back(Nowstring);
+					Inodes.push_back(Nowstring);
+					RealInodes.push_back(nullptr);
 				} 
 				 
 		}
@@ -79,17 +81,18 @@ void sjh::tool_path::SetFoldersByWstring(std::wstring pathString)
 		{
 			if (Pos != 0 && beForePos <= Pos - 1)
 			{
-				//找到beForePos+1到Pos-1的字符串放入Folders数组里，并更改记录
+				//找到beForePos+1到Pos-1的字符串放入Inodes数组里，并更改记录
 				Nowstring = pathString.substr(beForePos, Pos - beForePos);
 
 				if (Nowstring != L"." && Nowstring != L"..")
 				{
 					tools_vssd::Trim(Nowstring);
-					Folders.push_back(Nowstring);
+					Inodes.push_back(Nowstring);
+					RealInodes.push_back(nullptr);
 				}
-				else if (Nowstring == L".." &&Folders.size() > 0 && Folders.at(Folders.size() - 1) != L"..")
+				else if (Nowstring == L".." &&Inodes.size() > 0 && Inodes.at(Inodes.size() - 1) != L"..")
 				{
-					Folders.pop_back();
+					Inodes.pop_back();
 				}
 			}
 		}
@@ -103,38 +106,40 @@ void sjh::tool_path::SetFoldersByWstring(std::wstring pathString)
 		if (Nowstring != L"." && Nowstring != L"..")
 		{
 			tools_vssd::Trim(Nowstring);
-			Folders.push_back(Nowstring);
+			Inodes.push_back(Nowstring);
+			RealInodes.push_back(nullptr);
 		}
-		else if (Nowstring == L".." && Folders.size() > 0 && Folders.at(Folders.size() - 1) != L"..")
+		else if (Nowstring == L".." && Inodes.size() > 0 && Inodes.at(Inodes.size() - 1) != L"..")
 		{
-			Folders.pop_back();
+			Inodes.pop_back();
 		}
 		else if (Nowstring == L"..")
 		{
-			Folders.push_back(L"..");
+			Inodes.push_back(L"..");
+			RealInodes.push_back(nullptr);
 		}
 
 	} 
-	if (Folders[0].size() && Folders[0].at(1) == ':') PathTypeCode = IS_ABSOLUTE_PATH;
+	if (Inodes[0].size() && Inodes[0].at(1) == ':') PathTypeCode = IS_ABSOLUTE_PATH;
 	else PathTypeCode = IS_RELATIVE_PATH;
 }
 std::wstring sjh::tool_path::GetPathWstring()
 {
 	std::wstring Path;
-	if (Folders.size() == 1)
+	if (Inodes.size() == 1)
 	{
-		Path.append( Folders.at(0) );
+		Path.append( Inodes.at(0) );
 		Path.append(L"\\");
 	}
 	else
 	{
 		size_t i = 0;
-		for (i = 0; i < Folders.size() - 1; i++)
+		for (i = 0; i < Inodes.size() - 1; i++)
 		{
-			Path.append(Folders.at(i));
+			Path.append(Inodes.at(i));
 			Path.append(L"\\"); 
 		}
-		Path.append(Folders.at(i)); 
+		Path.append(Inodes.at(i)); 
 	} 
 	return Path;
 }
@@ -144,20 +149,20 @@ int sjh::tool_path::GetTypeCode()
 }
 void sjh::tool_path::DeleteOneSub()
 {
-	if (IsAbsolutePath() && Folders.size() < 2)
+	if (IsAbsolutePath() && Inodes.size() < 2)
 	{ 
 		return;
 	}
 	else 
 	{
-		Folders.pop_back();
-		RealFolders.pop_back();
+		Inodes.pop_back();
+		RealInodes.pop_back();
 	} 
 }
-void sjh::tool_path::AddOneSub(vssd_folder *folder)
+void sjh::tool_path::LoadOneSub(vssd_Inode *Inode)
 {
-	Folders.push_back(folder->GetName());
-	RealFolders.push_back(folder);
+	Inodes.push_back(Inode->GetName());
+	RealInodes.push_back(Inode);
 
 }
 

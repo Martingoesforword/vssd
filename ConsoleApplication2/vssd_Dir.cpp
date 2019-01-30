@@ -1,44 +1,59 @@
 #include "pch.h" 
-void sjh::vssdDir::vDir(vssd_disk & MyVssd)
+void sjh::vssdDir::vDir(vssd_disk & MyVssd, int Type)
 {
-	sjh::vssd_folder *now = MyVssd.GetNooowPan()->GetNooowPos();
+	sjh::vssd_Inode *now = MyVssd.GetNooowPan()->GetNooowPos();
 
 	while (now->IsLink())
 	{
-		if (now) now = now->GetSubFolders()[0];
+		if (now) now = now->GetSubInodes()[0];
 		else
 		{
 			return;
 		}
 	}
-	now->PrintAllSub(MyVssd,1, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
+	now->PrintAllSub(MyVssd, Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
 
+}
+void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::vector<std::wstring> Dirs, int Type)
+{
+	for (size_t i = 0; i < Dirs.size(); i++)
+	{
+		tool_path a;
+		sjh::vssd_Inode * Inode = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
+		if (!Inode)
+		{
+			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl; continue;
+		}
+		if (Inode->IsFile())
+		{
+			std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
+			return;
+		}
+		else
+		{
+			Inode->PrintAllSub(MyVssd, Type, a.GetPathWstring());
+		}
+
+
+	}
 }
 void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 {
 	std::vector<std::wstring> Dirs;
-	sjh::tools_vssd::Split(DirCommand, Dirs, L" ");
-	if (!Dirs.size()) vDir(MyVssd);
-	for (size_t i = 0; i < Dirs.size(); i++)
+	sjh::tools_vssd::Split(DirCommand, Dirs, L" "); 
+	if (!Dirs.size()) { vDir(MyVssd, 2); return; }
+	
+	//ÅÐ¶Ï¿ª¹Ø
+	if(Dirs[0].at(0) == '/' && Dirs[0].size() >= 2)
 	{
-		tool_path a;
-		sjh::vssd_folder * Folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
-		if (!Folder)
+		if (Dirs[0].at(1) == 'a')
 		{
-			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl; continue;
+			vDir(MyVssd, 2);
 		}
-		if (Folder->IsFile())
+		else if(Dirs[0].at(1) == 's')
 		{
-			std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
-			return;
+			vDir(MyVssd, 1);
 		}
-		else
-		{
-			Folder->PrintAllSub(MyVssd,1, a.GetPathWstring());
-		}
-
-
-	}
-
+	} 
 
 }

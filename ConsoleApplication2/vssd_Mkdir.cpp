@@ -1,26 +1,26 @@
 #include "pch.h" 
-sjh::vssd_folder * sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
+sjh::vssd_Inode * sjh::vssdMd::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
 {
 	tools_vssd::Trim(mdCommand);
 
 	tool_path Path; 
-	vssd_folder * folder = vssd_vcmd::v_FindPathForFirst(MyVssd, mdCommand, Path);
+	vssd_Inode * Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, mdCommand, Path);
 	
-	if (nullptr == folder)
+	if (nullptr == Inode)
 	{
-		Path.SetFoldersByWstring(mdCommand);
+		Path.SetInodesByWstring(mdCommand);
 		if (Path.IsRelativePath())
 		{
-			return MyVssd.GetNooowPan()->GetNooowPos()->BuildPath(MyVssd, Path, vssd_folder::IS_FOLDER);
+			return MyVssd.BuildPath(MyVssd.GetGenius(), Path, vssd_Inode::IS_FOLDER);
 		}
 		else
 		{
-			return MyVssd.GetGenius()->BuildPath(MyVssd, Path, vssd_folder::IS_FOLDER);
+			return MyVssd.BuildPath(MyVssd.GetNooowPan()->GetNooowPos(), Path, vssd_Inode::IS_FOLDER);
 		}  
 	}
 	else
 	{
-		std::wcout << L"子目录或文件 "  << folder->GetName() << " 已经存在。"; 
+		std::wcout << L"子目录或文件 "  << Inode->GetName() << " 已经存在。"; 
 		return nullptr;
 	}
 

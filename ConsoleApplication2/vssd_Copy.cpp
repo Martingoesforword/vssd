@@ -5,27 +5,48 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 	{
 
 		sjh::tool_path a;
-		sjh::vssd_folder *folder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a);
-		if (nullptr == folder)
+		sjh::vssd_Inode *Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a);
+		if (nullptr == Inode)
 		{
-			a.SetFoldersByWstring(rearDes); 
+			a.SetInodesByWstring(rearDes); 
 			if (a.IsAbsolutePath())
 			{
-				folder = MyVssd.GetNooowPan()->GetNooowPos()->BuildPath(MyVssd, a, vssd_folder::IS_FILE);
+				Inode = MyVssd.BuildPath(MyVssd.GetGenius(),a, vssd_Inode::IS_FILE);
 			}
 			else
 			{
-				folder = MyVssd.GetGenius()->BuildPath(MyVssd, a, vssd_folder::IS_FILE);
+				Inode = MyVssd.BuildPath(MyVssd.GetNooowPan()->GetNooowPos(), a, vssd_Inode::IS_FILE);
 			}    
 		}
 		else {
-			if (folder->IsFile()) {
-				//处理文件是否覆盖或是...但最终要产生folder指针
+			if (Inode->IsFile()) 
+			{
+				std::cout << "覆盖 "<<tools_vssd::WStringToString( Inode->GetName())<<" 吗 ? (Yes / No / All) :";
+				std::string Answer;
+				while (1) 
+				{
+					std::cin >> Answer;  
+					if (Answer.at(0) == 'Y' || Answer.at(0) == 'y') 
+					{
+						break;
+					}
+					else if (Answer.at(0) == 'N' || Answer.at(0) == 'n') 
+					{
+						return; 
+					}
+					else if (Answer.at(0) == 'A' || Answer.at(0) == 'a') 
+					{
+						break;
+					}
+				}
+				
+				//处理文件是否覆盖或是...但最终要产生Inode指针
+				 
 			}
-			else if (folder->IsFolder()) {
-				//处理文件夹      但最终要产生folder指针
+			else if (Inode->IsFolder()) {
+				//处理文件夹      但最终要产生Inode指针
 			}
-			else if (folder->IsLink()) {
+			else if (Inode->IsLink()) {
 
 			}
 		}
@@ -45,7 +66,7 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		{
 			ch = ' ';
 			RealFile.read(&ch, 1);
-			folder->GetContent().push_back(ch);
+			Inode->GetContent().push_back(ch);
 		}
 		RealFile.close();
 		//读并放入vector<std::wstring>
@@ -59,14 +80,14 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 	else if (rearDes.at(0) == L'@')
 	{
 		sjh::tool_path a;
-		sjh::vssd_folder *folder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
+		sjh::vssd_Inode *Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
 
 		std::wstring RealDes = rearDes.substr(1, rearDes.length() - 1);
 		std::ofstream DesFile(RealDes, std::ios::binary);
 		if (DesFile.is_open())
 		{
 			std::wstring data;
-			//tools_vssd::GetStringAnd0(folder->Content, 0, folder->Content.size(), data);
+			//tools_vssd::GetStringAnd0(Inode->Content, 0, Inode->Content.size(), data);
 
 			DesFile.write((const char*)&data[0], data.size() * 2);
 			DesFile.close();
@@ -85,16 +106,16 @@ void sjh::vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstri
 		 
 		tool_path		a;
 		tool_path		b;
-		sjh::vssd_folder	* Srcfolder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
-		sjh::vssd_folder	* disfolder = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, b);
-		if (Srcfolder && disfolder && a.Folders.size() >= 3 && b.Folders.size() >= 2)
+		sjh::vssd_Inode	* SrcInode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
+		sjh::vssd_Inode	* disInode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, b);
+		if (SrcInode && disInode && a.Inodes.size() >= 3 && b.Inodes.size() >= 2)
 		{
-			a.RealFolders.at(a.RealFolders.size() - 2)->UnloadOneSub(Srcfolder);
-			disfolder->AddOneSub(Srcfolder);
+			a.RealInodes.at(a.RealInodes.size() - 2)->UnloadOneSub(SrcInode);
+			disInode->LoadOneSub(SrcInode);
 		}
 		else
 		{
-			std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
+			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
 		}
 	}
 

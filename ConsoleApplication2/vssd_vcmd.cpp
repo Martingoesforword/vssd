@@ -3,40 +3,37 @@
 //当下文件夹下dir
 
 
-sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring  PathCommand, tool_path &aPath)
+sjh::vssd_Inode * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring  PathCommand, tool_path &aPath)
 {
-	tools_vssd::Trim(PathCommand);
-
+	tools_vssd::Trim(PathCommand); 
 	tool_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
 	std::wstring pathstring = PathCommand;
 	
 
 	tool_path path;
-	path.SetFoldersByWstring(pathstring); 
-	sjh::vssd_folder * longNowf = Nowpath.GetNow();
+	path.SetInodesByWstring(pathstring); 
+	sjh::vssd_Inode * longNowf = Nowpath.GetNow();
 
 	int flag_tofirstif = 1;
-	for (size_t i = 0; i < path.Folders.size(); i++)
+	for (size_t i = 0; i < path.Inodes.size(); i++)
 	{
 		//说明是磁盘开头，则为绝对路径
-		if (flag_tofirstif && path.Folders[i].length() == 2 && path.Folders[i].at(1) == ':')
+		if (flag_tofirstif && path.Inodes[i].length() == 2 && path.Inodes[i].at(1) == ':')
 		{
-			Nowpath.Clear();  
-
-			longNowf = Nowpath.GetNow()->FindForFirst(path.Folders[i]);
-
-
-			if (!longNowf)
-			{
-				return nullptr;
+			Nowpath.Clear(); 
+			int Result = MyVssd.GetGenius()->FindSelfSubForFirst(path.Inodes[i], 0);
+			if (Result != sjh::vssd_Inode::NOT_FINDED) {
+				longNowf = MyVssd.GetGenius()->GetSubInodes()[Result];
 			}
-			Nowpath.AddOneSub(longNowf);
-			while (longNowf->IsLink()) longNowf = longNowf->GetSubFolders()[0];
+			else {
+				return nullptr;
+			} 
+			Nowpath.LoadOneSub(longNowf); 
 			flag_tofirstif = 0;
 		}
-		else if (path.Folders.at(i) == L"..")
+		else if (path.Inodes.at(i) == L"..")
 		{
-			if (Nowpath.RealFolders.size() < 2)
+			if (Nowpath.RealInodes.size() < 2)
 			{
 				return nullptr;
 			}
@@ -46,38 +43,30 @@ sjh::vssd_folder * sjh::vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::w
 			}
 
 		}
-		else if (path.Folders.at(i) == L".")
+		else if (path.Inodes.at(i) == L".")
 		{
 
 		}
 		//路径中非'n:' '..' '.'
 		else
 		{
-
-			longNowf = longNowf->FindForFirst(path.Folders[i]);
-			if (!longNowf)
-			{
-
-				return nullptr;
+			int Result = longNowf->FindSelfSubForFirst(path.Inodes[i], 0);
+			if (Result != sjh::vssd_Inode::NOT_FINDED) {
+				longNowf = longNowf->GetSubInodes()[Result];
 			}
-			Nowpath.AddOneSub(longNowf);
-			if (longNowf->IsLink() && i + 1 == path.Folders.size())
+			else {
+				return nullptr;
+			} 
+			Nowpath.LoadOneSub(longNowf);
+			if (longNowf->IsLink() && i + 1 == path.Inodes.size())
 			{
 				aPath = Nowpath; return longNowf;
-			}
-
-
-
-
-			while (longNowf->IsLink()) longNowf = longNowf->GetSubFolders()[0];
-		}
-
-	}
-
+			} 
+			longNowf = longNowf->FindFolderByLink(); 
+		} 
+	} 
 	aPath = Nowpath; 
-	return longNowf;
-
-
+	return longNowf; 
 }
 
 void sjh::vssd_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
@@ -156,7 +145,7 @@ void sjh::vssd_vcmd::v_cmd_comein(vssd_disk & MyVssd, std::wstring & CmdCommand)
 		sjh::vssd_pan *Pan = MyVssd.GetNooowPan(); 
 		if (v_match(rear, L"/") || v_match(rear, L"\\"))
 		{
-			while (Pan->GetNowPath().Folders.size() > 2) Pan->GetNowPath().DeleteOneSub();
+			while (Pan->GetNowPath().Inodes.size() > 2) Pan->GetNowPath().DeleteOneSub();
 		}
 		else
 		{

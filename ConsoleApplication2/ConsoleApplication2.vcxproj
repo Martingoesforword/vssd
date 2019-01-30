@@ -186,7 +186,7 @@
     <ClInclude Include="vssd_structure.h" />
     <ClInclude Include="vssd_vcmd.h" />
     <ClInclude Include="vssd_pan.h" />
-    <ClInclude Include="vssd_folder.h" />
+    <ClInclude Include="vssd_inode.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="vssd_path.h" />
     <ClInclude Include="vssd_disk.h" />
@@ -216,7 +216,7 @@
     <ClCompile Include="vssd_Rd.cpp" />
     <ClCompile Include="vssd_Ren.cpp" />
     <ClCompile Include="vssd_Save.cpp" />
-    <ClCompile Include="vssd_folder.cpp" />
+    <ClCompile Include="vssd_inode.cpp" />
     <ClCompile Include="vssd_pan.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1,6 +1,6 @@
 #include "pch.h" 
 
-sjh::vssd_folder * sjh::vssd_pan::GetRoot()
+sjh::vssd_Inode * sjh::vssd_pan::GetRoot()
 {
 	return root;
 }
@@ -10,7 +10,7 @@ sjh::tool_path & sjh::vssd_pan::GetNowPath()
 	return NowPath;
 }
 
-sjh::vssd_folder * sjh::vssd_pan::GetNooowPos()
+sjh::vssd_Inode * sjh::vssd_pan::GetNooowPos()
 {
 	return NowPath.GetNow();
 }
@@ -37,28 +37,15 @@ void sjh::vssd_pan::DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos)
 	std::wstring panName = sjh::tools_vssd::GetString(ByteVssd,Pos);
 	NowPath.DeSerialize(ByteVssd,Pos);
 } 
-sjh::vssd_pan::vssd_pan(sjh::vssd_folder * aroot, sjh::vssd_folder * aGenius)
+sjh::vssd_pan::vssd_pan(sjh::vssd_Inode * aroot, sjh::vssd_Inode * aGenius)
 {
 	root = aroot; 
-	NowPath.AddOneSub(aroot); 
+	NowPath.LoadOneSub(aroot); 
 }
 
  
 //根据目前目录位置和相对路径查找
-sjh::vssd_folder * sjh::vssd_pan::FindForFirst(tool_path & apath)
-{
-	sjh::vssd_folder * Nowfolder = GetNooowPos();
-	for (size_t i = 0; i < apath.Folders.size(); i++)
-	{
-		Nowfolder = Nowfolder->FindForFirst(apath.Folders[i]);
-		if (!Nowfolder)
-		{
-			//无 
-			return nullptr;
-		}
-	}
-	return Nowfolder; 
-}
+
  
 
 

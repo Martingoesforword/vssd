@@ -5,20 +5,20 @@ void sjh::vssdRd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
 {
 
 	tool_path a;
-	sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, RdCommand, a);
-	if (!folder)
+	sjh::vssd_Inode * Inode = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, RdCommand, a);
+	if (!Inode)
 	{
-		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;  return;
+		std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
 	} 
-	if (folder->IsFile())
+	if (Inode->IsFile())
 	{
 		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
 		vssdDel::vDel(MyVssd, RdCommand);
 		return;
 	}
-	if (folder && a.Folders.size() >= 3)
+	if (Inode && a.Inodes.size() >= 3)
 	{
-		a.RealFolders.at(a.RealFolders.size() - 2)->DeleteOneSub(folder);
+		a.RealInodes.at(a.RealInodes.size() - 2)->DeleteOneSub(Inode);
 	}
 
 

@@ -154,13 +154,47 @@ void sjh::tools_vssd::GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t>
 	//按照文档上的格式读取二进制
 }
 
-std::wstring sjh::tools_vssd::GetTimeString(time_t tm)
+std::wstring sjh::tools_vssd::GetTimeWString(time_t tm)
 {
 	std::tm *ltm = new std::tm();
 	localtime_s(ltm,&tm);
 	std::wstringstream oss;
-	oss << ltm->tm_year+1900 <<"/"<< ltm->tm_mon+1<<"/"<<ltm->tm_mday<<"  "<<ltm->tm_hour<<":"<<ltm->tm_min;
+	oss << std::setfill(L'0') << std::setw(4) << ltm->tm_year + 1900
+		<< "/" << std::setfill(L'0') << std::setw(2) << ltm->tm_mon + 1
+		<< "/" << std::setfill(L'0') << std::setw(2) << ltm->tm_mday
+		<< "  "
+		<< std::setfill(L'0') << std::setw(2) << ltm->tm_hour
+		<< ":" << std::setfill(L'0') << std::setw(2) << ltm->tm_min;
 	return oss.str();
+}
+
+std::wstring sjh::tools_vssd::GetSizeWString(unsigned int Size)
+{ 
+	std::wstringstream oss;
+	if (Size > 1000000000) { goto LAB_MORE1000000000; }
+	else if (Size > 1000000) { goto LAB_MORE1000000; }
+	else if (Size > 1000) { goto LAB_MORE1000; }
+	else { goto LAB_MORE0; } 
+
+LAB_MORE1000000000:
+	oss << (Size / 1000000000) % 1000 << L",";
+LAB_MORE1000000:
+	oss << (Size / 1000000) % 1000 << L",";
+LAB_MORE1000:
+	oss << (Size / 1000) % 1000 << L",";
+LAB_MORE0:
+	oss << (Size) % 1000; 
+	return oss.str();
+}
+
+std::string sjh::tools_vssd::GetTimeString(time_t tm)
+{
+	return tools_vssd::WStringToString(GetTimeWString(tm));
+}
+
+std::string sjh::tools_vssd::GetSizeString(unsigned int Size)
+{
+	return tools_vssd::WStringToString(GetSizeWString(Size));
 }
   
 

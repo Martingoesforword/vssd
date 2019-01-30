@@ -9,21 +9,21 @@ void sjh::vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 {
 	if (!CdCommand.size()) { vCd(MyVssd); return; }
 	tool_path a;
-	sjh::vssd_folder * folder = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
+	sjh::vssd_Inode * Inode = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
 	 
-	if (folder && folder->IsFile())
+	if (Inode && Inode->IsFile())
 	{
-		std::cout << "VSSD ERROR : This folder is not exist!" << std::endl;
+		std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
 		return;
 	}
 
-	if (folder && ((! folder->IsLink() ) || (folder->IsLink() && folder->GetSubFolders()[0])))
+	if (Inode && ((! Inode->IsLink() ) || (Inode->IsLink() && Inode->GetSubInodes()[0])))
 	{
 		MyVssd.GetNooowPan()->GetNowPath() = a;
 	}
 	else
 	{
-		std::cout << "VSSD ERROR : This folder is not exist! " << std::endl;
+		std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
 	}
 
 

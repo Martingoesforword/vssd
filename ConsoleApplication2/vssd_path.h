@@ -13,15 +13,15 @@ public:
 	virtual void DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos);
 	 
 
-	std::vector<std::wstring> Folders;
-	std::vector<sjh::vssd_folder *> RealFolders;
+	std::vector<std::wstring> Inodes;
+	std::vector<sjh::vssd_Inode *> RealInodes;
 
 	int					GetTypeCode();
 	std::wstring		GetPathWstring();
-	sjh::vssd_folder *	GetNow();
+	sjh::vssd_Inode *	GetNow();
 
-	void AddOneSub(sjh::vssd_folder * folder);
-	void SetFoldersByWstring(std::wstring pathString); //路径字符串到路径对象  
+	void LoadOneSub(sjh::vssd_Inode * Inode);
+	void SetInodesByWstring(std::wstring pathString); //路径字符串到路径对象  
 	void DeleteOneSub();
 	void Clear(); 
 
