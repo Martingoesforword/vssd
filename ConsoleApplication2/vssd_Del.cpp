@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "vssdDel.h"
 namespace sjh {
-	void vssdDel::vDel(vssd_manager & MyVssd, std::wstring & DelCommand)
+	void vssdDel::vDel(vssd_disk & MyVssd, std::wstring & DelCommand)
 	{
 		std::vector<std::wstring> Dirs;
 		tool::stringtools::Split(DelCommand, Dirs, L" ");
@@ -19,7 +19,7 @@ namespace sjh {
 			}
 		}
 	}
-	int vssdDel::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdDel::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

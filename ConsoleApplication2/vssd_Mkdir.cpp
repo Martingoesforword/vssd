@@ -1,7 +1,7 @@
 #include "pch.h" 
 #include "vssdMkdir.h" 
 namespace sjh {
-	vssd_inode * vssdMkdir::vMd(vssd_manager & MyVssd, std::wstring & mdCommand)
+	vssd_inode * vssdMkdir::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
 	{
 		tool::stringtools::Trim(mdCommand);
 
@@ -27,7 +27,7 @@ namespace sjh {
 		}
 
 	}
-	int vssdMkdir::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdMkdir::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

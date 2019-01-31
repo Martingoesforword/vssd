@@ -29,7 +29,7 @@ namespace sjh {
 
 
 
-	void vssd_inode::PrintAllSub(vssd_manager& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
+	void vssd_inode::PrintAllSub(vssd_disk& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
 	{
 		using namespace sjh;
 		std::cout

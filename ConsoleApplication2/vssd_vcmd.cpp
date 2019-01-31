@@ -2,7 +2,7 @@
 
 namespace sjh {  
 	
-	vssd_inode * vssd_vcmd::v_FindPathForFirst(vssd_manager & MyVssd, std::wstring  PathCommand, tools_path &aPath)
+	vssd_inode * vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
 	{
 		tool::stringtools::Trim(PathCommand);
 		tools_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
@@ -68,7 +68,7 @@ namespace sjh {
 		return longNowf;
 	}
 
-	void vssd_vcmd::v_jump(vssd_manager & MyVssd, std::wstring & JumpTo)
+	void vssd_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
 	{
 		vssd_pan* Top = MyVssd.FindPanFromName(JumpTo);
 		if (Top) MyVssd.SetNooowPan(Top);
@@ -87,7 +87,7 @@ namespace sjh {
 		}
 	}
 
-	void vssd_vcmd::TypeCode_UI_Guider(vssd_manager & manager,int GuiderCode)
+	void vssd_vcmd::TypeCode_UI_Guider(vssd_disk & manager,int GuiderCode)
 	{
 		std::wcout << manager.GetNooowPan()->GetNowPathWString() << GUIDESYMBOL;
 	}
@@ -100,7 +100,7 @@ namespace sjh {
 		}
 		return tool::stringtools::StringToWString(Command);
 	}
-	void vssd_vcmd::TypeCode_UI(vssd_manager & manager)
+	void vssd_vcmd::TypeCode_UI(vssd_disk & manager)
 	{
 		while (1)
 		{ 
@@ -120,7 +120,7 @@ namespace sjh {
 
 	 
 
-	void vssd_vcmd::TypeCode_UI_Explainr(vssd_manager & MyVssd, std::wstring  CmdCommand)
+	void vssd_vcmd::TypeCode_UI_Explainr(vssd_disk & MyVssd, std::wstring  CmdCommand)
 	{
 
 		tool::stringtools::Trim(CmdCommand);

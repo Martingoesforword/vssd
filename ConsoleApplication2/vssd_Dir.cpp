@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "vssdDir.h"
 namespace sjh {
-	void vssdDir::vDir(vssd_manager & MyVssd, int Type)
+	void vssdDir::vDir(vssd_disk & MyVssd, int Type)
 	{
 		vssd_inode *now = MyVssd.GetNooowPan()->GetNooowPos();
 
@@ -16,7 +16,7 @@ namespace sjh {
 		now->PrintAllSub(MyVssd, Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
 
 	}
-	void vssdDir::vDir(vssd_manager & MyVssd, std::vector<std::wstring> Dirs, int Type)
+	void vssdDir::vDir(vssd_disk & MyVssd, std::vector<std::wstring> Dirs, int Type)
 	{
 		for (size_t i = EXE_OK; i < Dirs.size(); i++)
 		{
@@ -39,7 +39,7 @@ namespace sjh {
 
 		}
 	}
-	void vssdDir::vDir(vssd_manager & MyVssd, std::wstring & DirCommand)
+	void vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
 	{
 		std::vector<std::wstring> Dirs;
 		tool::stringtools::Split(DirCommand, Dirs, L" ");
@@ -59,7 +59,7 @@ namespace sjh {
 		}
 
 	}
-	int vssdDir::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdDir::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

@@ -2,7 +2,7 @@
 #include "pch.h"  
 #include "vssd_inode.h" 
 #include "tools_path.h" 
-#include "vssd_manager.h" 
+#include "vssd_disk.h" 
 #include "vssdCd.h" 
 #include "vssdDir.h" 
 #include "vssdCat.h" 
@@ -22,13 +22,13 @@ namespace sjh {
 		static const std::wstring GUIDESYMBOL;
 	public:
 		 
-		static void					TypeCode_UI_Guider(vssd_manager & manager, int GuiderCode);
+		static void					TypeCode_UI_Guider(vssd_disk & manager, int GuiderCode);
 		static std::wstring			TypeCode_UI_GetCommandString();
-		static void					TypeCode_UI(vssd_manager & MyVssd);
-		static void					TypeCode_UI_Explainr(vssd_manager & MyVssd, std::wstring Command);
-		static void					v_jump(vssd_manager & MyVssd, std::wstring & JumpTo);
+		static void					TypeCode_UI(vssd_disk & MyVssd);
+		static void					TypeCode_UI_Explainr(vssd_disk & MyVssd, std::wstring Command);
+		static void					v_jump(vssd_disk & MyVssd, std::wstring & JumpTo);
 		static bool					v_match(std::wstring & CmdCommand, std::wstring MatchString);
-		static vssd_inode*			v_FindPathForFirst(vssd_manager & MyVssd, std::wstring  PathCommand, tools_path & aPath);
+		static vssd_inode*			v_FindPathForFirst(vssd_disk & MyVssd, std::wstring  PathCommand, tools_path & aPath);
 
 	};
 }

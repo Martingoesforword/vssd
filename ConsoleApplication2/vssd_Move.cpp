@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "vssdMove.h"
 namespace sjh {
-	void vssdMove::vMove(vssd_manager & MyVssd, std::wstring & Des)
+	void vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Des)
 	{
 
 		tools_path b;
@@ -17,7 +17,7 @@ namespace sjh {
 
 	}
 	//ÒÆ¶¯ÎÄ¼þ¼Ð
-	void vssdMove::vMove(vssd_manager & MyVssd, std::wstring & Src, std::wstring & Des)
+	void vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des)
 	{
 
 		tools_path a;
@@ -51,7 +51,7 @@ namespace sjh {
 
 
 	}
-	int vssdMove::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdMove::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

@@ -2,7 +2,7 @@
 #include "vssdRen.h"
 namespace sjh {
 	 
-	void vssdRen::vRen(vssd_manager & MyVssd, std::wstring & SrcCommand, std::wstring & DesName)
+	void vssdRen::vRen(vssd_disk & MyVssd, std::wstring & SrcCommand, std::wstring & DesName)
 	{
 		tools_path a;
 		vssd_inode * Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, SrcCommand, a);
@@ -17,7 +17,7 @@ namespace sjh {
 
 	}
 
-	int vssdRen::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdRen::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

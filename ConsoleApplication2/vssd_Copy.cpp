@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "vssdCopy.h"
 namespace sjh {
-	void vssdCopy::vCopy(vssd_manager & MyVssd, std::wstring & rearSrc, std::wstring & rearDes)
+	void vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstring & rearDes)
 	{
 		if (rearSrc.at(EXE_OK) == L'@')
 		{
@@ -125,7 +125,7 @@ namespace sjh {
 
 
 	}
-	int vssdCopy::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdCopy::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

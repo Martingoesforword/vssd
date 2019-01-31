@@ -6,7 +6,7 @@
 #include "base_serializable.h"  
 #include "base_timeable.h"    
 #include "tools_vssd.h"    
-#include "vssd_manager.h"  
+#include "vssd_disk.h"  
 namespace sjh { 
 	class vssd_inode :public base_namedable, public  base_displayable, public base_serializable, public base_contentable, public base_timeable
 	{
@@ -39,7 +39,7 @@ namespace sjh {
 		void						FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode *> & AllInode);
 		vssd_inode *				FindFolderByLink();
 		void						PrintContent();
-		void						PrintAllSub(vssd_manager & MyVssd, int pram, std::wstring now);
+		void						PrintAllSub(vssd_disk & MyVssd, int pram, std::wstring now);
 
 
 		//ºÏ≤Èœ‡πÿ 

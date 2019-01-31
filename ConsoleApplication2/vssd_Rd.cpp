@@ -3,7 +3,7 @@
 namespace sjh {
 	//当下文件夹下rd
 
-	void vssdRd::vRd(vssd_manager & MyVssd, std::wstring & RdCommand)
+	void vssdRd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
 	{
 
 		tools_path a;
@@ -26,7 +26,7 @@ namespace sjh {
 
 
 	}
-	int vssdRd::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdRd::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

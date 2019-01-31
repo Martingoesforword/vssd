@@ -1,12 +1,12 @@
 #include "vssdCd.h"
 namespace sjh {
 	//当下文件夹下cd
-	void vssdCd::vCd(vssd_manager & MyVssd)
+	void vssdCd::vCd(vssd_disk & MyVssd)
 	{
 		MyVssd.GetNooowPan()->PrintNowPath();
 		std::wcout << "\n";
 	}
-	void vssdCd::vCd(vssd_manager & MyVssd, std::wstring & CdCommand)
+	void vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
 	{
 		if (!CdCommand.size()) { vCd(MyVssd); return; }
 		tools_path a;
@@ -32,7 +32,7 @@ namespace sjh {
 
 	}
 
-	int vssdCd::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdCd::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

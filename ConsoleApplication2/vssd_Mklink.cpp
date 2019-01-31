@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "vssdMklink.h"
 namespace sjh {
-	void vssdMklink::vMklink(vssd_manager & MyVssd, std::wstring & Src, std::wstring & LinkName)
+	void vssdMklink::vMklink(vssd_disk & MyVssd, std::wstring & Src, std::wstring & LinkName)
 	{
 
 		//找到需要指向的文件夹
@@ -30,7 +30,7 @@ namespace sjh {
 			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
 		}
 	}
-	int vssdMklink::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdMklink::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return 0;
 	}

@@ -1,7 +1,7 @@
 #include "vssdCat.h"   
 namespace sjh { 
 	 
-	void vssdCat::vCat(vssd_manager & MyVssd, std::wstring & Rear)
+	void vssdCat::vCat(vssd_disk & MyVssd, std::wstring & Rear)
 	{
 		tools_path a;
 		//找到需要指向的文件夹
@@ -13,7 +13,7 @@ namespace sjh {
 		}
 
 	}
-	int vssdCat::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	int vssdCat::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

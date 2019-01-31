@@ -31,6 +31,12 @@
     <Filter Include="源文件\vssd">
       <UniqueIdentifier>{d8874c42-a524-4d9c-a6eb-f66ca57cda06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\resource">
+      <UniqueIdentifier>{09871f73-25b8-4094-ba30-c87e53c12825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\resource">
+      <UniqueIdentifier>{f05a0824-7907-4010-a4d1-91e97c245f42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -38,9 +44,6 @@
     </ClInclude>
     <ClInclude Include="base_progress.h">
       <Filter>头文件\base</Filter>
-    </ClInclude>
-    <ClInclude Include="vssd_pan.h">
-      <Filter>头文件\vssd</Filter>
     </ClInclude>
     <ClInclude Include="tools_vssd.h">
       <Filter>头文件\tools</Filter>
@@ -105,20 +108,26 @@
     <ClInclude Include="base_timeable.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
-    <ClInclude Include="vssd_inode.h">
-      <Filter>头文件\vssd</Filter>
-    </ClInclude>
     <ClInclude Include="base_executable.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
     <ClInclude Include="all.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vssd_manager.h">
-      <Filter>头文件\vssd</Filter>
+    <ClInclude Include="vssd_disk.h">
+      <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="vssd_inode.h">
+      <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="vssd_pan.h">
+      <Filter>头文件\resource</Filter>
     </ClInclude>
     <ClInclude Include="tools_path.h">
       <Filter>头文件\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="vssd_manager.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,12 +154,6 @@
     </ClCompile>
     <ClCompile Include="vssd_Dir.cpp">
       <Filter>源文件\tools</Filter>
-    </ClCompile>
-    <ClCompile Include="vssd_pan.cpp">
-      <Filter>源文件\vssd</Filter>
-    </ClCompile>
-    <ClCompile Include="vssd_path.cpp">
-      <Filter>源文件\vssd</Filter>
     </ClCompile>
     <ClCompile Include="vssd_vcmd.cpp">
       <Filter>源文件\vssd</Filter>
@@ -200,14 +203,23 @@
     <ClCompile Include="base_timeable.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
-    <ClCompile Include="vssd_inode.cpp">
-      <Filter>源文件\vssd</Filter>
-    </ClCompile>
     <ClCompile Include="base_executable.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
+    <ClCompile Include="vssd_inode.cpp">
+      <Filter>源文件\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_disk.cpp">
+      <Filter>源文件\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_pan.cpp">
+      <Filter>源文件\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="tools_path.cpp">
+      <Filter>源文件\tools</Filter>
+    </ClCompile>
     <ClCompile Include="vssd_manager.cpp">
-      <Filter>源文件\vssd</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

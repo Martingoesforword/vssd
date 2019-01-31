@@ -9,10 +9,10 @@
 namespace sjh { 
 	class vssdMkdir :public sjh::base_executable
 	{
-		sjh::vssd_inode* vMd(sjh::vssd_manager & MyVssd, std::wstring & mdCommand);
+		sjh::vssd_inode* vMd(sjh::vssd_disk & MyVssd, std::wstring & mdCommand);
 	public:
-		friend void sjh::vssdMklink::vMklink(sjh::vssd_manager & MyVssd, std::wstring & Src, std::wstring & LinkName);
-		virtual int Execute(sjh::vssd_manager & MyVssd, std::vector<std::wstring> Rear);
+		friend void sjh::vssdMklink::vMklink(sjh::vssd_disk & MyVssd, std::wstring & Src, std::wstring & LinkName);
+		virtual int Execute(sjh::vssd_disk & MyVssd, std::vector<std::wstring> Rear);
 
 	};
 }
