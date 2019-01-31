@@ -1,12 +1,13 @@
-#pragma once
-#include "pch.h"
-class vssd_structure
-{
+#pragma once  
+#include "pch.h"  
+namespace sjh {
+	class vssd_structure
+	{
 
-public:
+	public:
 
 
-	vssd_structure();
-	~vssd_structure();
-};
-
+		vssd_structure();
+		~vssd_structure();
+	};
+}

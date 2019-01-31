@@ -1,18 +1,20 @@
 #include "pch.h"
+#include "base_timeable.h"
+
+namespace sjh {
+	 
+	std::time_t base_timeable::GetCreateTime()
+	{
+		return CreateTime;
+	}
+
+	base_timeable::base_timeable()
+	{
+		CreateTime = std::time(0);
+	}
 
 
-
-std::time_t sjh::base_timeable::GetCreateTime()
-{
-	return CreateTime;
-}
-
-sjh::base_timeable::base_timeable()
-{
-	CreateTime = std::time(0);
-}
-
-
-sjh::base_timeable::~base_timeable()
-{
+	base_timeable::~base_timeable()
+	{
+	}
 }

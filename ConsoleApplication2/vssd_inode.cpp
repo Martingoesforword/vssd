@@ -1,358 +1,361 @@
-#include "pch.h"  
+#include "vssd_inode.h"
 
-const std::wstring sjh::vssd_Inode::VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
+namespace sjh {
 
- 
-std::wstring sjh::vssd_Inode::GetTypeName()
-{
-	return VssdTypeName[InodeTypeCode];
-}
- 
-sjh::vssd_Inode::vssd_Inode(std::wstring aName, int aCode) :base_namedable(aName)
-{  
-	InodeTypeCode = aCode;  
-}
+	const std::wstring vssd_inode::VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
 
 
-void sjh::vssd_Inode::LoadOneSub(sjh::vssd_Inode *LinktoSub)
-{
-	LinktoSub->SetFather(this);
-	SubInodes.push_back(LinktoSub);
-
-}
-
- 
-
-
-
- 
-
-void sjh::vssd_Inode::PrintAllSub(sjh::vssd_disk& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
-{ 
-	using namespace sjh;
-	std::cout 
-		<< " 驱动器 C 中的卷是 " << tools_vssd::WStringToString(MyVssd.GetName()) 
-		<< "。\n 卷的序列号是 " << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(&MyVssd) / 0x10000 << " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(&MyVssd) % 0x10000 
-		<< "\n";
-	
-	int p = 0;
-	 
-	std::cout 
-		<< "\n "<< tools_vssd::WStringToString(now) << " 的目录\n" 
-		<< std::endl;
-	std::cout
-		<< tools_vssd::WStringToString(tools_vssd::GetTimeWString(GetCreateTime()))
-		<< "    "
-		<< std::setiosflags(std::ios::right) 
-		<< "<" << tools_vssd::WStringToString(GetTypeName()) << ">"
-		<< std::setfill(' ')  << std::setw(10) << " " 
-		<< "." 
-		<< std::endl; 
-	std::cout
-		<< tools_vssd::WStringToString(tools_vssd::GetTimeWString(GetFather()->GetCreateTime()))
-		<< "    "
-		<< std::setiosflags(std::ios::right)
-		<< "<" << tools_vssd::WStringToString(GetFather()->GetTypeName()) << ">"
-		<< std::setfill(' ')
-		<< std::setw(10)
-		<< " "
-		<< ".."
-		<< std::endl;
-
-
-	for (size_t i = 0; i < SubInodes.size(); i++)
+	std::wstring vssd_inode::GetTypeName()
 	{
-		
-
-	defeatInode:
-
-		if (SubInodes.at(p) != NULL)
-		{
-			if(SubInodes.at(p)->IsFile())
-			{
-				std::cout
-					<< tools_vssd::GetTimeString(SubInodes.at(p)->GetCreateTime())
-					<< "    "
-					<< std::setfill(' ') << std::setw(14) << tools_vssd::GetSizeString( SubInodes[p]->GetContent().size() * sizeof(unsigned char))
-					<< " "<< tools_vssd::WStringToString(SubInodes.at(p)->GetName()) 
-					<< std::endl;
-			}
-			else {
-				std::cout
-					<< tools_vssd::GetTimeString(SubInodes.at(p)->GetCreateTime()) << "    " 
-					<< std::setiosflags(std::ios::right)
-					<< "<" << tools_vssd::WStringToString(SubInodes[p]->GetTypeName()) << ">"
-					<< std::setfill(' ') << std::setw(10) << " "
-					<< tools_vssd::WStringToString(SubInodes.at(p)->GetName())
-					<< std::endl;
-			}
-		}
-		else
-		{
-			p++; goto defeatInode;
-		}
-		p++;
+		return VssdTypeName[InodeTypeCode];
 	}
-	if (pram == 1) {
+
+	vssd_inode::vssd_inode(std::wstring aName, int aCode) :base_namedable(aName)
+	{
+		InodeTypeCode = aCode;
+	}
+
+
+	void vssd_inode::LoadOneSub(vssd_inode *LinktoSub)
+	{
+		LinktoSub->SetFather(this);
+		SubInodes.push_back(LinktoSub);
+
+	}
+
+
+
+
+
+
+
+	void vssd_inode::PrintAllSub(vssd_manager& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
+	{
+		using namespace sjh;
+		std::cout
+			<< " 驱动器 C 中的卷是 " << tool::stringtools::WStringToString(MyVssd.GetName())
+			<< "。\n 卷的序列号是 " << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(&MyVssd) / 0x10000 << " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(&MyVssd) % 0x10000
+			<< "\n";
+
+		int p = 0;
+
+		std::cout
+			<< "\n " << tool::stringtools::WStringToString(now) << " 的目录\n"
+			<< std::endl;
+		std::cout
+			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetCreateTime()))
+			<< "    "
+			<< std::setiosflags(std::ios::right)
+			<< "<" << tool::stringtools::WStringToString(GetTypeName()) << ">"
+			<< std::setfill(' ') << std::setw(10) << " "
+			<< "."
+			<< std::endl;
+		std::cout
+			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetFather()->GetCreateTime()))
+			<< "    "
+			<< std::setiosflags(std::ios::right)
+			<< "<" << tool::stringtools::WStringToString(GetFather()->GetTypeName()) << ">"
+			<< std::setfill(' ')
+			<< std::setw(10)
+			<< " "
+			<< ".."
+			<< std::endl;
+
+
 		for (size_t i = 0; i < SubInodes.size(); i++)
-		{ 
-			now.append(GetName());
-			now.append(L"\\");
-			SubInodes[i]->PrintAllSub(MyVssd,pram,now);
-		}
-	}
-
-}
-
-void sjh::vssd_Inode::DeleteOneSub(sjh::vssd_Inode * deletInode)
-{
-	size_t j = 0;
-	for (size_t i = 0; i < SubInodes.size(); i++)
-	{
-
-		for (; j < SubInodes.max_size(); j++)
 		{
-			if (SubInodes.at(j) == NULL)
+
+
+		defeatInode:
+
+			if (SubInodes.at(p) != NULL)
 			{
-				continue;
+				if (SubInodes.at(p)->IsFile())
+				{
+					std::cout
+						<< tool::stringtools::GetTimeString(SubInodes.at(p)->GetCreateTime())
+						<< "    "
+						<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString(SubInodes[p]->GetContent().size() * sizeof(unsigned char))
+						<< " " << tool::stringtools::WStringToString(SubInodes.at(p)->GetName())
+						<< std::endl;
+				}
+				else {
+					std::cout
+						<< tool::stringtools::GetTimeString(SubInodes.at(p)->GetCreateTime()) << "    "
+						<< std::setiosflags(std::ios::right)
+						<< "<" << tool::stringtools::WStringToString(SubInodes[p]->GetTypeName()) << ">"
+						<< std::setfill(' ') << std::setw(10) << " "
+						<< tool::stringtools::WStringToString(SubInodes.at(p)->GetName())
+						<< std::endl;
+				}
 			}
 			else
 			{
-
-				break;
+				p++; goto defeatInode;
 			}
+			p++;
 		}
-
-		if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == IS_SAMESTRING)
-		{
-			SubInodes.at(j)->DeleteWholeTree();
-			SubInodes.at(j)->~vssd_Inode();
-			std::vector<sjh::vssd_Inode *>::iterator it = SubInodes.begin();
-
-			SubInodes.erase(it + j);
-			return;
-		}
-		else
-		{
-			j++;
+		if (pram == 1) {
+			for (size_t i = 0; i < SubInodes.size(); i++)
+			{
+				now.append(GetName());
+				now.append(L"\\");
+				SubInodes[i]->PrintAllSub(MyVssd, pram, now);
+			}
 		}
 
 	}
-}
 
-void sjh::vssd_Inode::UnloadOneSub(sjh::vssd_Inode * deletInode)
-{
-	size_t j = 0;
-	for (size_t i = 0; i < SubInodes.size(); i++)
+	void vssd_inode::DeleteOneSub(vssd_inode * deletInode)
 	{
-
-		for (; j < SubInodes.max_size(); j++)
+		size_t j = 0;
+		for (size_t i = 0; i < SubInodes.size(); i++)
 		{
-			if (SubInodes.at(j) == NULL)
+
+			for (; j < SubInodes.max_size(); j++)
 			{
-				continue;
+				if (SubInodes.at(j) == NULL)
+				{
+					continue;
+				}
+				else
+				{
+
+					break;
+				}
 			}
-			else
-			{
-				break;
-			}
-		}
 
-		if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == IS_SAMESTRING)
-		{
-			std::vector<sjh::vssd_Inode*>::iterator it = SubInodes.begin();
-			SubInodes.erase(it + j);
-			return;
-		}
-		else
-		{
-			j++;
-		}
-
-	}
-}
-
-void sjh::vssd_Inode::DeleteWholeTree()
-{
-	size_t j = 0;
-	for (size_t i = 0; i < SubInodes.size(); i++)
-	{
-
-		for (; j < SubInodes.max_size(); j++)
-		{
-			if (SubInodes.at(j) == NULL)
-			{
-				continue;
-			}
-			else
+			if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == IS_SAMESTRING)
 			{
 				SubInodes.at(j)->DeleteWholeTree();
-				SubInodes.at(j)->~vssd_Inode();
-				break;
+				SubInodes.at(j)->~vssd_inode();
+				std::vector<vssd_inode *>::iterator it = SubInodes.begin();
+
+				SubInodes.erase(it + j);
+				return;
 			}
-		}
-
-
-		j++;
-
-
-	}
-}
-
-
-
- 
-
-int sjh::vssd_Inode::FindSelfSubForFirst(std::wstring Inode, int StartIndex)
-{  
-	for (size_t i = StartIndex; i < SubInodes.size(); i++)
-	{ 
-		if (SubInodes.at(i) != NULL)
-		{ 
-			if (sjh::tools_vssd::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0)
-			{ 
-				return i;
-			} 
-			if (i > SubInodes.size())
+			else
 			{
-				break;
+				j++;
 			}
-		} 
-	}
-	return NOT_FINDED;
-}
 
-void sjh::vssd_Inode::FindSelfSubForAll(std::wstring Inode, std::vector<vssd_Inode*>& AllInode)
-{ 
-	 size_t Result = 0; 
-	//循环体内语句控制循环的进行，非线性控制
-	while (1)	
-	{
-		Result = FindSelfSubForFirst(Inode, Result);
-		if (Result != NOT_FINDED)
-		{
-			AllInode.push_back(SubInodes[Result]);
-			Result++;
-		}
-		else {
-			break;
 		}
 	}
-	return;
-}
 
-sjh::vssd_Inode * sjh::vssd_Inode::FindFolderByLink()
-{
-	vssd_Inode *Inode = this;
-	while (Inode->IsLink())
+	void vssd_inode::UnloadOneSub(vssd_inode * deletInode)
 	{
-		Inode = Inode->SubInodes[0];
-	}
-	return Inode;
-}
-
- 
- 
-
-sjh::vssd_Inode *  sjh::vssd_Inode::GetFather()
-{
-	return Father;
-}
-void sjh::vssd_Inode::SetFather(vssd_Inode * aFather)
-{
-	Father = aFather;
-}
-
-void sjh::vssd_Inode::AddContent(wchar_t Byte)		//追加字符
-{
-	if (IsFile())
-	{
-		GetContent().push_back(Byte);
-	}
-	else
-	{
-		std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
-	}
-}
-void sjh::vssd_Inode::SetContentString(std::wstring str)		//追加字符
-{
-	if (IsFile())
-	{
-		for (size_t i = 0; i < str.length(); i++)
-		{
-			GetContent().push_back(*((unsigned char*)&str[i] + 0));
-			GetContent().push_back(*((unsigned char*)&str[i] + 1));
-		}
-
-	}
-	else
-	{
-		std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
-	}
-}
-std::vector<sjh::vssd_Inode*>& sjh::vssd_Inode::GetSubInodes()
-{
-	return SubInodes;
-}
-void sjh::vssd_Inode::PrintContent()			//返回NULL 和 下一个字符
-{
-	static int index = -1;
-	if (IsFile())
-	{
-		for (size_t i = 0; i < GetContent().size(); i++)
-		{
-			std::cout << GetContent()[i];
-		}
-		std::cout << std::endl;
-	}
-	else
-	{
-		std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
-	}
-}
-
-int sjh::vssd_Inode::Serialize(std::vector<wchar_t>& Bytes)
-{
-	int Start = Bytes.size();
-	sjh::tools_vssd::PushString(GetName(), Bytes);
-	sjh::tools_vssd::PushLengthValue(InodeTypeCode, Bytes);
-	sjh::tools_vssd::PushWcharVector(GetContent(), Bytes);
-	sjh::tools_vssd::PushLengthValue(SubInodes.size(), Bytes);
-	if (InodeTypeCode == IS_FOLDER) {
+		size_t j = 0;
 		for (size_t i = 0; i < SubInodes.size(); i++)
 		{
-			SubInodes.at(i)->Serialize(Bytes);
+
+			for (; j < SubInodes.max_size(); j++)
+			{
+				if (SubInodes.at(j) == NULL)
+				{
+					continue;
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == IS_SAMESTRING)
+			{
+				std::vector<vssd_inode*>::iterator it = SubInodes.begin();
+				SubInodes.erase(it + j);
+				return;
+			}
+			else
+			{
+				j++;
+			}
+
 		}
 	}
-	return Start;
-}
- 
-void sjh::vssd_Inode::DeSerialize(std::vector<wchar_t>& ByteVssd, int& Pos)
-{
-	SetName(tools_vssd::GetString(ByteVssd, Pos)); 
-	InodeTypeCode = tools_vssd::GetLengthValue(ByteVssd, Pos);
-	tools_vssd::GetWcharVector(GetContent(), ByteVssd, Pos);
-	int SubSize = sjh::tools_vssd::GetLengthValue(ByteVssd, Pos);
 
-	if (InodeTypeCode == IS_FOLDER) {
-		for (int i = 0; i < SubSize; i++)
+	void vssd_inode::DeleteWholeTree()
+	{
+		size_t j = 0;
+		for (size_t i = 0; i < SubInodes.size(); i++)
 		{
-			sjh::vssd_Inode *sub = new sjh::vssd_Inode(L"", IS_FOLDER);
-			LoadOneSub(sub);
-			sub->DeSerialize(ByteVssd, Pos);
+
+			for (; j < SubInodes.max_size(); j++)
+			{
+				if (SubInodes.at(j) == NULL)
+				{
+					continue;
+				}
+				else
+				{
+					SubInodes.at(j)->DeleteWholeTree();
+					SubInodes.at(j)->~vssd_inode();
+					break;
+				}
+			}
+
+
+			j++;
+
+
 		}
 	}
 
 
-} 
- 
-sjh::vssd_Inode::~vssd_Inode()
-{
+
+
+
+	int vssd_inode::FindSelfSubForFirst(std::wstring Inode, int StartIndex)
+	{
+		for (size_t i = StartIndex; i < SubInodes.size(); i++)
+		{
+			if (SubInodes.at(i) != NULL)
+			{
+				if (tool::stringtools::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0)
+				{
+					return i;
+				}
+				if (i > SubInodes.size())
+				{
+					break;
+				}
+			}
+		}
+		return NOT_FINDED;
+	}
+
+	void vssd_inode::FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode*>& AllInode)
+	{
+		size_t Result = 0;
+		//循环体内语句控制循环的进行，非线性控制
+		while (1)
+		{
+			Result = FindSelfSubForFirst(Inode, Result);
+			if (Result != NOT_FINDED)
+			{
+				AllInode.push_back(SubInodes[Result]);
+				Result++;
+			}
+			else {
+				break;
+			}
+		}
+		return;
+	}
+
+	vssd_inode * vssd_inode::FindFolderByLink()
+	{
+		vssd_inode *Inode = this;
+		while (Inode->IsLink())
+		{
+			Inode = Inode->SubInodes[0];
+		}
+		return Inode;
+	}
+
+
+
+
+	vssd_inode *  vssd_inode::GetFather()
+	{
+		return Father;
+	}
+	void vssd_inode::SetFather(vssd_inode * aFather)
+	{
+		Father = aFather;
+	}
+
+	void vssd_inode::AddContent(wchar_t Byte)		//追加字符
+	{
+		if (IsFile())
+		{
+			GetContent().push_back(Byte);
+		}
+		else
+		{
+			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
+		}
+	}
+	void vssd_inode::SetContentString(std::wstring str)		//追加字符
+	{
+		if (IsFile())
+		{
+			for (size_t i = 0; i < str.length(); i++)
+			{
+				GetContent().push_back(*((unsigned char*)&str[i] + 0));
+				GetContent().push_back(*((unsigned char*)&str[i] + 1));
+			}
+
+		}
+		else
+		{
+			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
+		}
+	}
+	std::vector<vssd_inode*>& vssd_inode::GetSubInodes()
+	{
+		return SubInodes;
+	}
+	void vssd_inode::PrintContent()			//返回NULL 和 下一个字符
+	{
+		static int index = -1;
+		if (IsFile())
+		{
+			for (size_t i = 0; i < GetContent().size(); i++)
+			{
+				std::cout << GetContent()[i];
+			}
+			std::cout << std::endl;
+		}
+		else
+		{
+			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
+		}
+	}
+
+	int vssd_inode::Serialize(std::vector<wchar_t>& Bytes)
+	{
+		int Start = Bytes.size();
+		tool::stringtools::PushString(GetName(), Bytes);
+		tool::stringtools::PushLengthValue(InodeTypeCode, Bytes);
+		tool::stringtools::PushWcharVector(GetContent(), Bytes);
+		tool::stringtools::PushLengthValue(SubInodes.size(), Bytes);
+		if (InodeTypeCode == IS_FOLDER) {
+			for (size_t i = 0; i < SubInodes.size(); i++)
+			{
+				SubInodes.at(i)->Serialize(Bytes);
+			}
+		}
+		return Start;
+	}
+
+	void vssd_inode::DeSerialize(std::vector<wchar_t>& ByteVssd, int& Pos)
+	{
+		SetName(tool::stringtools::GetString(ByteVssd, Pos));
+		InodeTypeCode = tool::stringtools::GetLengthValue(ByteVssd, Pos);
+		tool::stringtools::GetWcharVector(GetContent(), ByteVssd, Pos);
+		int SubSize = tool::stringtools::GetLengthValue(ByteVssd, Pos);
+
+		if (InodeTypeCode == IS_FOLDER) {
+			for (int i = 0; i < SubSize; i++)
+			{
+				vssd_inode *sub = new vssd_inode(L"", IS_FOLDER);
+				LoadOneSub(sub);
+				sub->DeSerialize(ByteVssd, Pos);
+			}
+		}
+
+
+	}
+
+	vssd_inode::~vssd_inode()
+	{
+	}
+
+	void vssd_inode::Display()
+	{
+		std::wcout << L"<vssd_inode class>" << std::endl;
+		std::wcout << L"\tName = " << Name << std::endl;
+	}
+
 }
- 
-void sjh::vssd_Inode::Display()
-{
-	std::wcout << L"<vssd_Inode class>" << std::endl;
-	std::wcout << L"\tName = " << Name << std::endl;
-}
- 

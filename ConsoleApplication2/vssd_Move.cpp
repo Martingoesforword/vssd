@@ -1,51 +1,59 @@
-#include "pch.h" 
-void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Des)
-{
+#include "pch.h"
+#include "vssdMove.h"
+namespace sjh {
+	void vssdMove::vMove(vssd_manager & MyVssd, std::wstring & Des)
+	{
 
-	tool_path b;
-	sjh::vssd_Inode * disInode = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Des, b);
-	if (disInode)
-	{
-		disInode->LoadOneSub(MyVssd.GetNooowPan()->GetNooowPos());
-	}
-	else
-	{
-		std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
-	}
+		tools_path b;
+		vssd_inode * disInode = vssd_vcmd::v_FindPathForFirst(MyVssd, Des, b);
+		if (disInode)
+		{
+			disInode->LoadOneSub(MyVssd.GetNooowPan()->GetNooowPos());
+		}
+		else
+		{
+			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+		}
 
-}
-//移动文件夹
-void sjh::vssdMove::vMove(vssd_disk & MyVssd, std::wstring & Src, std::wstring & Des)
-{
+	}
+	//移动文件夹
+	void vssdMove::vMove(vssd_manager & MyVssd, std::wstring & Src, std::wstring & Des)
+	{
 
-	tool_path a;
-	tool_path b;
-	sjh::vssd_Inode * SrcInode = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Src, a);
-	sjh::vssd_Inode * disInode = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Des, b);
-	if (!SrcInode)
-	{
-		std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
-	}
-	if (!SrcInode)
-	{
-		std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
-	}
-	if (SrcInode->IsFile())
-	{
-		std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
-		vssdCopy::vCopy(MyVssd, Src, Des);
-		return;
-	}
-	if (SrcInode && disInode && a.Inodes.size() >= 3 && b.Inodes.size() >= 2)
-	{
-		a.RealInodes.at(a.RealInodes.size() - 2)->UnloadOneSub(SrcInode);
-		disInode->LoadOneSub(SrcInode);
-	}
-	else
-	{
-		std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
-	}
+		tools_path a;
+		tools_path b;
+		vssd_inode * SrcInode = vssd_vcmd::v_FindPathForFirst(MyVssd, Src, a);
+		vssd_inode * disInode = vssd_vcmd::v_FindPathForFirst(MyVssd, Des, b);
+		if (!SrcInode)
+		{
+			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
+		}
+		if (!SrcInode)
+		{
+			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
+		}
+		if (SrcInode->IsFile())
+		{
+			std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
+			vssdCopy vCopy();
+			return;
+		}
+		if (SrcInode && disInode && a.Inodes.size() >= 3 && b.Inodes.size() >= 2)
+		{
+			a.RealInodes.at(a.RealInodes.size() - 2)->UnloadOneSub(SrcInode);
+			disInode->LoadOneSub(SrcInode);
+		}
+		else
+		{
+			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+		}
 
 
+
+	}
+	int vssdMove::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	{
+		return EXE_OK;
+	}
 
 }

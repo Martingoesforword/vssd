@@ -1,59 +1,66 @@
-#include "pch.h" 
-void sjh::vssdDir::vDir(vssd_disk & MyVssd, int Type)
-{
-	sjh::vssd_Inode *now = MyVssd.GetNooowPan()->GetNooowPos();
-
-	while (now->IsLink())
+#include "pch.h"
+#include "vssdDir.h"
+namespace sjh {
+	void vssdDir::vDir(vssd_manager & MyVssd, int Type)
 	{
-		if (now) now = now->GetSubInodes()[0];
-		else
-		{
-			return;
-		}
-	}
-	now->PrintAllSub(MyVssd, Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
+		vssd_inode *now = MyVssd.GetNooowPan()->GetNooowPos();
 
-}
-void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::vector<std::wstring> Dirs, int Type)
-{
-	for (size_t i = 0; i < Dirs.size(); i++)
-	{
-		tool_path a;
-		sjh::vssd_Inode * Inode = sjh::vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
-		if (!Inode)
+		while (now->IsLink())
 		{
-			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl; continue;
+			if (now) now = now->GetSubInodes()[EXE_OK];
+			else
+			{
+				return;
+			}
 		}
-		if (Inode->IsFile())
-		{
-			std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
-			return;
-		}
-		else
-		{
-			Inode->PrintAllSub(MyVssd, Type, a.GetPathWstring());
-		}
-
+		now->PrintAllSub(MyVssd, Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
 
 	}
-}
-void sjh::vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
-{
-	std::vector<std::wstring> Dirs;
-	sjh::tools_vssd::Split(DirCommand, Dirs, L" "); 
-	if (!Dirs.size()) { vDir(MyVssd, 2); return; }
-	
-	//判断开关
-	if(Dirs[0].at(0) == '/' && Dirs[0].size() >= 2)
+	void vssdDir::vDir(vssd_manager & MyVssd, std::vector<std::wstring> Dirs, int Type)
 	{
-		if (Dirs[0].at(1) == 'a')
+		for (size_t i = EXE_OK; i < Dirs.size(); i++)
 		{
-			vDir(MyVssd, 2);
-		}
-		else if(Dirs[0].at(1) == 's')
-		{
-			vDir(MyVssd, 1);
-		}
-	} 
+			tools_path a;
+			vssd_inode * Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
+			if (!Inode)
+			{
+				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl; continue;
+			}
+			if (Inode->IsFile())
+			{
+				std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
+				return;
+			}
+			else
+			{
+				Inode->PrintAllSub(MyVssd, Type, a.GetPathWstring());
+			}
 
+
+		}
+	}
+	void vssdDir::vDir(vssd_manager & MyVssd, std::wstring & DirCommand)
+	{
+		std::vector<std::wstring> Dirs;
+		tool::stringtools::Split(DirCommand, Dirs, L" ");
+		if (!Dirs.size()) { vDir(MyVssd, 2); return; }
+
+		//判断开关
+		if (Dirs[EXE_OK].at(EXE_OK) == '/' && Dirs[EXE_OK].size() >= 2)
+		{
+			if (Dirs[EXE_OK].at(1) == 'a')
+			{
+				vDir(MyVssd, 2);
+			}
+			else if (Dirs[EXE_OK].at(1) == 's')
+			{
+				vDir(MyVssd, 1);
+			}
+		}
+
+	}
+	int vssdDir::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	{
+		return EXE_OK;
+	}
 }

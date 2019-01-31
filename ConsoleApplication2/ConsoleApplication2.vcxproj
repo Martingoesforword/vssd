@@ -87,7 +87,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -96,6 +96,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\Dll2\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +123,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -133,6 +134,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\Dll2\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,7 +166,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="all.h" />
     <ClInclude Include="base_contentable.h" />
+    <ClInclude Include="base_executable.h" />
     <ClInclude Include="base_namedable.h" />
     <ClInclude Include="base_progress.h" />
     <ClInclude Include="base_serializable.h" />
@@ -188,12 +192,13 @@
     <ClInclude Include="vssd_pan.h" />
     <ClInclude Include="vssd_inode.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="vssd_path.h" />
-    <ClInclude Include="vssd_disk.h" />
+    <ClInclude Include="tools_path.h" />
+    <ClInclude Include="vssd_manager.h" />
     <ClInclude Include="tools_vssd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base_contentable.cpp" />
+    <ClCompile Include="base_executable.cpp" />
     <ClCompile Include="base_serializable.cpp" />
     <ClCompile Include="base_displayable.cpp" />
     <ClCompile Include="base_timeable.cpp" />
@@ -225,7 +230,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="vssd_path.cpp" />
-    <ClCompile Include="vssd_disk.cpp" />
+    <ClCompile Include="vssd_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="TASK.txt" />

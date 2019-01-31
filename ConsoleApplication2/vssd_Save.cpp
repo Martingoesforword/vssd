@@ -1,9 +1,18 @@
-#include "pch.h" 
-void sjh::vssdSave::vSave(vssd_disk & MyVssd, std::wstring & JumpTo)
-{ 
-	std::vector<wchar_t> Serial;
-	MyVssd.Serialize(Serial);
+#include "pch.h"
+#include "vssdSave.h"
+namespace sjh {
+	void vssdSave::vSave(vssd_manager & MyVssd, std::wstring & JumpTo)
+	{
+		std::vector<wchar_t> Serial;
+		MyVssd.Serialize(Serial);
 
-	tools_vssd::PushToRealFile(JumpTo, Serial);
-	Serial.clear();
+		tool::stringtools::PushToRealFile(JumpTo, Serial);
+		Serial.clear();
+	}
+
+	int vssdSave::Execute(vssd_manager & MyVssd, std::vector<std::wstring> Rear)
+	{
+		return EXE_OK;
+	}
+	 
 }

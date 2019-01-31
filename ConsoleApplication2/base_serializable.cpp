@@ -1,12 +1,14 @@
-#include "pch.h"
+#include "base_serializable.h"
+namespace sjh {
 
 
 
-sjh::base_serializable::base_serializable()
-{
-}
+	base_serializable::base_serializable()
+	{
+	}
 
 
-sjh::base_serializable::~base_serializable()
-{
+	base_serializable::~base_serializable()
+	{
+	}
 }

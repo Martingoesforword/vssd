@@ -1,11 +1,13 @@
-#include "pch.h"
-
- 
-sjh::base_progress::base_progress()
-{
-}
+#include "base_progress.h"
+namespace sjh {
 
 
-sjh::base_progress::~base_progress()
-{
+	base_progress::base_progress()
+	{
+	}
+
+
+	base_progress::~base_progress()
+	{
+	}
 }
