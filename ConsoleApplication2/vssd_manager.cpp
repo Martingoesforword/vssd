@@ -3,9 +3,8 @@
 
 namespace sjh { 
 	vssd_manager::vssd_manager()
-	{
-		vssd_optcmd* a = new vssd_optcmd();
-		operators.push_back((base_operater*)a);
+	{ 
+		operators.push_back(new vssd_optcmd());
 	}  
 	void vssd_manager::CreateDiskDemo1()
 	{
@@ -31,11 +30,8 @@ namespace sjh {
 		for (size_t i = 0; i < operators.size(); i++)
 		{
 			if(OptType == operators[i]->OptType) return operators[i]->ExeInterface(*disk);
-		} 
-		if (operators.size() == 0)
-		{
-			return 1;
-		}
+		}  
+		return 1; 
 	} 
 	 
 }
