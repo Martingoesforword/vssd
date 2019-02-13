@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "vssdDir.h"
 namespace sjh {
-	void vssdDir::vDir(vssd_disk & MyVssd, int Type)
+	void vssdDir::vDir(VirtualDisk & MyVssd, int Type)
 	{
 		vssd_inode *now = MyVssd.GetNooowPan()->GetNooowPos();
 
@@ -13,15 +13,16 @@ namespace sjh {
 				return;
 			}
 		}
-		now->PrintAllSub(MyVssd, Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
+
+		now->PrintAllSub(Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
 
 	}
-	void vssdDir::vDir(vssd_disk & MyVssd, std::vector<std::wstring> Dirs, int Type)
+	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs, int Type)
 	{
 		for (size_t i = EXE_OK; i < Dirs.size(); i++)
 		{
 			tools_path a;
-			vssd_inode * Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
+			vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
 			if (!Inode)
 			{
 				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl; continue;
@@ -33,18 +34,17 @@ namespace sjh {
 			}
 			else
 			{
-				Inode->PrintAllSub(MyVssd, Type, a.GetPathWstring());
+
+				Inode->PrintAllSub(Type, a.GetPathWstring());
 			}
 
 
 		}
 	}
-	void vssdDir::vDir(vssd_disk & MyVssd, std::wstring & DirCommand)
+	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs)
 	{
-		std::vector<std::wstring> Dirs;
-		tool::stringtools::Split(DirCommand, Dirs, L" ");
-		if (!Dirs.size()) { vDir(MyVssd, 2); return; }
-
+		
+		if (!Dirs.size()) { vDir(MyVssd, 2); return; } 
 		//ÅÐ¶Ï¿ª¹Ø
 		if (Dirs[EXE_OK].at(EXE_OK) == '/' && Dirs[EXE_OK].size() >= 2)
 		{
@@ -59,8 +59,9 @@ namespace sjh {
 		}
 
 	}
-	int vssdDir::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
+	int vssdDir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
+		vDir(MyVssd, Rear);
 		return EXE_OK;
 	}
 }

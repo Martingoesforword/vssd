@@ -3,11 +3,11 @@
 #include "base_executable.h" 
 
 namespace sjh {
-	class vssd_disk;  
+	class VirtualDisk;  
 	class vssdCls :public base_executable
 	{
 		void vCls();
 	public:
-		virtual int Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear);
+		virtual int Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
 	};
 }

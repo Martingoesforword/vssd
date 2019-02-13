@@ -4,13 +4,10 @@
 namespace sjh { 
 	vssd_manager::vssd_manager()
 	{
-		Vcmd = *(new vssd_vcmd());
-	} 
-	vssd_vcmd * vssd_manager::GetVcmd()
-	{
-		return &Vcmd;
-	}
-	void vssd_manager::CreateDisk()
+		vssd_optcmd* a = new vssd_optcmd();
+		operators.push_back((base_operater*)a);
+	}  
+	void vssd_manager::CreateDiskDemo1()
 	{
 
 		vssd_inode *Genius = new vssd_inode(L"", vssd_inode::IS_FOLDER);
@@ -21,7 +18,7 @@ namespace sjh {
 		c_pan->LoadOneSub(Folder);
 		c_pan->LoadOneSub(File);
 		vssd_pan *MyTopcpan = new vssd_pan(c_pan, Genius);//¼ÓÔØ¸ùÄ¿Â¼
-		vssd_disk *MyVssd = new vssd_disk(MyTopcpan, Genius, L"firstVssd");
+		VirtualDisk *MyVssd = new VirtualDisk(MyTopcpan, Genius, L"firstVssd");
 
 		MyVssd->AddNewPan(MyTopcpan);
 
@@ -29,14 +26,17 @@ namespace sjh {
 		disk = MyVssd;
 	}
 
-	void vssd_manager::ComeInVcmd()
-	{
-		Vcmd.TypeCode_UI(*disk);
-		return;
-	}
-
-	vssd_manager::~vssd_manager()
-	{
-	}
+	int vssd_manager::ComeInOperaterByAccessWay(int OptType)
+	{ 
+		for (size_t i = 0; i < operators.size(); i++)
+		{
+			if(OptType == operators[i]->OptType) return operators[i]->ExeInterface(*disk);
+		} 
+		if (operators.size() == 0)
+		{
+			return 1;
+		}
+	} 
+	 
 }
  

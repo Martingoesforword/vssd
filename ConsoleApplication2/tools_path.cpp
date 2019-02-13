@@ -1,9 +1,9 @@
 #include "tools_path.h"
 namespace sjh {
 
-	int tools_path::Serialize(std::vector<wchar_t>& Byte_Toptable)
+	size_t tools_path::Serialize(std::vector<wchar_t>& Byte_Toptable)
 	{
-		int Start = Byte_Toptable.size();
+		size_t Start = Byte_Toptable.size();
 		tool::stringtools::PushLengthValue(PathTypeCode, Byte_Toptable);
 		tool::stringtools::PushLengthValue(Inodes.size(), Byte_Toptable);
 		for (size_t i = 0; i < Inodes.size(); i++)

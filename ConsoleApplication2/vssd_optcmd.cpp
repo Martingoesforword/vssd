@@ -1,14 +1,13 @@
-#include "vssd_vcmd.h"
-
+#include "vssd_optcmd.h"
+const std::wstring sjh::vssd_optcmd::GUIDE_SYMBOL = L">";
 namespace sjh {  
-	
-	vssd_inode * vssd_vcmd::v_FindPathForFirst(vssd_disk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
+	 
+	vssd_inode * vssd_optcmd::v_FindPathForFirst(VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
 	{
 		tool::stringtools::Trim(PathCommand);
 		tools_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
 		std::wstring pathstring = PathCommand;
-
-
+		 
 		tools_path path;
 		path.SetInodesByWstring(pathstring);
 		vssd_inode * longNowf = Nowpath.GetNow();
@@ -20,7 +19,7 @@ namespace sjh {
 			if (flag_tofirstif && path.Inodes[i].length() == 2 && path.Inodes[i].at(1) == ':')
 			{
 				Nowpath.Clear();
-				int Result = MyVssd.GetGenius()->FindSelfSubForFirst(path.Inodes[i], 0);
+				size_t Result = MyVssd.GetGenius()->FindSelfSubForFirst(path.Inodes[i], 0);
 				if (Result != vssd_inode::NOT_FINDED) {
 					longNowf = MyVssd.GetGenius()->GetSubInodes()[Result];
 				}
@@ -49,7 +48,7 @@ namespace sjh {
 			//路径中非'n:' '..' '.'
 			else
 			{
-				int Result = longNowf->FindSelfSubForFirst(path.Inodes[i], 0);
+				size_t Result = longNowf->FindSelfSubForFirst(path.Inodes[i], 0);
 				if (Result != vssd_inode::NOT_FINDED) {
 					longNowf = longNowf->GetSubInodes()[Result];
 				}
@@ -68,13 +67,19 @@ namespace sjh {
 		return longNowf;
 	}
 
-	void vssd_vcmd::v_jump(vssd_disk & MyVssd, std::wstring & JumpTo)
+	vssd_optcmd::vssd_optcmd()
+	{
+		InitType();
+	}
+	 
+
+	void vssd_optcmd::v_jump(VirtualDisk & MyVssd, std::wstring & JumpTo)
 	{
 		vssd_pan* Top = MyVssd.FindPanFromName(JumpTo);
 		if (Top) MyVssd.SetNooowPan(Top);
 	}
 
-	bool vssd_vcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchString)
+	bool vssd_optcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchString)
 	{
 		if (CmdCommand.length() >= MatchString.size() &&
 			CmdCommand.substr(0, MatchString.size()).compare(MatchString) == IS_SAMESTRING)
@@ -87,11 +92,11 @@ namespace sjh {
 		}
 	}
 
-	void vssd_vcmd::TypeCode_UI_Guider(vssd_disk & manager,int GuiderCode)
+	void vssd_optcmd::TypeCode_UI_Guider(VirtualDisk & adisk, int GuiderCode)
 	{
-		std::wcout << manager.GetNooowPan()->GetNowPathWString() << GUIDESYMBOL;
+		std::wcout << adisk.GetNooowPan()->GetNowPathWString() << GUIDE_SYMBOL;
 	}
-	std::wstring vssd_vcmd::TypeCode_UI_GetCommandString()
+	std::wstring vssd_optcmd::TypeCode_UI_GetCommandString()
 	{
 		std::string Command;
 		while (Command.size() == 0)
@@ -100,11 +105,13 @@ namespace sjh {
 		}
 		return tool::stringtools::StringToWString(Command);
 	}
-	void vssd_vcmd::TypeCode_UI(vssd_disk & manager)
+	int vssd_optcmd::TypeCode_UI(VirtualDisk & adisk)
 	{
+		int WellRet = 0;
 		while (1)
 		{ 
-			TypeCode_UI_Guider(manager, 0);  
+
+			TypeCode_UI_Guider(adisk, 0);
 			std::wstring Command = TypeCode_UI_GetCommandString();
 			if (sjh::tool::stringtools::WStringMatch(Command, L"exit")) 
 			{
@@ -112,28 +119,34 @@ namespace sjh {
 			}
 			else
 			{
-				TypeCode_UI_Explainr(manager, Command);
+				TypeCode_UI_Explainer(adisk, Command);
 				std::cout << "\n";
+				WellRet = RET_WELL_OPERATION;
+				//处理返回值
 			} 
 		}
+		return RET_WELL_OPERATION;
 	}
 
 	 
 
-	void vssd_vcmd::TypeCode_UI_Explainr(vssd_disk & MyVssd, std::wstring  CmdCommand)
+	void vssd_optcmd::TypeCode_UI_Explainer(VirtualDisk & MyVssd, std::wstring  CmdCommand)
 	{
 
 		tool::stringtools::Trim(CmdCommand);
 		std::wstring rear;
 		std::wstring cmd;
-		int spacePos = CmdCommand.find(L" ", 1);
+		size_t size1 = 1;
+		size_t spacePos = CmdCommand.find(L" ", size1);
 		if (spacePos != CmdCommand.npos) {
 			rear = CmdCommand.substr(spacePos + 1, CmdCommand.size() - spacePos - 1);
 			cmd = CmdCommand.substr(0, CmdCommand.size() - 0);
 		}
 		else {
 			cmd = CmdCommand;
-		}
+		} 
+		std::vector<std::wstring> Rears;
+		tool::stringtools::Split(rear, Rears, L" ");
 		//分析命令名与命令参数
 		if (CmdCommand.length() == 0)
 		{
@@ -142,6 +155,7 @@ namespace sjh {
 		else if (v_match(CmdCommand, L"dir"))
 		{
 			vssdDir vDir_task1 ;
+			vDir_task1.Execute(MyVssd, Rears);
 		}
 		//del命令解析
 		else if (v_match(CmdCommand, L"del"))
@@ -161,10 +175,12 @@ namespace sjh {
 		//mkLink命令解析
 		else if (v_match(CmdCommand, L"mklink"))
 		{
-			int spacePos = rear.find(L" ", 1);
+			size_t size1 = 1;
+			size_t spacePos = rear.find(L" ", size1);
 			if (spacePos != -1)
 			{
-				std::wstring rearSrc = rear.substr(0, spacePos);
+				size_t size0 = 0;
+				std::wstring rearSrc = rear.substr(size0, spacePos);
 				std::wstring reardisName = rear.substr(spacePos + 1, rear.length() - spacePos);
 				vssdMklink vMklink ;
 			}
@@ -192,9 +208,11 @@ namespace sjh {
 		else if (v_match(CmdCommand, L"ren"))
 		{
 			//实现分割函数？？？？？？？？？？
-			int spacePos = rear.find(L" ", 1);
+			size_t size1 = 1;
+			size_t spacePos = rear.find(L" ", size1);
 			if (spacePos != rear.npos)
 			{
+
 				std::wstring rearSrc = rear.substr(0, spacePos - 0);
 				std::wstring reardisName = rear.substr(spacePos + 1, rear.size() - spacePos - 1);
 				vssdRen vRen ;
@@ -209,10 +227,11 @@ namespace sjh {
 		//copy命令解析
 		else if (v_match(CmdCommand, L"copy"))
 		{
-			int spacePos = rear.find(L" ", 0);
+			size_t size0 = 0;
+			size_t spacePos = rear.find(L" ", size0);
 			if (spacePos != -1)
 			{
-				std::wstring rearSrc = rear.substr(0, spacePos);
+				std::wstring rearSrc = rear.substr(size0, spacePos);
 				std::wstring rearDes = rear.substr(spacePos + 1, rear.length() - spacePos - 1);
 				tool::stringtools::Trim(rearSrc);
 				tool::stringtools::Trim(rearDes);
@@ -223,7 +242,7 @@ namespace sjh {
 		else if (v_match(CmdCommand, L"move"))
 		{
 
-			int spacePos = rear.find(L" ", 0);
+			size_t spacePos = rear.find(L" ", 0);
 			if (spacePos != -1)
 			{
 				std::wstring rearSrc = rear.substr(0, spacePos);

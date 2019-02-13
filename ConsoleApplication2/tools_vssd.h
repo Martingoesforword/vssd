@@ -25,6 +25,7 @@ namespace sjh {
 			static std::string		GetTimeString(time_t tm);
 			static std::string		GetSizeString(unsigned int Size);
 		};
+		 
 	}
 	
 }

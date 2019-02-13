@@ -4,8 +4,7 @@ namespace sjh {
 	{
 		return root;
 	}
- 
-
+  
 	tools_path & vssd_pan::GetNowPath()
 	{
 		return NowPath;
@@ -15,16 +14,15 @@ namespace sjh {
 	{
 		return NowPath.GetNow();
 	}
-
 	 
 	std::wstring vssd_pan::GetNowPathWString()
 	{ 
 		return NowPath.GetPathWstring();
 	}
 	 
-	int vssd_pan::Serialize(std::vector<wchar_t>& Byte_Toptable)
+	size_t vssd_pan::Serialize(std::vector<wchar_t>& Byte_Toptable)
 	{
-		int Start = Byte_Toptable.size();
+		size_t Start = Byte_Toptable.size();
 		tool::stringtools::PushString(root->GetName(), Byte_Toptable);
 		NowPath.Serialize(Byte_Toptable);
 		return Start;
@@ -43,7 +41,14 @@ namespace sjh {
 
 	//根据目前目录位置和相对路径查找
 	 
-
+	void vssd_pan::PrintPanInfo() {
+		using namespace sjh;
+		std::cout
+			<< " 驱动器 C 中的卷是 " << tool::stringtools::WStringToString(root->GetName())
+			<< "。\n 卷的序列号是 " << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(void*)(root) / 0x10000
+			<< " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(void*)(root) % 0x10000
+			<< "\n";
+	}
 
 	vssd_pan::~vssd_pan()
 	{

@@ -5,9 +5,7 @@ namespace sjh {
 	private:
 		int status;
 	public:
-		virtual int excute() = 0;
-		base_progress();
-		~base_progress();
+		virtual int excute() = 0; 
 	};
 
 }

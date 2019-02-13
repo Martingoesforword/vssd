@@ -1,21 +1,22 @@
 #include "vssd_disk.h"
 namespace sjh { 
-	vssd_pan * vssd_disk::GetNooowPan()
+	vssd_pan * VirtualDisk::GetNooowPan()
 	{
 		return NowPan;
 	}
-	vssd_inode * vssd_disk::GetGenius()
+	vssd_inode * VirtualDisk::GetGenius()
 	{
 		return Genius;
 	}
+	 
 	
-	void vssd_disk::SetNooowPan(vssd_pan * aInodeTop)
+	void VirtualDisk::SetNooowPan(vssd_pan * aInodeTop)
 	{
 		NowPan = aInodeTop;
 	}
 	 
 
-	void vssd_disk::AddNewPan(vssd_pan * aNowTop)
+	void VirtualDisk::AddNewPan(vssd_pan * aNowTop)
 	{
 		if (Pans.size() == 0)
 		{
@@ -29,7 +30,7 @@ namespace sjh {
 	}
 
 	
-	vssd_disk::vssd_disk(vssd_pan * Now, vssd_inode * aGenius, std::wstring aName) :base_namedable(aName)
+	VirtualDisk::VirtualDisk(vssd_pan * Now, vssd_inode * aGenius, std::wstring aName) :base_namedable(aName)
 	{
 		
 		NowPan = Now;
@@ -39,7 +40,7 @@ namespace sjh {
 	
 
 
-	vssd_pan * vssd_disk::FindPanFromName(std::wstring & aName)
+	vssd_pan * VirtualDisk::FindPanFromName(std::wstring & aName)
 	{
 		for (size_t i = 0; i < Pans.size(); i++)
 		{
@@ -56,7 +57,7 @@ namespace sjh {
 
 
 
-	int vssd_disk::Serialize(std::vector<wchar_t> &ByteVssd)
+	size_t VirtualDisk::Serialize(std::vector<wchar_t> &ByteVssd)
 	{
 
 		tool::stringtools::PushString(GetName(), ByteVssd);
@@ -64,7 +65,7 @@ namespace sjh {
 		return ByteVssd.size();
 	}
 
-	void vssd_disk::DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos)
+	void VirtualDisk::DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos)
 	{
 
 		SetName(tool::stringtools::GetString(ByteVssd, Pos));
@@ -85,17 +86,17 @@ namespace sjh {
 		Genius = GeniusNow;
 	}
 
-	vssd_disk::~vssd_disk()
+	VirtualDisk::~VirtualDisk()
 	{
 
 	}
 
-	void vssd_disk::Display()
+	void VirtualDisk::Display()
 	{
-		std::wcout << L"<vssd_disk class>" << std::endl;
+		std::wcout << L"<VirtualDisk class>" << std::endl;
 	}
 
-	vssd_inode *vssd_disk::BuildPath(vssd_inode *NowFolder, tools_path &aPath, int aType)
+	vssd_inode *VirtualDisk::BuildPath(vssd_inode *NowFolder, tools_path &aPath, int aType)
 	{
 		if (aPath.IsAbsolutePath())
 		{
@@ -113,7 +114,7 @@ namespace sjh {
 			for (size_t i = 0; i < aPath.Inodes.size(); i++)
 			{
 
-				int Result = 0;
+				size_t Result = 0;
 				Result = Now->FindSelfSubForFirst(aPath.Inodes[i], 0);
 				if (CheckedFlag && Result != Now->NOT_FINDED)
 				{

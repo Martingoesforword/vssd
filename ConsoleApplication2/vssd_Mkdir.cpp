@@ -1,12 +1,12 @@
 #include "pch.h" 
 #include "vssdMkdir.h" 
 namespace sjh {
-	vssd_inode * vssdMkdir::vMd(vssd_disk & MyVssd, std::wstring & mdCommand)
+	vssd_inode * vssdMkdir::vMd(VirtualDisk & MyVssd, std::wstring & mdCommand)
 	{
 		tool::stringtools::Trim(mdCommand);
 
 		tools_path Path;
-		vssd_inode * Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, mdCommand, Path);
+		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, mdCommand, Path);
 
 		if (nullptr == Inode)
 		{
@@ -27,7 +27,7 @@ namespace sjh {
 		}
 
 	}
-	int vssdMkdir::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
+	int vssdMkdir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

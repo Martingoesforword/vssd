@@ -6,10 +6,10 @@
 namespace sjh {
 	class vssdLoad :public base_executable
 	{
-		void vLoad(vssd_disk & MyVssd, std::wstring & GetFrom);
+		void vLoad(VirtualDisk & MyVssd, std::wstring & GetFrom);
 	public:
 
-		virtual int Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear);
+		virtual int Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
 
 	};
 }

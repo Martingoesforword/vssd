@@ -1,16 +1,15 @@
 #include "vssdCd.h"
 namespace sjh {
 	//当下文件夹下cd
-	void vssdCd::vCd(vssd_disk & MyVssd)
-	{
-		MyVssd.GetNooowPan()->PrintNowPath();
-		std::wcout << "\n";
+	void vssdCd::vCd(VirtualDisk & MyVssd)
+	{ 
+		std::wcout << MyVssd.GetNooowPan()->GetNowPathWString() << "\n";
 	}
-	void vssdCd::vCd(vssd_disk & MyVssd, std::wstring & CdCommand)
+	void vssdCd::vCd(VirtualDisk & MyVssd, std::wstring & CdCommand)
 	{
 		if (!CdCommand.size()) { vCd(MyVssd); return; }
 		tools_path a;
-		vssd_inode * Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
+		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
 
 		if (Inode && Inode->IsFile())
 		{
@@ -32,7 +31,7 @@ namespace sjh {
 
 	}
 
-	int vssdCd::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
+	int vssdCd::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

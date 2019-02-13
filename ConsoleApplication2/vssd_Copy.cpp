@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "vssdCopy.h"
 namespace sjh {
-	void vssdCopy::vCopy(vssd_disk & MyVssd, std::wstring & rearSrc, std::wstring & rearDes)
+	void vssdCopy::vCopy(VirtualDisk & MyVssd, std::wstring & rearSrc, std::wstring & rearDes)
 	{
 		if (rearSrc.at(EXE_OK) == L'@')
 		{
 
 			tools_path a;
-			vssd_inode *Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, a);
+			vssd_inode *Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearDes, a);
 			if (nullptr == Inode)
 			{
 				a.SetInodesByWstring(rearDes);
@@ -82,7 +82,7 @@ namespace sjh {
 		else if (rearDes.at(EXE_OK) == L'@')
 		{
 			tools_path a;
-			vssd_inode *Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
+			vssd_inode *Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
 
 			std::wstring RealDes = rearDes.substr(1, rearDes.length() - 1);
 			std::ofstream DesFile(RealDes, std::ios::binary);
@@ -108,8 +108,8 @@ namespace sjh {
 
 			tools_path		a;
 			tools_path		b;
-			vssd_inode	* SrcInode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
-			vssd_inode	* disInode = vssd_vcmd::v_FindPathForFirst(MyVssd, rearDes, b);
+			vssd_inode	* SrcInode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
+			vssd_inode	* disInode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearDes, b);
 			if (SrcInode && disInode && a.Inodes.size() >= 3 && b.Inodes.size() >= 2)
 			{
 				a.RealInodes.at(a.RealInodes.size() - 2)->UnloadOneSub(SrcInode);
@@ -125,7 +125,7 @@ namespace sjh {
 
 
 	}
-	int vssdCopy::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
+	int vssdCopy::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

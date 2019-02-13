@@ -1,21 +1,21 @@
 #pragma once  
 #include "pch.h"  
-#include "base_serializable.h"
-#include "vssd_inode.h"
+#include "base_serializable.h" 
 #include "tools_vssd.h"
+#include "vssd_inode.h"
 
 namespace sjh {
 	class vssd_inode;
 	class tools_path :public base_serializable
 	{
-	private:
+	private:                         
 		int PathTypeCode = 0;
 	public:
 		tools_path();
 		~tools_path();
 
-		virtual int	Serialize(std::vector<wchar_t> &Byte_Toptable);
-		virtual void DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos);
+		virtual size_t	Serialize(std::vector<wchar_t> &Byte_Toptable);
+		virtual void	DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos);
 
 
 		std::vector<std::wstring> Inodes;

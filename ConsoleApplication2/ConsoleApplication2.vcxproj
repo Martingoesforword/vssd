@@ -108,7 +108,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -148,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -170,6 +170,7 @@
     <ClInclude Include="base_contentable.h" />
     <ClInclude Include="base_executable.h" />
     <ClInclude Include="base_namedable.h" />
+    <ClInclude Include="base_operater.h" />
     <ClInclude Include="base_progress.h" />
     <ClInclude Include="base_serializable.h" />
     <ClInclude Include="base_displayable.h" />
@@ -189,7 +190,7 @@
     <ClInclude Include="vssdSave.h" />
     <ClInclude Include="vssd_manager.h" />
     <ClInclude Include="vssd_structure.h" />
-    <ClInclude Include="vssd_vcmd.h" />
+    <ClInclude Include="vssd_optcmd.h" />
     <ClInclude Include="vssd_pan.h" />
     <ClInclude Include="vssd_inode.h" />
     <ClInclude Include="pch.h" />
@@ -198,18 +199,13 @@
     <ClInclude Include="tools_vssd.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="base_contentable.cpp" />
-    <ClCompile Include="base_executable.cpp" />
-    <ClCompile Include="base_serializable.cpp" />
-    <ClCompile Include="base_displayable.cpp" />
     <ClCompile Include="base_timeable.cpp" />
     <ClCompile Include="ConsoleApplication2.cpp" />
     <ClCompile Include="base_namedable.cpp" />
-    <ClCompile Include="base_progress.cpp" />
     <ClCompile Include="tools_vssd.cpp" />
     <ClCompile Include="vssd_manager.cpp" />
     <ClCompile Include="vssd_structure.cpp" />
-    <ClCompile Include="vssd_vcmd.cpp" />
+    <ClCompile Include="vssd_optcmd.cpp" />
     <ClCompile Include="vssd_Cat.cpp" />
     <ClCompile Include="vssd_Cd.cpp" />
     <ClCompile Include="vssd_Cls.cpp" />

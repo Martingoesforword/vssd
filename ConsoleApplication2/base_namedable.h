@@ -9,7 +9,7 @@ namespace sjh {
 		std::wstring GetName();
 		void SetName(std::wstring aName);
 		base_namedable(std::wstring aName);
-		~base_namedable();
+		~base_namedable(); 
 
 	};
 

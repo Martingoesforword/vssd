@@ -4,9 +4,7 @@ namespace sjh {
 	class vssd_structure
 	{
 
-	public:
-
-
+	public: 
 		vssd_structure();
 		~vssd_structure();
 	};

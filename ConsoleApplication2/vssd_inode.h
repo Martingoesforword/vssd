@@ -6,8 +6,7 @@
 #include "base_serializable.h"  
 #include "base_timeable.h"    
 #include "tools_vssd.h"    
-#include "vssd_disk.h"  
-namespace sjh { 
+namespace sjh {   
 	class vssd_inode :public base_namedable, public  base_displayable, public base_serializable, public base_contentable, public base_timeable
 	{
 	private:
@@ -15,9 +14,9 @@ namespace sjh {
 		std::vector<vssd_inode *> SubInodes;
 		vssd_inode* Father;
 	public:
-		virtual void Display();
-		virtual int  Serialize(std::vector<wchar_t>& aByte);
-		virtual void DeSerialize(std::vector<wchar_t>& aByteVssd, int & aPos);
+		virtual void	Display();
+		virtual size_t  Serialize(std::vector<wchar_t>& aByte);
+		virtual void	DeSerialize(std::vector<wchar_t>& aByteVssd, int & aPos);
 
 		vssd_inode(std::wstring aName, int aCode);
 		~vssd_inode();
@@ -28,19 +27,18 @@ namespace sjh {
 		void LoadOneSub(vssd_inode * aLinkToSub);
 		void UnloadOneSub(vssd_inode * aOffInode);
 		void SetContentString(std::wstring aStr);
-		void DeleteWholeTree();
+		void DeleteWholeTree(); 
 		void DeleteOneSub(vssd_inode *aDeletInode);
 
 		//获取相关  
 		vssd_inode *				GetFather();
 		std::wstring				GetTypeName();
 		std::vector<vssd_inode *>&	GetSubInodes();
-		int							FindSelfSubForFirst(std::wstring Inode, int StartIndex);
+		size_t						FindSelfSubForFirst(std::wstring Inode, size_t StartIndex);
 		void						FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode *> & AllInode);
 		vssd_inode *				FindFolderByLink();
 		void						PrintContent();
-		void						PrintAllSub(vssd_disk & MyVssd, int pram, std::wstring now);
-
+		void						PrintAllSub(int pram, std::wstring now);
 
 		//检查相关 
 		bool IsFile() { return  InodeTypeCode == IS_FILE; }

@@ -29,13 +29,9 @@ namespace sjh {
 
 
 
-	void vssd_inode::PrintAllSub(vssd_disk& MyVssd, int pram, std::wstring now)//pram 1：tree  2：自己
+	void vssd_inode::PrintAllSub( int pram, std::wstring now)//pram 1：tree  2：自己
 	{
-		using namespace sjh;
-		std::cout
-			<< " 驱动器 C 中的卷是 " << tool::stringtools::WStringToString(MyVssd.GetName())
-			<< "。\n 卷的序列号是 " << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(&MyVssd) / 0x10000 << " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(&MyVssd) % 0x10000
-			<< "\n";
+		using namespace sjh;  
 
 		int p = 0;
 
@@ -75,7 +71,7 @@ namespace sjh {
 					std::cout
 						<< tool::stringtools::GetTimeString(SubInodes.at(p)->GetCreateTime())
 						<< "    "
-						<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString(SubInodes[p]->GetContent().size() * sizeof(unsigned char))
+						<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString((unsigned int)SubInodes[p]->GetContent().size() * sizeof(unsigned char))
 						<< " " << tool::stringtools::WStringToString(SubInodes.at(p)->GetName())
 						<< std::endl;
 				}
@@ -100,7 +96,7 @@ namespace sjh {
 			{
 				now.append(GetName());
 				now.append(L"\\");
-				SubInodes[i]->PrintAllSub(MyVssd, pram, now);
+				SubInodes[i]->PrintAllSub(pram, now);
 			}
 		}
 
@@ -205,7 +201,7 @@ namespace sjh {
 
 
 
-	int vssd_inode::FindSelfSubForFirst(std::wstring Inode, int StartIndex)
+	size_t vssd_inode::FindSelfSubForFirst(std::wstring Inode, size_t StartIndex)
 	{
 		for (size_t i = StartIndex; i < SubInodes.size(); i++)
 		{
@@ -221,7 +217,7 @@ namespace sjh {
 				}
 			}
 		}
-		return NOT_FINDED;
+		return (size_t)NOT_FINDED;
 	}
 
 	void vssd_inode::FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode*>& AllInode)
@@ -313,13 +309,13 @@ namespace sjh {
 		}
 	}
 
-	int vssd_inode::Serialize(std::vector<wchar_t>& Bytes)
+	size_t vssd_inode::Serialize(std::vector<wchar_t>& Bytes)
 	{
-		int Start = Bytes.size();
+		size_t Start = Bytes.size();
 		tool::stringtools::PushString(GetName(), Bytes);
 		tool::stringtools::PushLengthValue(InodeTypeCode, Bytes);
 		tool::stringtools::PushWcharVector(GetContent(), Bytes);
-		tool::stringtools::PushLengthValue(SubInodes.size(), Bytes);
+		tool::stringtools::PushLengthValue((unsigned int)SubInodes.size(), Bytes);
 		if (InodeTypeCode == IS_FOLDER) {
 			for (size_t i = 0; i < SubInodes.size(); i++)
 			{

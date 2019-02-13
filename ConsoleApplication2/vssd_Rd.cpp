@@ -3,11 +3,11 @@
 namespace sjh {
 	//当下文件夹下rd
 
-	void vssdRd::vRd(vssd_disk & MyVssd, std::wstring & RdCommand)
+	void vssdRd::vRd(VirtualDisk & MyVssd, std::wstring & RdCommand)
 	{
 
 		tools_path a;
-		vssd_inode * Inode = vssd_vcmd::v_FindPathForFirst(MyVssd, RdCommand, a);
+		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, RdCommand, a);
 		if (!Inode)
 		{
 			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
@@ -15,7 +15,7 @@ namespace sjh {
 		if (Inode->IsFile())
 		{
 			std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
-			vssdDel vDel();
+			vssdDel vDel;
 			return;
 		}
 		if (Inode && a.Inodes.size() >= 3)
@@ -26,7 +26,7 @@ namespace sjh {
 
 
 	}
-	int vssdRd::Execute(vssd_disk & MyVssd, std::vector<std::wstring> Rear)
+	int vssdRd::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		return EXE_OK;
 	}

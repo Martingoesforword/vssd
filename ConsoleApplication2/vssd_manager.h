@@ -1,20 +1,22 @@
 #pragma once
 #include "pch.h"
+#include "base_operater.h" 
 #include "vssd_disk.h"
+#include "vssd_optcmd.h"
 namespace sjh {
 	class vssd_manager
-	{
-		vssd_vcmd Vcmd; 
+	{ 
+		std::vector<base_operater*> operators;
+		VirtualDisk* disk;  
 	public:
-		vssd_manager();
-		vssd_vcmd * GetVcmd();
-		~vssd_manager();
-
-		vssd_disk* disk;
-		void CreateDisk(); 
-
-		void ComeInVcmd();
 		
+		vssd_manager();  
+		
+		void CreateDiskDemo1(); 
+
+		int ComeInOperaterByAccessWay(int OptType);
+		
+		static const int TYPE_CMD = 1;
 		
 	};
 }

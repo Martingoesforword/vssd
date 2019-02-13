@@ -10,27 +10,27 @@
 #include "tools_path.h"
 #include "vssd_pan.h" 
 #include "vssd_inode.h" 
-#include "vssd_vcmd.h" 
+#include "vssd_optcmd.h" 
 
 
 namespace sjh {
 	
-	class vssd_disk :public base_namedable, public base_displayable, public base_serializable, public base_timeable
+	class VirtualDisk :public base_namedable, public base_displayable, public base_serializable, public base_timeable
 	{
 	private:
 		vssd_pan *NowPan;
 		vssd_inode *Genius;
-		std::vector<vssd_pan *> Pans; 
+		std::vector <vssd_pan *> Pans; 
 		
 	public:
 		
-		vssd_disk(vssd_pan * aNow, vssd_inode * aGenius, std::wstring aName);
-		~vssd_disk();
+		VirtualDisk(vssd_pan * aNow, vssd_inode * aGenius, std::wstring aName);
+		~VirtualDisk();
 		
 
-		virtual void Display();
-		virtual int  Serialize(std::vector<wchar_t>& aByteVssd);
-		virtual void DeSerialize(std::vector<wchar_t>& aByteVssd, int &aPos);
+		virtual void	Display();
+		virtual size_t  Serialize(std::vector<wchar_t>& aByteVssd);
+		virtual void	DeSerialize(std::vector<wchar_t>& aByteVssd, int &aPos);
 
 		//修改相关
 		void SetNooowPan(vssd_pan * aInodeTop);
@@ -39,7 +39,6 @@ namespace sjh {
 		//获取相关 
 		vssd_pan *			FindPanFromName(std::wstring &aName);
 		vssd_pan *			GetNooowPan();
-		vssd_inode *		GetGenius();
-		vssd_vcmd*			GetVcmd(); 
+		vssd_inode *		GetGenius(); 
 	};
 }

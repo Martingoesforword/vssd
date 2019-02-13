@@ -6,9 +6,7 @@ namespace sjh {
 	private:
 		std::vector<wchar_t> Content;
 	public:
-		virtual std::vector<wchar_t>& GetContent() { return Content; };
-		base_contentable();
-		~base_contentable();
+		virtual std::vector<wchar_t>& GetContent() { return Content; }; 
 	};
 
 }
