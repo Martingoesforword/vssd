@@ -121,7 +121,7 @@ namespace sjh {
 				}
 			}
 
-			if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == IS_SAMESTRING)
+			if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == sjh::IS_SAMESTRING)
 			{
 				SubInodes.at(j)->DeleteWholeTree();
 				SubInodes.at(j)->~vssd_inode();
@@ -156,7 +156,7 @@ namespace sjh {
 				}
 			}
 
-			if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == IS_SAMESTRING)
+			if (SubInodes.at(j)->GetName().compare(deletInode->GetName()) == sjh::IS_SAMESTRING)
 			{
 				std::vector<vssd_inode*>::iterator it = SubInodes.begin();
 				SubInodes.erase(it + j);
@@ -346,6 +346,10 @@ namespace sjh {
 
 	vssd_inode::~vssd_inode()
 	{
+		for (size_t i = 0; i < SubInodes.size(); i++)
+		{
+			delete SubInodes[i];
+		}
 	}
 
 	void vssd_inode::Display()

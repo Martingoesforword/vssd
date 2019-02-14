@@ -15,12 +15,6 @@ namespace sjh {
 	base_namedable::base_namedable(std::wstring aName)
 	{
 		Name = aName;
-	}
-
-
-
-	base_namedable::~base_namedable()
-	{
-	}
+	}  
 }
  

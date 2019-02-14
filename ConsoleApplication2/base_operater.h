@@ -6,6 +6,6 @@ namespace sjh {
 	public:
 		int OptType;
 		virtual void InitType() = 0;
-		virtual int ExeInterface(VirtualDisk & MyVssd) = 0;  
+		virtual int ExeInterface(VirtualDisk & MyVssd) = 0;   
 	};
 }

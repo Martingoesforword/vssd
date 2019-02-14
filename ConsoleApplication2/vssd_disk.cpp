@@ -44,7 +44,7 @@ namespace sjh {
 	{
 		for (size_t i = 0; i < Pans.size(); i++)
 		{
-			if (aName.compare(Pans[i]->GetRoot()->GetName()) == IS_SAMESTRING)
+			if (aName.compare(Pans[i]->GetRoot()->GetName()) == sjh::IS_SAMESTRING)
 			{
 				return Pans[i];
 			}
@@ -88,6 +88,11 @@ namespace sjh {
 
 	VirtualDisk::~VirtualDisk()
 	{
+		delete Genius;
+		for (size_t i = 0; i < Pans.size(); i++)
+		{
+			delete Pans[i];
+		}
 
 	}
 

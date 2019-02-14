@@ -32,7 +32,16 @@ namespace sjh {
 			if(OptType == operators[i]->OptType) return operators[i]->ExeInterface(*disk);
 		}  
 		return 1; 
-	} 
+	}
+	vssd_manager::~vssd_manager()
+	{
+		for (size_t i = 0; i < operators.size(); i++)
+		{
+			delete operators[i];
+		}
+		delete disk;
+	}
+
 	 
 }
  

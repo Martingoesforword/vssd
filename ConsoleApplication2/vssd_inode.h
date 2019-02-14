@@ -15,7 +15,7 @@ namespace sjh {
 		vssd_inode* Father;
 	public:
 		virtual void	Display();
-		virtual size_t  Serialize(std::vector<wchar_t>& aByte);
+		virtual size_t	Serialize(std::vector<wchar_t>& aByte);
 		virtual void	DeSerialize(std::vector<wchar_t>& aByteVssd, int & aPos);
 
 		vssd_inode(std::wstring aName, int aCode);

@@ -17,6 +17,6 @@ namespace sjh {
 		int ComeInOperaterByAccessWay(int OptType);
 		
 		static const int TYPE_CMD = 1;
-		
+		~vssd_manager();
 	};
 }

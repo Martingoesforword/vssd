@@ -6,7 +6,6 @@ namespace sjh {
 		std::time_t CreateTime;
 	public:
 		std::time_t GetCreateTime();
-		base_timeable();
-		~base_timeable();
+		base_timeable(); 
 	};
 }

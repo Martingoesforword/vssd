@@ -1,6 +1,7 @@
 #pragma once   
 #include "pch.h"
 namespace sjh {
+	const int IS_SAMESTRING = 0;
 	namespace tool {
 		class stringtools
 		{

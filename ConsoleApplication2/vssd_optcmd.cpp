@@ -82,7 +82,7 @@ namespace sjh {
 	bool vssd_optcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchString)
 	{
 		if (CmdCommand.length() >= MatchString.size() &&
-			CmdCommand.substr(0, MatchString.size()).compare(MatchString) == IS_SAMESTRING)
+			CmdCommand.substr(0, MatchString.size()).compare(MatchString) == sjh::IS_SAMESTRING)
 		{
 			return true;
 		}
