@@ -4,8 +4,8 @@ namespace sjh {
 	class base_operater
 	{ 
 	public:
-		int OptType;
-		virtual void InitType() = 0;
-		virtual int ExeInterface(VirtualDisk & MyVssd) = 0;   
+		int		OptType;
+		virtual void	InitType() = 0;
+		virtual int		ExeInterface(VirtualDisk & MyVssd) = 0;   
 	};
 }

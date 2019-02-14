@@ -3,7 +3,7 @@ namespace sjh {
 	class base_displayable
 	{
 	public:
-		virtual void Display() = 0; 
+		virtual void	Display() = 0; 
 	};
 
 }

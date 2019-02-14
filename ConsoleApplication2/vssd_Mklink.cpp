@@ -24,6 +24,9 @@ namespace sjh {
 			//找到创建的Link文件
 			Link->LoadOneSub(SrcInode);
 			//将Link文件第一个子文件放入指向文件 
+
+			//同时把路径放入
+			Link->SetLinkPath(a);
 		}
 		else
 		{

@@ -11,29 +11,30 @@ namespace sjh {
 	private:                         
 		int PathTypeCode = 0;
 	public:
+		//原始构造
 		tools_path();
 		~tools_path();
 
+		//基类相关
 		virtual size_t	Serialize(std::vector<wchar_t> &Byte_Toptable);
 		virtual void	DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos);
+		  
+		//Inodes & RealInodes相关
+		std::vector<std::wstring>	Inodes;
+		std::vector<vssd_inode *>	RealInodes; 
+		void	SetInodesByWstring(std::wstring pathString); 
+		void	LoadOneSub(vssd_inode * Inode);
+		std::wstring	GetPathWstring();
+		vssd_inode *	GetNowPtr();  
+		std::wstring	GetNowWString();
+		void	DeleteOneSub();
+		void	Clear();
 
-
-		std::vector<std::wstring> Inodes;
-		std::vector<vssd_inode *> RealInodes;
-
-		int					GetTypeCode();
-		std::wstring		GetPathWstring();
-		vssd_inode *		GetNow();
-
-		void LoadOneSub(vssd_inode * Inode);
-		void SetInodesByWstring(std::wstring pathString); //路径字符串到路径对象  
-		void DeleteOneSub();
-		void Clear();
-
-
+		//PathTypeCode相关
 		bool IsAbsolutePath() { return PathTypeCode == IS_ABSOLUTE_PATH; }
 		bool IsRelativePath() { return PathTypeCode == IS_RELATIVE_PATH; }
 		static const int IS_ABSOLUTE_PATH = 1;
 		static const int IS_RELATIVE_PATH = 2;
+		int		GetTypeCode();
 	};
 }

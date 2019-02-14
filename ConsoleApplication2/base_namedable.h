@@ -6,10 +6,12 @@ namespace sjh {
 	protected:
 		std::wstring Name;
 	public:
-		std::wstring GetName();
-		void SetName(std::wstring aName);
-		base_namedable(std::wstring aName); 
+		//原始构造
+		base_namedable(std::wstring aName);
 
+		//name相关
+		void			SetName(std::wstring aName);
+		std::wstring	GetName(); 
 	};
 
 }

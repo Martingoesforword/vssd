@@ -6,13 +6,16 @@ namespace sjh {
 	class base_executable
 	{
 	protected:
+		
+		int		status;
+	public:
+		//原始构造
+		virtual ~base_executable() {};
+
+		//status相关
 		static const int EXE_ERROR = -1;
 		static const int EXE_OK = 0;
-		int status;
-	public:
-		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear) = 0;
-		int GetStatus() { return status; }
-		virtual ~base_executable() {};
-	};
-	 
+		virtual void	Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear) = 0;
+		int				GetStatus() { return status; } 
+	}; 
 }

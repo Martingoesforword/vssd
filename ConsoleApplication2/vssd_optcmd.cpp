@@ -11,7 +11,7 @@ namespace sjh {
 		 
 		tools_path path;
 		path.SetInodesByWstring(pathstring);
-		vssd_inode * longNowf = Nowpath.GetNow();
+		vssd_inode * longNowf = Nowpath.GetNowPtr();
 
 		int flag_tofirstif = 1;
 		for (size_t i = 0; i < path.Inodes.size(); i++)

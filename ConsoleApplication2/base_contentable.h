@@ -4,9 +4,9 @@ namespace sjh {
 	class base_contentable
 	{
 	private:
-		std::vector<wchar_t> Content;
+		std::vector<wchar_t>	Content;
 	public:
-		virtual std::vector<wchar_t>& GetContent() { return Content; }; 
+		virtual std::vector<wchar_t>&	GetContent() { return Content; }; 
 	};
 
 }

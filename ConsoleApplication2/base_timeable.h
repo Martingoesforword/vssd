@@ -3,9 +3,9 @@
 namespace sjh {
 	class base_timeable
 	{
-		std::time_t CreateTime;
+		std::time_t		CreateTime;
 	public:
-		std::time_t GetCreateTime();
+		std::time_t		GetCreateTime();
 		base_timeable(); 
 	};
 }

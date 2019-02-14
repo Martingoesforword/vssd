@@ -75,6 +75,16 @@ namespace sjh {
 			<< tool::stringtools::WStringToString(GetName())
 			<< std::endl;
 	}
+
+	void vssd_inode::SetLinkPath(std::wstring PathWString)
+	{
+		LinkPath.SetInodesByWstring(PathWString);
+	}
+
+	void vssd_inode::SetLinkPath(tools_path& Path)
+	{
+		LinkPath = Path;
+	}
 	
 	void vssd_inode::PrintAllSub( int pram, std::wstring now) 
 	{ 

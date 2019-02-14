@@ -13,7 +13,7 @@ namespace sjh {
 
 	vssd_inode * vssd_pan::GetNooowPos()
 	{
-		return NowPath.GetNow();
+		return NowPath.GetNowPtr();
 	}
 	 
 	std::wstring vssd_pan::GetNowPathWString()

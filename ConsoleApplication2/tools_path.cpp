@@ -35,9 +35,14 @@ namespace sjh {
 
 
 
-	vssd_inode * tools_path::GetNow()
+	vssd_inode * tools_path::GetNowPtr()
 	{
 		return RealInodes.at(RealInodes.size() - 1);
+	}
+
+	std::wstring tools_path::GetNowWString()
+	{
+		return Inodes[Inodes.size() - 1];
 	}
 
 	void tools_path::Clear()
