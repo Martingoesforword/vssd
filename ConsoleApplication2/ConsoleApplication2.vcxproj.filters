@@ -42,9 +42,6 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="base_progress.h">
-      <Filter>头文件\base</Filter>
-    </ClInclude>
     <ClInclude Include="tools_vssd.h">
       <Filter>头文件\tools</Filter>
     </ClInclude>

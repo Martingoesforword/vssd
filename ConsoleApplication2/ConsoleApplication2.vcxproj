@@ -171,7 +171,6 @@
     <ClInclude Include="base_executable.h" />
     <ClInclude Include="base_namedable.h" />
     <ClInclude Include="base_operater.h" />
-    <ClInclude Include="base_progress.h" />
     <ClInclude Include="base_serializable.h" />
     <ClInclude Include="base_displayable.h" />
     <ClInclude Include="base_timeable.h" />

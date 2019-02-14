@@ -7,8 +7,16 @@ namespace sjh {
 		std::wcout << MyVssd.GetNooowPan()->GetNowPathWString() << "\n";
 	}
 	void vssdCd::vCd(VirtualDisk & MyVssd, std::wstring & CdCommand)
-	{
+	{ 
+		 
+		vssd_pan *Pan = MyVssd.GetNooowPan();
 		if (!CdCommand.size()) { vCd(MyVssd); return; }
+		else if (CdCommand.compare(L"/") == 0 || CdCommand.compare(L"\\") == 0)
+		{
+			while (Pan->GetNowPath().Inodes.size() > 2) Pan->GetNowPath().DeleteOneSub();
+			return;
+		}
+
 		tools_path a;
 		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
 
@@ -32,8 +40,9 @@ namespace sjh {
 
 	}
 
-	void vssdCd::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
-	{
+	void vssdCd::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
+	{ 
+		vCd(MyVssd, Rear[1]);
 		status = EXE_OK;
 	}
 	 

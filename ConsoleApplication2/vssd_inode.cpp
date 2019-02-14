@@ -78,7 +78,7 @@ namespace sjh {
 	
 	void vssd_inode::PrintAllSub( int pram, std::wstring now) 
 	{ 
-		
+		  
 		PrintHead(now);
 		PrintOTP();  
 
@@ -105,8 +105,9 @@ namespace sjh {
 				else
 				{
 					std::wstring a = now;
-					a.append(SubInodes[i]->GetName());
 					a.append(L"\\");
+					a.append(SubInodes[i]->GetName());
+					
 
 					SubInodes[i]->PrintAllSub(pram, a);
 				}

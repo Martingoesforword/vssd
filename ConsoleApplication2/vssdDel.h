@@ -12,6 +12,6 @@ namespace sjh {
 		void vDel(VirtualDisk & MyVssd, std::wstring & DelCommand);
 	public:
 
-		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
+		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear);
 	};
 }

@@ -125,7 +125,7 @@ namespace sjh {
 
 
 	}
-	void vssdCopy::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdCopy::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
 	{
 		status = EXE_OK;
 	}

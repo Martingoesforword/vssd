@@ -3,20 +3,8 @@
 namespace sjh {
 	void vssdDir::vDir(VirtualDisk & MyVssd, int Type)
 	{
-		vssd_inode *now = MyVssd.GetNooowPan()->GetNooowPos();
-
-		while (now->IsLink())
-		{
-			if (now) now = now->GetSubInodes()[EXE_OK];
-			else
-			{
-				return;
-			}
-		} 
-		tools_path a(MyVssd.GetNooowPan()->GetNowPath());
-		a.DeleteOneSub();
-		now->PrintAllSub(Type, a.GetPathWstring());
-
+		vssd_inode *now = MyVssd.GetNooowPan()->GetNooowPos();  
+		now->PrintAllSub(Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring()); 
 	}
 	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs, int DirsPos, int Type)
 	{
@@ -45,31 +33,31 @@ namespace sjh {
 	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs)
 	{
 		
-		if (!Dirs.size()) { vDir(MyVssd, DIR_TYPE_SELF); return; }
+		if (Dirs.size() == 1) { vDir(MyVssd, DIR_TYPE_SELF); return; }
 		//ÅÐ¶Ï¿ª¹Ø
-		if (Dirs[0].at(EXE_OK) == '/' && Dirs[0].size() >= 2)
+		if (Dirs[1][0] == '/' && Dirs[1].size() >= 2)
 		{
-			if (Dirs[0].size() == 2 && Dirs[EXE_OK].at(1) == 's' )
+			if (Dirs[1].size() == 2 && Dirs[1][1] == 's' )
 			{
-				if (Dirs.size() == 1)
+				if (Dirs.size() == 2)
 				{
 					vDir(MyVssd, DIR_TYPE_TREE);
 				}
 				else
 				{
-					vDir(MyVssd, Dirs, 1, DIR_TYPE_TREE);
+					vDir(MyVssd, Dirs, 2, DIR_TYPE_TREE);
 				}
 				
 			}
-			else if (Dirs[0].size() == 3 && Dirs[EXE_OK].at(1) == 'a' && Dirs[EXE_OK].at(2) == 'd')
+			else if (Dirs[1].size() == 3 && Dirs[1][1] == 'a' && Dirs[1][2] == 'd')
 			{
-				if (Dirs.size() == 1)
+				if (Dirs.size() == 2)
 				{
 					vDir(MyVssd, DIR_TYPE_SELF);
 				}
 				else
 				{
-					vDir(MyVssd, Dirs, 1, DIR_TYPE_SELF);
+					vDir(MyVssd, Dirs, 2, DIR_TYPE_SELF);
 				} 
 			}
 			
@@ -80,7 +68,7 @@ namespace sjh {
 		}
 
 	}
-	void vssdDir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdDir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
 	{
 		vDir(MyVssd, Rear);
 		status = EXE_OK;

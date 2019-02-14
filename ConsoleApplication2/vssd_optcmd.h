@@ -31,7 +31,7 @@ namespace sjh {
 		static void					v_jump(VirtualDisk & MyVssd, std::wstring & JumpTo);
 		static bool					v_match(std::wstring & CmdCommand, std::wstring MatchString);
 		static vssd_inode*			v_FindPathForFirst(VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path & aPath);
-
+		static base_executable *			GetTaskByName(std::wstring Name);
 		static const int RET_WELL_OPERATION = 0;
 		static const int RET_ERROR_OPERATION = 1; 
 		virtual void InitType()  { OptType = 1; }

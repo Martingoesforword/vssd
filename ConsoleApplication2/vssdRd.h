@@ -12,7 +12,7 @@ namespace sjh {
 	{
 		void vRd(VirtualDisk & MyVssd, std::wstring & RdCommand);
 	public:
-		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
+		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear);
 
 	};
 }
