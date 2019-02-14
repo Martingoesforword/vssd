@@ -39,7 +39,10 @@ namespace sjh {
 		vssd_inode *				FindFolderByLink();
 		void						PrintContent();
 		void						PrintAllSub(int pram, std::wstring now);
-
+		void						PrintOTP();
+		void						PrintHead(std::wstring now);
+		void						PrintFileInfo();
+		void						PrintFoLiInfo();
 		//ºÏ≤Èœ‡πÿ 
 		bool IsFile() { return  InodeTypeCode == IS_FILE; }
 		bool IsFolder() { return  InodeTypeCode == IS_FOLDER; }

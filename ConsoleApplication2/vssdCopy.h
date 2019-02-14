@@ -12,6 +12,6 @@ namespace sjh {
 		void vCopy(VirtualDisk & MyVssd, std::wstring & Src, std::wstring & Des);
 	public:
 
-		virtual int Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
+		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
 	};
 }

@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "vssd_inode.h"
 
 namespace sjh {
@@ -26,18 +27,15 @@ namespace sjh {
 
 
 
-
-
-
-	void vssd_inode::PrintAllSub( int pram, std::wstring now)//pram 1：tree  2：自己
+	void vssd_inode::PrintHead(std::wstring now)
 	{
-		using namespace sjh;  
-
-		int p = 0;
-
 		std::cout
 			<< "\n " << tool::stringtools::WStringToString(now) << " 的目录\n"
 			<< std::endl;
+		
+	}
+	void vssd_inode::PrintOTP()
+	{
 		std::cout
 			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetCreateTime()))
 			<< "    "
@@ -56,47 +54,63 @@ namespace sjh {
 			<< " "
 			<< ".."
 			<< std::endl;
-
+		
+	}
+	void vssd_inode::PrintFileInfo()
+	{
+		std::cout
+			<< tool::stringtools::GetTimeString(GetCreateTime())
+			<< "    "
+			<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString((unsigned int)GetContent().size() * sizeof(unsigned char))
+			<< " " << tool::stringtools::WStringToString(GetName())
+			<< std::endl;
+	}
+	void vssd_inode::PrintFoLiInfo()
+	{
+		std::cout
+			<< tool::stringtools::GetTimeString(GetCreateTime()) << "    "
+			<< std::setiosflags(std::ios::right)
+			<< "<" << tool::stringtools::WStringToString(GetTypeName()) << ">"
+			<< std::setfill(' ') << std::setw(10) << " "
+			<< tool::stringtools::WStringToString(GetName())
+			<< std::endl;
+	}
+	
+	void vssd_inode::PrintAllSub( int pram, std::wstring now) 
+	{ 
+		
+		PrintHead(now);
+		PrintOTP();  
 
 		for (size_t i = 0; i < SubInodes.size(); i++)
-		{
-
-
-		defeatInode:
-
-			if (SubInodes.at(p) != NULL)
+		{  
+			if (SubInodes[i]->IsFile())
 			{
-				if (SubInodes.at(p)->IsFile())
-				{
-					std::cout
-						<< tool::stringtools::GetTimeString(SubInodes.at(p)->GetCreateTime())
-						<< "    "
-						<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString((unsigned int)SubInodes[p]->GetContent().size() * sizeof(unsigned char))
-						<< " " << tool::stringtools::WStringToString(SubInodes.at(p)->GetName())
-						<< std::endl;
-				}
-				else {
-					std::cout
-						<< tool::stringtools::GetTimeString(SubInodes.at(p)->GetCreateTime()) << "    "
-						<< std::setiosflags(std::ios::right)
-						<< "<" << tool::stringtools::WStringToString(SubInodes[p]->GetTypeName()) << ">"
-						<< std::setfill(' ') << std::setw(10) << " "
-						<< tool::stringtools::WStringToString(SubInodes.at(p)->GetName())
-						<< std::endl;
-				}
+				SubInodes[i]->PrintFileInfo();
 			}
-			else
-			{
-				p++; goto defeatInode;
-			}
-			p++;
+			else {
+				SubInodes[i]->PrintFoLiInfo();
+			} 
 		}
-		if (pram == 1) {
+
+		if (pram == DIR_TYPE_TREE) 
+		{
 			for (size_t i = 0; i < SubInodes.size(); i++)
-			{
-				now.append(GetName());
-				now.append(L"\\");
-				SubInodes[i]->PrintAllSub(pram, now);
+			{ 
+				if (SubInodes[i]->IsFile())
+				{
+					PrintHead(now); 
+					SubInodes[i]->PrintFileInfo();
+				}
+				else
+				{
+					std::wstring a = now;
+					a.append(SubInodes[i]->GetName());
+					a.append(L"\\");
+
+					SubInodes[i]->PrintAllSub(pram, a);
+				}
+				
 			}
 		}
 

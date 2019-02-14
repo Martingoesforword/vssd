@@ -1,6 +1,6 @@
+#include "pch.h"  
 #include "vssd_manager.h"
-
-
+ 
 namespace sjh { 
 	vssd_manager::vssd_manager()
 	{ 
@@ -14,8 +14,13 @@ namespace sjh {
 
 		vssd_inode *Folder = new vssd_inode(L"sjh", vssd_inode::IS_FOLDER);
 		vssd_inode *File = new vssd_inode(L"sjh.txt", vssd_inode::IS_FILE);
+		vssd_inode *File1 = new vssd_inode(L"sjh1", vssd_inode::IS_FOLDER);
+		vssd_inode *File2 = new vssd_inode(L"sjh2", vssd_inode::IS_FOLDER);
 		c_pan->LoadOneSub(Folder);
 		c_pan->LoadOneSub(File);
+
+		Folder->LoadOneSub(File1);
+		Folder->LoadOneSub(File2);
 		vssd_pan *MyTopcpan = new vssd_pan(c_pan, Genius);//¼ÓÔØ¸ùÄ¿Â¼
 		VirtualDisk *MyVssd = new VirtualDisk(MyTopcpan, Genius, L"firstVssd");
 

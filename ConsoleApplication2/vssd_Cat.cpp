@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "vssdCat.h"   
 namespace sjh { 
 	 
@@ -13,9 +14,9 @@ namespace sjh {
 		}
 
 	}
-	int vssdCat::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdCat::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
-		return EXE_OK;
+		status = EXE_OK;
 	}
 
 }

@@ -12,7 +12,7 @@ namespace sjh {
 		vssd_inode* vMd(VirtualDisk & MyVssd, std::wstring & mdCommand);
 	public:
 		 
-		virtual int Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
+		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
 
 	};
 }

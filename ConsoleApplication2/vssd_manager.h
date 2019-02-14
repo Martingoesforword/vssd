@@ -8,15 +8,12 @@ namespace sjh {
 	{ 
 		std::vector<base_operater*> operators;
 		VirtualDisk* disk;  
-	public:
-		
-		vssd_manager();  
-		
-		void CreateDiskDemo1(); 
-
-		int ComeInOperaterByAccessWay(int OptType);
-		
-		static const int TYPE_CMD = 1;
+	public: 
+		vssd_manager();
 		~vssd_manager();
+
+		void CreateDiskDemo1(); 
+		int ComeInOperaterByAccessWay(int OptType);
+		static const int TYPE_CMD = 1;
 	};
 }

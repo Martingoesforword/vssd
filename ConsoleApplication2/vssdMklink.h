@@ -14,6 +14,6 @@ namespace sjh {
 	{ 
 	public:
 		void vMklink(sjh::VirtualDisk & MyVssd, std::wstring & Src, std::wstring & LinkName);
-		virtual int Execute(sjh::VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
+		virtual void Execute(sjh::VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
 	};
 }

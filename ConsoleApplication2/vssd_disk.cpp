@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "vssd_disk.h"
 namespace sjh { 
 	vssd_pan * VirtualDisk::GetNooowPan()

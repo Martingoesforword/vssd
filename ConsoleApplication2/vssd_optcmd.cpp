@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "vssd_optcmd.h"
 const std::wstring sjh::vssd_optcmd::GUIDE_SYMBOL = L">";
 namespace sjh {  
@@ -154,8 +155,10 @@ namespace sjh {
 		//dirÃüÁî½âÎö
 		else if (v_match(CmdCommand, L"dir"))
 		{
-			vssdDir vDir_task1 ;
+			vssdDir vDir_task1;
 			vDir_task1.Execute(MyVssd, Rears);
+
+			vDir_task1.GetStatus();
 		}
 		//delÃüÁî½âÎö
 		else if (v_match(CmdCommand, L"del"))

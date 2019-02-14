@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "vssd_structure.h"
 
 namespace sjh { 

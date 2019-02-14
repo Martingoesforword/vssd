@@ -10,8 +10,8 @@ namespace sjh {
 		MyVssd.DeSerialize(aSerial, Pos);
 		aSerial.clear();
 	}
-	int vssdLoad::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdLoad::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
-		return EXE_OK;
+		status = EXE_OK;
 	}
 }

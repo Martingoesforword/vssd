@@ -19,8 +19,8 @@ namespace sjh {
 			}
 		}
 	}
-	int vssdDel::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdDel::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
-		return EXE_OK;
+		status = EXE_OK;
 	}
 }

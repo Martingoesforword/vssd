@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "tools_vssd.h"
 namespace sjh { 
 	void tool::stringtools::Split(std::wstring str, std::vector<std::wstring> &ret, std::wstring pattern)

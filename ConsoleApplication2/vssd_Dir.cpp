@@ -12,14 +12,16 @@ namespace sjh {
 			{
 				return;
 			}
-		}
-
-		now->PrintAllSub(Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring());
+		} 
+		tools_path a(MyVssd.GetNooowPan()->GetNowPath());
+		a.DeleteOneSub();
+		now->PrintAllSub(Type, a.GetPathWstring());
 
 	}
-	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs, int Type)
+	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs, int DirsPos, int Type)
 	{
-		for (size_t i = EXE_OK; i < Dirs.size(); i++)
+		// 切割/字符串（DirsPos）位置 
+		for (size_t i = DirsPos; i < Dirs.size(); i++)
 		{
 			tools_path a;
 			vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, Dirs[i], a);
@@ -33,35 +35,54 @@ namespace sjh {
 				return;
 			}
 			else
-			{
-
+			{ 
+				a.DeleteOneSub();
 				Inode->PrintAllSub(Type, a.GetPathWstring());
 			}
-
-
+			 
 		}
 	}
 	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs)
 	{
 		
-		if (!Dirs.size()) { vDir(MyVssd, 2); return; } 
+		if (!Dirs.size()) { vDir(MyVssd, DIR_TYPE_SELF); return; }
 		//判断开关
-		if (Dirs[EXE_OK].at(EXE_OK) == '/' && Dirs[EXE_OK].size() >= 2)
+		if (Dirs[0].at(EXE_OK) == '/' && Dirs[0].size() >= 2)
 		{
-			if (Dirs[EXE_OK].at(1) == 'a')
+			if (Dirs[0].size() == 2 && Dirs[EXE_OK].at(1) == 's' )
 			{
-				vDir(MyVssd, 2);
+				if (Dirs.size() == 1)
+				{
+					vDir(MyVssd, DIR_TYPE_TREE);
+				}
+				else
+				{
+					vDir(MyVssd, Dirs, 1, DIR_TYPE_TREE);
+				}
+				
 			}
-			else if (Dirs[EXE_OK].at(1) == 's')
+			else if (Dirs[0].size() == 3 && Dirs[EXE_OK].at(1) == 'a' && Dirs[EXE_OK].at(2) == 'd')
 			{
-				vDir(MyVssd, 1);
+				if (Dirs.size() == 1)
+				{
+					vDir(MyVssd, DIR_TYPE_SELF);
+				}
+				else
+				{
+					vDir(MyVssd, Dirs, 1, DIR_TYPE_SELF);
+				} 
 			}
+			
+		}
+		else 
+		{
+			//无开关
 		}
 
 	}
-	int vssdDir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdDir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
 		vDir(MyVssd, Rear);
-		return EXE_OK;
+		status = EXE_OK;
 	}
 }

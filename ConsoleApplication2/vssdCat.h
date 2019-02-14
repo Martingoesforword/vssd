@@ -11,6 +11,6 @@ namespace sjh {
 	{
 		void vCat(VirtualDisk & MyVssd, std::wstring & Rear);
 	public:
-		virtual int Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
+		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
 	};
 }

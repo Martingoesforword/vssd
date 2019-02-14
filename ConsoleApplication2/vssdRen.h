@@ -11,7 +11,7 @@ namespace sjh {
 	{
 		void vRen(VirtualDisk & MyVssd, std::wstring & SrcCommand, std::wstring & DesName);
 	public:
-		virtual int Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
+		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear);
 
 	};
 }

@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "vssd_pan.h"
 namespace sjh { 
 	vssd_inode * vssd_pan::GetRoot()

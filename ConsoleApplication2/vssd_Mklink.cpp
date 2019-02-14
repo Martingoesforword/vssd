@@ -30,8 +30,8 @@ namespace sjh {
 			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
 		}
 	}
-	int vssdMklink::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdMklink::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
-		return 0;
+		status = EXE_OK;
 	}
 }

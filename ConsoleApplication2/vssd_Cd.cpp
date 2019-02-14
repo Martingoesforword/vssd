@@ -1,3 +1,4 @@
+#include "pch.h"  
 #include "vssdCd.h"
 namespace sjh {
 	//当下文件夹下cd
@@ -31,9 +32,9 @@ namespace sjh {
 
 	}
 
-	int vssdCd::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
+	void vssdCd::Execute(VirtualDisk & MyVssd, std::vector<std::wstring> Rear)
 	{
-		return EXE_OK;
+		status = EXE_OK;
 	}
 	 
 }
