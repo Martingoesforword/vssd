@@ -28,11 +28,7 @@ namespace sjh {
 
 	tools_path::tools_path():PathTypeCode(tools_path::IS_ABSOLUTE_PATH)
 	{ 
-	}
-
-
-
-
+	} 
 
 	const vssd_inode * tools_path::GetNowPtr() const
 	{
@@ -167,7 +163,7 @@ namespace sjh {
 	void tools_path::LoadOneSub(const vssd_inode *Inode)
 	{
 		Inodes.push_back(Inode->GetName());
-		RealInodes.push_back((vssd_inode *)Inode); 
+		RealInodes.push_back(const_cast<vssd_inode *>(Inode));
 	}
 
 	tools_path::~tools_path()

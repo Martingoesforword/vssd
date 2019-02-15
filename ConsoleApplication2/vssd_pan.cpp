@@ -56,8 +56,8 @@ namespace sjh {
 		using namespace sjh;
 		std::cout
 			<< " 驱动器 C 中的卷是 " << tool::stringtools::WStringToString(root->GetName())
-			<< "。\n 卷的序列号是 " << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << (int)(void*)(root) / 0x10000
-			<< " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << (int)(void*)(root) % 0x10000
+			<< "。\n 卷的序列号是 " << std::setfill('0') << std::setw(4) << std::setiosflags(std::ios::uppercase) << std::hex << reinterpret_cast<int>(root) / 0x10000
+			<< " - " << std::setfill('0') << std::setw(4) << std::hex << std::setiosflags(std::ios::uppercase) << reinterpret_cast<int>(root) % 0x10000
 			<< "\n";
 	}
 
