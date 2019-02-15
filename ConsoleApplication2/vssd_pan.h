@@ -27,7 +27,7 @@ namespace sjh {
 		const tools_path&		GetNowPath() const;
 		void					SetNowPath(tools_path path);
 		vssd_inode*				GetNooowPos() const;
-		std::wstring&			GetNowPathWString() const;
+		std::wstring			GetNowPathWString() const;
 		void	DeleteOneSub();
 		
 

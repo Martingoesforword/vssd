@@ -23,7 +23,7 @@ namespace sjh {
 		std::vector<vssd_inode *>	RealInodes; 
 		void	SetInodesByWstring(std::wstring pathString); 
 		void	LoadOneSub(const vssd_inode * Inode);
-		const std::wstring	GetPathWstring() const;
+		std::wstring	GetPathWstring() const;
 		const vssd_inode *	GetNowPtr() const;
 		std::wstring	GetNowWString() ;
 		void	DeleteOneSub();
