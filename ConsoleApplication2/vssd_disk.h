@@ -33,15 +33,15 @@ namespace sjh {
 		virtual void	DeSerialize(std::vector<wchar_t>& aByteVssd, int &aPos);
 
 		//NowPan相关
-		void	SetNooowPan(vssd_pan * aInodeTop); 
+		void	SetNooowPan(vssd_pan * aInodeTop);
 
 		//Genius相关 
-		vssd_inode *	GetGenius();
+		vssd_inode *	GetGenius() const;
 		vssd_inode *	BuildPath(vssd_inode *NowFolder, tools_path & aPath, int aType);  
-		 
+		
 		//Pans相关
-		vssd_pan *	GetNooowPan();
-		void		AddNewPan(vssd_pan *aNowTop);
-		vssd_pan *	FindPanFromName(std::wstring &aName);
+		vssd_pan *		GetNooowPan() const;
+		void			AddNewPan(vssd_pan *aNowTop);
+		vssd_pan *		FindPanFromName(const std::wstring &aName);
 	};
 }

@@ -5,8 +5,7 @@ namespace sjh {
 	class VirtualDisk;
 	class base_executable
 	{
-	protected:
-		
+	protected: 
 		int		status;
 	public:
 		//原始构造
@@ -15,7 +14,7 @@ namespace sjh {
 		//status相关
 		static const int EXE_ERROR = -1;
 		static const int EXE_OK = 0;
-		virtual void	Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear) = 0;
+		virtual void	Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear) = 0;
 		int				GetStatus() { return status; } 
 	}; 
 }

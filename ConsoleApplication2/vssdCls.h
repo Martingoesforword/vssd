@@ -8,6 +8,6 @@ namespace sjh {
 	{
 		void vCls();
 	public:
-		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear);
+		virtual void Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 	};
 }

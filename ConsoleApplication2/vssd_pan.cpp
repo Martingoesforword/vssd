@@ -1,24 +1,34 @@
 #include "pch.h"  
 #include "vssd_pan.h"
 namespace sjh { 
-	vssd_inode * vssd_pan::GetRoot()
+	const vssd_inode * vssd_pan::GetRoot() const
 	{
 		return root;
 	}
   
-	tools_path & vssd_pan::GetNowPath()
+	const tools_path & vssd_pan::GetNowPath() const
 	{
 		return NowPath;
 	}
 
-	vssd_inode * vssd_pan::GetNooowPos()
+	void vssd_pan::SetNowPath(tools_path path)
 	{
-		return NowPath.GetNowPtr();
+		NowPath = path;
+	}
+
+	vssd_inode * vssd_pan::GetNooowPos() const
+	{
+		return (vssd_inode *)NowPath.GetNowPtr();
 	}
 	 
-	std::wstring vssd_pan::GetNowPathWString()
+	std::wstring vssd_pan::GetNowPathWString() const
 	{ 
 		return NowPath.GetPathWstring();
+	}
+
+	void vssd_pan::DeleteOneSub() 
+	{
+		NowPath.DeleteOneSub();
 	}
 	 
 	size_t vssd_pan::Serialize(std::vector<wchar_t>& Byte_Toptable)

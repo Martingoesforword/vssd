@@ -27,7 +27,7 @@ namespace sjh {
 		}
 
 	}
-	void vssdMkdir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
+	void vssdMkdir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
 		status = EXE_OK;
 	}

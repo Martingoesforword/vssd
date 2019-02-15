@@ -68,7 +68,7 @@ namespace sjh {
 			{
 				ch = ' ';
 				RealFile.read(&ch, 1);
-				Inode->GetContent().push_back(ch);
+				Inode->AddContent(ch);
 			}
 			RealFile.close();
 			//∂¡≤¢∑≈»Îvector<std::wstring>
@@ -89,7 +89,7 @@ namespace sjh {
 			if (DesFile.is_open())
 			{
 				std::wstring data;
-				//tools_vssd::GetStringAndEXE_OK(Inode->Content, EXE_OK, Inode->Content.size(), data);
+				//tools_vssd::GetStringAnd0(Inode->Content, EXE_OK, Inode->Content.size(), data);
 
 				DesFile.write((const char*)&data[EXE_OK], data.size() * 2);
 				DesFile.close();
@@ -125,7 +125,7 @@ namespace sjh {
 
 
 	}
-	void vssdCopy::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
+	void vssdCopy::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
 		status = EXE_OK;
 	}

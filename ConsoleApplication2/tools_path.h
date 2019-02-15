@@ -1,9 +1,8 @@
 #pragma once  
 #include "pch.h"  
 #include "base_serializable.h" 
-#include "tools_vssd.h"
-#include "vssd_inode.h"
-
+#include "tools_vssd.h" 
+#include "vssd_inode.h" 
 namespace sjh {
 	class vssd_inode;
 	class tools_path :public base_serializable
@@ -23,10 +22,10 @@ namespace sjh {
 		std::vector<std::wstring>	Inodes;
 		std::vector<vssd_inode *>	RealInodes; 
 		void	SetInodesByWstring(std::wstring pathString); 
-		void	LoadOneSub(vssd_inode * Inode);
-		std::wstring	GetPathWstring();
-		vssd_inode *	GetNowPtr();  
-		std::wstring	GetNowWString();
+		void	LoadOneSub(const vssd_inode * Inode);
+		const std::wstring	GetPathWstring() const;
+		const vssd_inode *	GetNowPtr() const;
+		std::wstring	GetNowWString() ;
 		void	DeleteOneSub();
 		void	Clear();
 

@@ -1,11 +1,11 @@
 #include "pch.h"  
 #include "vssd_disk.h"
 namespace sjh { 
-	vssd_pan * VirtualDisk::GetNooowPan()
+	vssd_pan * VirtualDisk::GetNooowPan() const
 	{
 		return NowPan;
-	}
-	vssd_inode * VirtualDisk::GetGenius()
+	} 
+	vssd_inode * VirtualDisk::GetGenius() const
 	{
 		return Genius;
 	}
@@ -15,6 +15,8 @@ namespace sjh {
 	{
 		NowPan = aInodeTop;
 	}
+	 
+
 	 
 
 	void VirtualDisk::AddNewPan(vssd_pan * aNowTop)
@@ -41,7 +43,7 @@ namespace sjh {
 	
 
 
-	vssd_pan * VirtualDisk::FindPanFromName(std::wstring & aName)
+	vssd_pan * VirtualDisk::FindPanFromName(const std::wstring & aName)
 	{
 		for (size_t i = 0; i < Pans.size(); i++)
 		{
@@ -121,7 +123,7 @@ namespace sjh {
 			{
 
 				size_t Result = 0;
-				Result = Now->FindSelfSubForFirst(aPath.Inodes[i], 0);
+				Result = Now->FindSelfSubForNext(aPath.Inodes[i], 0);
 				if (CheckedFlag && Result != Now->NOT_FINDED)
 				{
 					Now = Now->GetSubInodes()[Result]->FindFolderByLink();

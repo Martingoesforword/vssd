@@ -10,8 +10,8 @@ namespace sjh {
 		base_namedable(std::wstring aName);
 
 		//nameœ‡πÿ
-		void			SetName(std::wstring aName);
-		std::wstring	GetName(); 
+		void				SetName(std::wstring aName);
+		const std::wstring&	GetName() const;
 	};
 
 }

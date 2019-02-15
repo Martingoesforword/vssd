@@ -3,7 +3,7 @@
 const std::wstring sjh::vssd_optcmd::GUIDE_SYMBOL = L">";
 namespace sjh {  
 	 
-	vssd_inode * vssd_optcmd::v_FindPathForFirst(VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
+	vssd_inode * vssd_optcmd::v_FindPathForFirst(const VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
 	{
 		tool::stringtools::Trim(PathCommand);
 		tools_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
@@ -11,7 +11,7 @@ namespace sjh {
 		 
 		tools_path path;
 		path.SetInodesByWstring(pathstring);
-		vssd_inode * longNowf = Nowpath.GetNowPtr();
+		const vssd_inode * longNowf = Nowpath.GetNowPtr();
 
 		int flag_tofirstif = 1;
 		for (size_t i = 0; i < path.Inodes.size(); i++)
@@ -20,7 +20,7 @@ namespace sjh {
 			if (flag_tofirstif && path.Inodes[i].length() == 2 && path.Inodes[i].at(1) == ':')
 			{
 				Nowpath.Clear();
-				size_t Result = MyVssd.GetGenius()->FindSelfSubForFirst(path.Inodes[i], 0);
+				size_t Result = MyVssd.GetGenius()->FindSelfSubForNext(path.Inodes[i], 0);
 				if (Result != vssd_inode::NOT_FINDED) {
 					longNowf = MyVssd.GetGenius()->GetSubInodes()[Result];
 				}
@@ -45,11 +45,10 @@ namespace sjh {
 			else if (path.Inodes.at(i) == L".")
 			{
 
-			}
-			//Â·¾¶ÖÐ·Ç'n:' '..' '.'
+			} 
 			else
 			{
-				size_t Result = longNowf->FindSelfSubForFirst(path.Inodes[i], 0);
+				size_t Result = longNowf->FindSelfSubForNext(path.Inodes[i], 0);
 				if (Result != vssd_inode::NOT_FINDED) {
 					longNowf = longNowf->GetSubInodes()[Result];
 				}
@@ -57,15 +56,15 @@ namespace sjh {
 					return nullptr;
 				}
 				Nowpath.LoadOneSub(longNowf);
-				if (longNowf->IsLink() && i + 1 == path.Inodes.size())
+				if (longNowf->IsLink() && (i + 1) == path.Inodes.size())
 				{
-					aPath = Nowpath; return longNowf;
+					aPath = Nowpath; return (vssd_inode *)longNowf;
 				}
 				longNowf = longNowf->FindFolderByLink();
 			}
 		}
 		aPath = Nowpath;
-		return longNowf;
+		return (vssd_inode *)longNowf;
 	}
 
 	vssd_optcmd::vssd_optcmd()
@@ -74,22 +73,23 @@ namespace sjh {
 	}
 	 
 
-	void vssd_optcmd::v_jump(VirtualDisk & MyVssd, std::wstring & JumpTo)
+	void vssd_optcmd::v_jump(VirtualDisk & MyVssd, const std::wstring & JumpTo)
 	{
 		vssd_pan* Top = MyVssd.FindPanFromName(JumpTo);
-		if (Top) MyVssd.SetNooowPan(Top);
+		if (nullptr != Top) MyVssd.SetNooowPan(Top);
 	}
 
-	bool vssd_optcmd::v_match(std::wstring & CmdCommand, std::wstring  MatchString)
+	bool vssd_optcmd::v_match(const std::wstring & CmdCommand, const std::wstring&  MatchString)
 	{
 		return CmdCommand.compare(MatchString) == 0;
 	}
 
-	void vssd_optcmd::TypeCode_UI_Guider(VirtualDisk & adisk, int GuiderCode)
+	void vssd_optcmd::TypeCode_UI_Guider(const VirtualDisk & adisk, int GuiderCode)
 	{
-		std::wcout << adisk.GetNooowPan()->GetNowPathWString() << GUIDE_SYMBOL;
+		std::wstring a = adisk.GetNooowPan()->GetNowPathWString();
+		std::wcout << a << GUIDE_SYMBOL;
 	}
-	std::wstring vssd_optcmd::TypeCode_UI_GetCommandString()
+	const std::wstring vssd_optcmd::TypeCode_UI_GetCommandString()
 	{
 		std::string Command;
 		while (Command.size() == 0)
@@ -123,7 +123,7 @@ namespace sjh {
 
 	 
 
-	void vssd_optcmd::TypeCode_UI_Explainer(VirtualDisk & MyVssd, std::wstring  CmdCommand)
+	void vssd_optcmd::TypeCode_UI_Explainer(VirtualDisk & MyVssd,const std::wstring&  CmdCommand)
 	{
 		 
 		std::vector<std::wstring> Rears;
@@ -135,7 +135,7 @@ namespace sjh {
 			v_jump(MyVssd, CmdCommand);
 			return;
 		} 
-		if (Rears.size())
+		if (0 != Rears.size())
 		{
 			base_executable *exe = GetTaskByName(Rears[0]);
 			if (exe != nullptr)
@@ -151,7 +151,7 @@ namespace sjh {
 			}
 		}
 	}
-	base_executable * vssd_optcmd::GetTaskByName(std::wstring Name)
+	base_executable * vssd_optcmd::GetTaskByName(const std::wstring& Name)
 	{
 		 
 		if (v_match(Name, L"dir"))

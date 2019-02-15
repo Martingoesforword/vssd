@@ -6,7 +6,7 @@ namespace sjh {
 	{
 		tools_path a;
 		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, SrcCommand, a);
-		if (Inode && a.Inodes.size() > 2 && !(a.RealInodes.at(a.RealInodes.size() - 2)->FindSelfSubForFirst(DesName, EXE_OK)))
+		if (Inode && a.Inodes.size() > 2 && !(a.RealInodes.at(a.RealInodes.size() - 2)->FindSelfSubForNext(DesName, EXE_OK)))
 		{
 			Inode->SetName(DesName);
 		}
@@ -17,7 +17,7 @@ namespace sjh {
 
 	}
 
-	void vssdRen::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
+	void vssdRen::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
 		status = EXE_OK;
 	}

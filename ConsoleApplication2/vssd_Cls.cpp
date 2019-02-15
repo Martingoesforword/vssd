@@ -5,7 +5,7 @@ namespace sjh {
 	{
 		system("cls");
 	}
-	void vssdCls::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
+	void vssdCls::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
 		status = EXE_OK;
 	}

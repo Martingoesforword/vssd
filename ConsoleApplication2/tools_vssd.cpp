@@ -27,7 +27,7 @@ namespace sjh {
 			s.erase(s.find_last_not_of(L" ") + 1);
 		}
 	}
-	size_t tool::stringtools::PushLengthValue(unsigned int Uint4, std::vector<wchar_t> &Byte)
+	size_t tool::stringtools::PushLengthValue(size_t Uint4, std::vector<wchar_t> &Byte)
 	{
 		size_t Start = Byte.size();
 		Byte.push_back((Uint4 >> 16) & 0x0FFFF);
@@ -169,7 +169,7 @@ namespace sjh {
 		return oss.str();
 	}
 
-	std::wstring tool::stringtools::GetSizeWString(unsigned int Size)
+	std::wstring tool::stringtools::GetSizeWString(size_t Size)
 	{
 		std::wstringstream oss;
 		if (Size > 1000000000) { goto LAB_MORE1000000000; }
@@ -193,7 +193,7 @@ namespace sjh {
 		return tool::stringtools::WStringToString(GetTimeWString(tm));
 	}
 
-	std::string tool::stringtools::GetSizeString(unsigned int Size)
+	std::string tool::stringtools::GetSizeString(size_t Size)
 	{
 		return tool::stringtools::WStringToString(GetSizeWString(Size));
 	}

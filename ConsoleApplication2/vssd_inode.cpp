@@ -6,7 +6,7 @@ namespace sjh {
 	const std::wstring vssd_inode::VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
 
 
-	std::wstring vssd_inode::GetTypeName()
+	std::wstring vssd_inode::GetTypeName() const
 	{
 		return VssdTypeName[InodeTypeCode];
 	}
@@ -27,14 +27,14 @@ namespace sjh {
 
 
 
-	void vssd_inode::PrintHead(std::wstring now)
+	void vssd_inode::PrintHead(std::wstring now) const
 	{
 		std::cout
 			<< "\n " << tool::stringtools::WStringToString(now) << " 的目录\n"
 			<< std::endl;
 		
 	}
-	void vssd_inode::PrintOTP()
+	void vssd_inode::PrintOTP() const
 	{
 		std::cout
 			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetCreateTime()))
@@ -56,7 +56,7 @@ namespace sjh {
 			<< std::endl;
 		
 	}
-	void vssd_inode::PrintFileInfo()
+	void vssd_inode::PrintFileInfo() const
 	{
 		std::cout
 			<< tool::stringtools::GetTimeString(GetCreateTime())
@@ -65,7 +65,7 @@ namespace sjh {
 			<< " " << tool::stringtools::WStringToString(GetName())
 			<< std::endl;
 	}
-	void vssd_inode::PrintFoLiInfo()
+	void vssd_inode::PrintFoLiInfo() const
 	{
 		std::cout
 			<< tool::stringtools::GetTimeString(GetCreateTime()) << "    "
@@ -78,15 +78,15 @@ namespace sjh {
 
 	void vssd_inode::SetLinkPath(std::wstring PathWString)
 	{
-		LinkPath.SetInodesByWstring(PathWString);
+		LinkPath->SetInodesByWstring(PathWString);
 	}
 
 	void vssd_inode::SetLinkPath(tools_path& Path)
 	{
-		LinkPath = Path;
+		LinkPath = &Path;
 	}
 	
-	void vssd_inode::PrintAllSub( int pram, std::wstring now) 
+	void vssd_inode::PrintAllSub( int pram, std::wstring now) const
 	{ 
 		  
 		PrintHead(now);
@@ -226,7 +226,7 @@ namespace sjh {
 
 
 
-	size_t vssd_inode::FindSelfSubForFirst(std::wstring Inode, size_t StartIndex)
+	size_t vssd_inode::FindSelfSubForNext(std::wstring& Inode, size_t StartIndex) const
 	{
 		for (size_t i = StartIndex; i < SubInodes.size(); i++)
 		{
@@ -251,7 +251,7 @@ namespace sjh {
 		//循环体内语句控制循环的进行，非线性控制
 		while (1)
 		{
-			Result = FindSelfSubForFirst(Inode, Result);
+			Result = FindSelfSubForNext(Inode, Result);
 			if (Result != NOT_FINDED)
 			{
 				AllInode.push_back(SubInodes[Result]);
@@ -264,20 +264,20 @@ namespace sjh {
 		return;
 	}
 
-	vssd_inode * vssd_inode::FindFolderByLink()
+	vssd_inode * vssd_inode::FindFolderByLink() const
 	{
-		vssd_inode *Inode = this;
+		const vssd_inode *Inode = this;
 		while (Inode->IsLink())
 		{
 			Inode = Inode->SubInodes[0];
 		}
-		return Inode;
+		return (vssd_inode *)Inode;
 	}
 
 
 
 
-	vssd_inode *  vssd_inode::GetFather()
+	const vssd_inode *  vssd_inode::GetFather() const
 	{
 		return Father;
 	}
@@ -290,7 +290,7 @@ namespace sjh {
 	{
 		if (IsFile())
 		{
-			GetContent().push_back(Byte);
+			Content.push_back(Byte);
 		}
 		else
 		{
@@ -303,8 +303,8 @@ namespace sjh {
 		{
 			for (size_t i = 0; i < str.length(); i++)
 			{
-				GetContent().push_back(*((unsigned char*)&str[i] + 0));
-				GetContent().push_back(*((unsigned char*)&str[i] + 1));
+				Content.push_back(*((unsigned char*)&str[i] + 0));
+				Content.push_back(*((unsigned char*)&str[i] + 1));
 			}
 
 		}
@@ -313,7 +313,7 @@ namespace sjh {
 			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
 		}
 	}
-	std::vector<vssd_inode*>& vssd_inode::GetSubInodes()
+	const std::vector<vssd_inode*>& vssd_inode::GetSubInodes()const
 	{
 		return SubInodes;
 	}
@@ -339,7 +339,7 @@ namespace sjh {
 		size_t Start = Bytes.size();
 		tool::stringtools::PushString(GetName(), Bytes);
 		tool::stringtools::PushLengthValue(InodeTypeCode, Bytes);
-		tool::stringtools::PushWcharVector(GetContent(), Bytes);
+		tool::stringtools::PushWcharVector(Content, Bytes);
 		tool::stringtools::PushLengthValue((unsigned int)SubInodes.size(), Bytes);
 		if (InodeTypeCode == IS_FOLDER) {
 			for (size_t i = 0; i < SubInodes.size(); i++)
@@ -354,7 +354,7 @@ namespace sjh {
 	{
 		SetName(tool::stringtools::GetString(ByteVssd, Pos));
 		InodeTypeCode = tool::stringtools::GetLengthValue(ByteVssd, Pos);
-		tool::stringtools::GetWcharVector(GetContent(), ByteVssd, Pos);
+		tool::stringtools::GetWcharVector(Content, ByteVssd, Pos);
 		int SubSize = tool::stringtools::GetLengthValue(ByteVssd, Pos);
 
 		if (InodeTypeCode == IS_FOLDER) {

@@ -35,7 +35,7 @@ namespace sjh {
 
 
 
-	vssd_inode * tools_path::GetNowPtr()
+	const vssd_inode * tools_path::GetNowPtr() const
 	{
 		return RealInodes.at(RealInodes.size() - 1);
 	}
@@ -129,7 +129,7 @@ namespace sjh {
 		if (Inodes[0].size() && Inodes[0].at(1) == ':') PathTypeCode = IS_ABSOLUTE_PATH;
 		else PathTypeCode = IS_RELATIVE_PATH;
 	}
-	std::wstring tools_path::GetPathWstring()
+	std::wstring tools_path::GetPathWstring()  const
 	{
 		std::wstring Path;
 		if (Inodes.size() == 1)
@@ -165,11 +165,10 @@ namespace sjh {
 			RealInodes.pop_back();
 		}
 	}
-	void tools_path::LoadOneSub(vssd_inode *Inode)
+	void tools_path::LoadOneSub(const vssd_inode *Inode)
 	{
 		Inodes.push_back(Inode->GetName());
-		RealInodes.push_back(Inode);
-
+		RealInodes.push_back((vssd_inode *)Inode); 
 	}
 
 	tools_path::~tools_path()

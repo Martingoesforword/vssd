@@ -2,7 +2,7 @@
 #include "base_namedable.h"
 namespace sjh {
 	 
-	std::wstring base_namedable::GetName()
+	const std::wstring& base_namedable::GetName() const
 	{
 		return Name;
 	}

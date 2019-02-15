@@ -10,11 +10,11 @@
 namespace sjh {
 	class vssdDir :public base_executable
 	{
-		void vDir(VirtualDisk & MyVssd, int Type);
-		void vDir(VirtualDisk & MyVssd, std::vector<std::wstring> DirsDirs, int Pos, int Type);
-		void vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs); 
+		void vDir(const VirtualDisk & MyVssd, int Type);
+		void vDir(const VirtualDisk & MyVssd, std::vector<std::wstring> DirsDirs, int Pos, int Type);
+		void vDir(const VirtualDisk & MyVssd, std::vector<std::wstring> Dirs);
 	public: 
-		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear); 
+		virtual void Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 		~vssdDir() { }
 	};
 }

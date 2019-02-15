@@ -13,6 +13,6 @@ namespace sjh {
 		void vMove(VirtualDisk & MyVssd, std::wstring & Des);
 		void vMove(VirtualDisk & MyVssd, std::wstring & Src, std::wstring & Des);
 	public:
-		virtual void Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear);
+		virtual void Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 	};
 }

@@ -38,16 +38,16 @@ namespace sjh {
 		//TypeCode_UI相关
 		static const int RET_WELL_OPERATION = 0;
 		static const int RET_ERROR_OPERATION = 1;
-		static void				TypeCode_UI_Guider(VirtualDisk & manager, int GuiderCode);
-		static std::wstring		TypeCode_UI_GetCommandString();
-		static int				TypeCode_UI(VirtualDisk & MyVssd);
-		static void				TypeCode_UI_Explainer(VirtualDisk & MyVssd, std::wstring Command);
+		static void					TypeCode_UI_Guider(const VirtualDisk & manager, int GuiderCode);
+		static const std::wstring	TypeCode_UI_GetCommandString();
+		static int					TypeCode_UI(VirtualDisk & MyVssd);
+		static void					TypeCode_UI_Explainer(VirtualDisk & MyVssd, const std::wstring& Command);
 		 
 		//tools相关
-		static void					v_jump(VirtualDisk & MyVssd, std::wstring & JumpTo);
-		static bool					v_match(std::wstring & CmdCommand, std::wstring MatchString);
-		static vssd_inode*			v_FindPathForFirst(VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path & aPath);
-		static base_executable *	GetTaskByName(std::wstring Name);
+		static void					v_jump(VirtualDisk & MyVssd, const std::wstring & JumpTo);
+		static bool					v_match(const std::wstring & CmdCommand, const std::wstring &MatchString);
+		static vssd_inode*			v_FindPathForFirst(const VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path & aPath);
+		static base_executable *	GetTaskByName(const std::wstring& Name);
 		 
 	};
 }

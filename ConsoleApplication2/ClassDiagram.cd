@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="sjh::base_contentable" Collapsed="true">
+    <Position X="6.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>base_contentable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::base_displayable" Collapsed="true">
+    <Position X="10.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>base_displayable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::vssdRen" Collapsed="true">
+    <Position X="9" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>vssdRen.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::tool::stringtools" Collapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIIEAAAACgAQAAAEADAAAAAAAgAAQAQAACEQACAA=</HashCode>
+      <FileName>tools_vssd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::base_serializable" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>base_serializable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::base_timeable" Collapsed="true">
+    <Position X="7.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAACAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>base_timeable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::tools_path" Collapsed="true">
+    <Position X="0.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQGCICAAAAAgAAEAAAACACBIAAAAAEAABAhAAAA=</HashCode>
+      <FileName>tools_path.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::vssd_inode" Collapsed="true">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAMABQgBQiABEQAChEAABUEAlCDIBAABAAABAAAABAQ=</HashCode>
+      <FileName>vssd_inode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sjh::VirtualDisk" Collapsed="true">
+    <Position X="4.25" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="sjh::base_displayable" FixedFromPoint="true">
+      <Path>
+        <Point X="12.25" Y="1.125" />
+        <Point X="12.625" Y="1.125" />
+        <Point X="12.625" Y="0.375" />
+        <Point X="4" Y="0.375" />
+        <Point X="4" Y="6.038" />
+        <Point X="4.25" Y="6.038" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="sjh::base_serializable" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="1.059" />
+        <Point X="1.25" Y="4.625" />
+        <Point X="3.917" Y="4.625" Type="JumpStart" />
+        <Point X="4.083" Y="4.625" Type="JumpEnd" />
+        <Point X="4.969" Y="4.625" />
+        <Point X="4.969" Y="5.395" />
+        <Point X="4.938" Y="5.395" />
+        <Point X="4.938" Y="5.5" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.341" Y="0.079" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <InheritanceLine Type="sjh::base_timeable" FixedToPoint="true">
+      <Path>
+        <Point X="8" Y="4.809" />
+        <Point X="8" Y="5.125" />
+        <Point X="5.625" Y="5.125" />
+        <Point X="5.625" Y="5.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAIAEAAAAQQAEAQAAAAAQAAACBAQhEAAAAAAAAAAAI=</HashCode>
+      <FileName>vssd_disk.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>

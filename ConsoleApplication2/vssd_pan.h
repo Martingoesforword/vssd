@@ -21,12 +21,15 @@ namespace sjh {
 		virtual void	DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos);
 
 		//root相关
-		vssd_inode*		GetRoot();
+		const vssd_inode*		GetRoot() const;
 
 		//NowPath相关
-		tools_path&		GetNowPath();
-		vssd_inode*		GetNooowPos();
-		std::wstring	GetNowPathWString();
+		const tools_path&		GetNowPath() const;
+		void					SetNowPath(tools_path path);
+		vssd_inode*				GetNooowPos() const;
+		std::wstring&			GetNowPathWString() const;
+		void	DeleteOneSub();
+		
 
 		//Print相关
 		void	PrintPanInfo();

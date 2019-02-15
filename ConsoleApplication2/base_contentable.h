@@ -3,10 +3,10 @@
 namespace sjh { 
 	class base_contentable
 	{
-	private:
+	protected:
 		std::vector<wchar_t>	Content;
 	public:
-		virtual std::vector<wchar_t>&	GetContent() { return Content; }; 
+		virtual const std::vector<wchar_t>&	GetContent() const { return Content; }; 
 	};
 
 }

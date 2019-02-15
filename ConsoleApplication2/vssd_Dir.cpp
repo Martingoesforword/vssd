@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "vssdDir.h"
 namespace sjh {
-	void vssdDir::vDir(VirtualDisk & MyVssd, int Type)
+	void vssdDir::vDir(const VirtualDisk & MyVssd, int Type)
 	{
-		vssd_inode *now = MyVssd.GetNooowPan()->GetNooowPos();  
+		const vssd_inode *now = MyVssd.GetNooowPan()->GetNooowPos();  
 		now->PrintAllSub(Type, MyVssd.GetNooowPan()->GetNowPath().GetPathWstring()); 
 	}
-	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs, int DirsPos, int Type)
+	void vssdDir::vDir(const VirtualDisk & MyVssd, std::vector<std::wstring> Dirs, int DirsPos, int Type)
 	{
 		// ÇÐ¸î/×Ö·û´®£¨DirsPos£©Î»ÖÃ 
 		for (size_t i = DirsPos; i < Dirs.size(); i++)
@@ -30,7 +30,7 @@ namespace sjh {
 			 
 		}
 	}
-	void vssdDir::vDir(VirtualDisk & MyVssd, std::vector<std::wstring> Dirs)
+	void vssdDir::vDir(const VirtualDisk & MyVssd, std::vector<std::wstring> Dirs)
 	{
 		
 		if (Dirs.size() == 1) { vDir(MyVssd, DIR_TYPE_SELF); return; }
@@ -68,7 +68,7 @@ namespace sjh {
 		}
 
 	}
-	void vssdDir::Execute(VirtualDisk & MyVssd, std::vector<std::wstring>& Rear)
+	void vssdDir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
 		vDir(MyVssd, Rear);
 		status = EXE_OK;

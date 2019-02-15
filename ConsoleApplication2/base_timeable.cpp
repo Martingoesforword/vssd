@@ -3,7 +3,7 @@
 
 namespace sjh {
 	 
-	std::time_t base_timeable::GetCreateTime()
+	std::time_t base_timeable::GetCreateTime() const
 	{
 		return CreateTime;
 	}
