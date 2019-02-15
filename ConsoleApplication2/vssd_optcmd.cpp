@@ -6,6 +6,7 @@ namespace sjh {
 	vssd_inode * vssd_optcmd::v_FindPathForFirst(const VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
 	{
 		tool::stringtools::Trim(PathCommand);
+		//Nowpath  copy and swap²ßÂÔ 
 		tools_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
 		std::wstring pathstring = PathCommand;
 		 
@@ -64,7 +65,7 @@ namespace sjh {
 			}
 		}
 		aPath = Nowpath;
-		return (vssd_inode *)longNowf;
+		return const_cast< vssd_inode *>(longNowf);
 	}
 
 	vssd_optcmd::vssd_optcmd()
