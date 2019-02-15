@@ -26,9 +26,8 @@ namespace sjh {
 		}
 	}
 
-	tools_path::tools_path()
-	{
-		PathTypeCode = tools_path::IS_ABSOLUTE_PATH;
+	tools_path::tools_path():PathTypeCode(tools_path::IS_ABSOLUTE_PATH)
+	{ 
 	}
 
 

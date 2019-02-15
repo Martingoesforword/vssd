@@ -8,10 +8,7 @@ namespace sjh {
 		return CreateTime;
 	}
 
-	base_timeable::base_timeable()
-	{
-		CreateTime = std::time(0);
-	}
-
-	 
+	base_timeable::base_timeable():CreateTime(std::time(0))
+	{ 
+	} 
 }

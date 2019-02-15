@@ -5,8 +5,9 @@ namespace sjh {
 	{
 	protected:
 		std::vector<wchar_t>	Content;
-	public:
+	public: 
 		virtual const std::vector<wchar_t>&	GetContent() const { return Content; }; 
+
 	};
 
 }

@@ -11,9 +11,9 @@ namespace sjh {
 		return VssdTypeName[InodeTypeCode];
 	}
 
-	vssd_inode::vssd_inode(std::wstring aName, int aCode) :base_namedable(aName)
-	{
-		InodeTypeCode = aCode;
+	vssd_inode::vssd_inode(std::wstring aName, int aCode) :base_namedable(aName), InodeTypeCode(aCode)
+	{ 
+
 	}
 
 

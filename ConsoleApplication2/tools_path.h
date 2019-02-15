@@ -8,7 +8,7 @@ namespace sjh {
 	class tools_path :public base_serializable
 	{
 	private:                         
-		int PathTypeCode = 0;
+		int PathTypeCode;
 	public:
 		//原始构造
 		tools_path();
@@ -23,9 +23,9 @@ namespace sjh {
 		std::vector<vssd_inode *>	RealInodes; 
 		void	SetInodesByWstring(std::wstring pathString); 
 		void	LoadOneSub(const vssd_inode * Inode);
-		std::wstring	GetPathWstring() const;
+		std::wstring		GetPathWstring() const;
 		const vssd_inode *	GetNowPtr() const;
-		std::wstring	GetNowWString() ;
+		std::wstring		GetNowWString() ;
 		void	DeleteOneSub();
 		void	Clear();
 
