@@ -1,12 +1,12 @@
 #include "pch.h"  
 #include "vssd_pan.h"
 namespace sjh { 
-	const vssd_inode * vssd_pan::GetRoot() const
+	vssd_inode * vssd_pan::GetRoot()
 	{
 		return root;
 	}
   
-	const tools_path & vssd_pan::GetNowPath() const
+	tools_path & vssd_pan::GetNowPath()
 	{
 		return NowPath;
 	}

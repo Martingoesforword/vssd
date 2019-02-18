@@ -10,9 +10,9 @@ namespace sjh {
 		Serial.clear();
 	}
 
-	void vssdSave::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdSave::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
-		status = EXE_OK;
+		return EXE_OK;
 	}
 	 
 }

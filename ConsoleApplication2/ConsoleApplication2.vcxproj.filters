@@ -90,17 +90,8 @@
     <ClInclude Include="base_displayable.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
-    <ClInclude Include="base_namedable.h">
-      <Filter>头文件\base</Filter>
-    </ClInclude>
-    <ClInclude Include="base_contentable.h">
-      <Filter>头文件\base</Filter>
-    </ClInclude>
     <ClInclude Include="vssd_structure.h">
       <Filter>头文件\vssd</Filter>
-    </ClInclude>
-    <ClInclude Include="base_timeable.h">
-      <Filter>头文件\base</Filter>
     </ClInclude>
     <ClInclude Include="base_executable.h">
       <Filter>头文件\base</Filter>
@@ -128,6 +119,15 @@
     </ClInclude>
     <ClInclude Include="base_operater.h">
       <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="vssd_time.h">
+      <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="vssd_name.h">
+      <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="vssd_content.h">
+      <Filter>头文件\resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,17 +176,11 @@
     <ClCompile Include="vssd_Cat.cpp">
       <Filter>源文件\tools</Filter>
     </ClCompile>
-    <ClCompile Include="base_namedable.cpp">
-      <Filter>源文件\base</Filter>
-    </ClCompile>
     <ClCompile Include="vssd_structure.cpp">
       <Filter>源文件\vssd</Filter>
     </ClCompile>
     <ClCompile Include="tools_vssd.cpp">
       <Filter>源文件\tools</Filter>
-    </ClCompile>
-    <ClCompile Include="base_timeable.cpp">
-      <Filter>源文件\base</Filter>
     </ClCompile>
     <ClCompile Include="vssd_inode.cpp">
       <Filter>源文件\resource</Filter>
@@ -205,6 +199,15 @@
     </ClCompile>
     <ClCompile Include="vssd_optcmd.cpp">
       <Filter>源文件\vssd</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_time.cpp">
+      <Filter>源文件\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_content.cpp">
+      <Filter>源文件\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="vssd_name.cpp">
+      <Filter>源文件\resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

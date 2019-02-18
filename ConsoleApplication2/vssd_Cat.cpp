@@ -14,9 +14,9 @@ namespace sjh {
 		}
 
 	}
-	void vssdCat::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdCat::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
-		status = EXE_OK;
+		return EXE_OK;
 	}
 
 }

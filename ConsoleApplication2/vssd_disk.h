@@ -2,10 +2,10 @@
 
 #include "pch.h"  
 #include "tools_vssd.h"
-#include "base_namedable.h"
+#include "vssd_name.h"
 #include "base_displayable.h"
 #include "base_serializable.h"
-#include "base_timeable.h"  
+#include "vssd_time.h"  
 
 #include "tools_path.h"
 #include "vssd_pan.h" 
@@ -15,13 +15,13 @@
 
 namespace sjh {
 	
-	class VirtualDisk :public base_namedable, public base_displayable, public base_serializable, public base_timeable
+	class VirtualDisk : public base_displayable, public base_serializable 
 	{
 	private:
 		vssd_pan *		NowPan;
 		vssd_inode *	Genius;
 		std::vector <vssd_pan *>	Pans;  
-
+		vssd_name					Name; 
 	public: 
 		//原始构造
 		VirtualDisk(vssd_pan * aNow, vssd_inode * aGenius, std::wstring aName);
@@ -43,5 +43,12 @@ namespace sjh {
 		vssd_pan *		GetNooowPan() const;
 		void			AddNewPan(vssd_pan *aNowTop);
 		vssd_pan *		FindPanFromName(const std::wstring &aName);
+
+		//Name相关
+		void				SetName(std::wstring aName);
+		const std::wstring&	GetName();
+
+		//Time相关
+
 	};
 }

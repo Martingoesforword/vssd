@@ -161,7 +161,7 @@ namespace sjh {
 		}
 	}
 	void tools_path::LoadOneSub(const vssd_inode *Inode)
-	{
+	{ 
 		Inodes.push_back(Inode->GetName());
 		RealInodes.push_back(const_cast<vssd_inode *>(Inode));
 	}

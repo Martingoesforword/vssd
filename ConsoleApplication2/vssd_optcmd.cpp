@@ -141,8 +141,7 @@ namespace sjh {
 			base_executable *exe = GetTaskByName(Rears[0]);
 			if (exe != nullptr)
 			{
-				exe->Execute(MyVssd, Rears);
-				exe->GetStatus();
+				exe->Execute(MyVssd, Rears); 
 				delete exe;
 			}
 			else

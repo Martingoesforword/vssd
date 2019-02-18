@@ -9,7 +9,7 @@ namespace sjh {
 		void vLoad(VirtualDisk & MyVssd, std::wstring & GetFrom);
 	public:
 
-		virtual void Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
+		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 
 	};
 }

@@ -1,12 +1,12 @@
 #pragma once  
 #include "pch.h"  
-#include "base_timeable.h"  
+#include "vssd_time.h"  
 #include "vssd_inode.h" 
 #include "tools_path.h" 
 #include "tools_vssd.h" 
 
 namespace sjh { 
-	class vssd_pan :public base_serializable, public base_timeable
+	class vssd_pan :public base_serializable 
 	{
 	private:
 		tools_path	NowPath;
@@ -21,10 +21,10 @@ namespace sjh {
 		virtual void	DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos);
 
 		//root相关
-		const vssd_inode*		GetRoot() const;
+		vssd_inode*		GetRoot();
 
 		//NowPath相关
-		const tools_path&		GetNowPath() const;
+		tools_path&		GetNowPath();
 		void					SetNowPath(tools_path path);
 		vssd_inode*				GetNooowPos() const;
 		std::wstring			GetNowPathWString() const;

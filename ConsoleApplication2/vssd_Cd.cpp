@@ -40,10 +40,10 @@ namespace sjh {
 
 	}
 
-	void vssdCd::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdCd::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{ 
 		vCd(MyVssd, Rear[1]);
-		status = EXE_OK;
+		return EXE_OK;
 	}
 	 
 }

@@ -22,13 +22,13 @@ namespace sjh {
 		}
 		else
 		{
-			std::wcout << L"子目录或文件 " << Inode->GetName() << " 已经存在。";
+			std::wcout << L"子目录或文件 " << Inode->Get() << " 已经存在。";
 			return nullptr;
 		}
 
 	}
-	void vssdMkdir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdMkdir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
-		status = EXE_OK;
+		return EXE_OK;
 	}
 }

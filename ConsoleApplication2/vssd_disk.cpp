@@ -33,11 +33,8 @@ namespace sjh {
 	}
 
 	
-	VirtualDisk::VirtualDisk(vssd_pan * Now, vssd_inode * aGenius, std::wstring aName) :base_namedable(aName)
-	{
-		
-		NowPan = Now;
-		Genius = aGenius;
+	VirtualDisk::VirtualDisk(vssd_pan * Now, vssd_inode * aGenius, std::wstring aName) :Name(vssd_name(aName)), NowPan(Now), Genius(aGenius)
+	{ 
 	}
 
 	
@@ -57,13 +54,25 @@ namespace sjh {
 	}
 
 
+	void VirtualDisk::SetName(std::wstring aName)
+	{
+		Name.Set(aName);
+	}
+
+	const std::wstring & VirtualDisk::GetName()
+	{
+		return Name.Get();
+	}
+
+
+
 
 
 
 	size_t VirtualDisk::Serialize(std::vector<wchar_t> &ByteVssd)
 	{
 
-		tool::stringtools::PushString(GetName(), ByteVssd);
+		tool::stringtools::PushString(Name.Get(), ByteVssd);
 		Genius->Serialize(ByteVssd);
 		return ByteVssd.size();
 	}
@@ -71,7 +80,7 @@ namespace sjh {
 	void VirtualDisk::DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos)
 	{
 
-		SetName(tool::stringtools::GetString(ByteVssd, Pos));
+		Name.Set(tool::stringtools::GetString(ByteVssd, Pos));
 
 		vssd_inode *GeniusNow = new vssd_inode(L"", vssd_inode::IS_FOLDER);
 		GeniusNow->DeSerialize(ByteVssd, Pos);

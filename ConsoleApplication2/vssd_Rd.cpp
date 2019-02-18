@@ -26,9 +26,9 @@ namespace sjh {
 
 
 	}
-	void vssdRd::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdRd::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
-		status = EXE_OK;
+		return EXE_OK;
 	}
 
 }

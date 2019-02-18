@@ -68,9 +68,9 @@ namespace sjh {
 		}
 
 	}
-	void vssdDir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdDir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
 		vDir(MyVssd, Rear);
-		status = EXE_OK;
+		return EXE_OK;
 	}
 }

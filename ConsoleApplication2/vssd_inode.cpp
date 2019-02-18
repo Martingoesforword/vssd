@@ -11,9 +11,8 @@ namespace sjh {
 		return VssdTypeName[InodeTypeCode];
 	}
 
-	vssd_inode::vssd_inode(std::wstring aName, int aCode) :base_namedable(aName), InodeTypeCode(aCode)
+	vssd_inode::vssd_inode(std::wstring aName, int aCode) :Name(vssd_name(aName)), InodeTypeCode(aCode)
 	{ 
-
 	}
 
 
@@ -37,7 +36,7 @@ namespace sjh {
 	void vssd_inode::PrintOTP() const
 	{
 		std::cout
-			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetCreateTime()))
+			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(Content.GetTime()))
 			<< "    "
 			<< std::setiosflags(std::ios::right)
 			<< "<" << tool::stringtools::WStringToString(GetTypeName()) << ">"
@@ -45,7 +44,7 @@ namespace sjh {
 			<< "."
 			<< std::endl;
 		std::cout
-			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetFather()->GetCreateTime()))
+			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetFather()->Content.GetTime()))
 			<< "    "
 			<< std::setiosflags(std::ios::right)
 			<< "<" << tool::stringtools::WStringToString(GetFather()->GetTypeName()) << ">"
@@ -56,19 +55,19 @@ namespace sjh {
 			<< std::endl;
 		
 	}
-	void vssd_inode::PrintFileInfo() const
+	void vssd_inode::PrintFileInfo()
 	{
 		std::cout
-			<< tool::stringtools::GetTimeString(GetCreateTime())
+			<< tool::stringtools::GetTimeString(Content.GetTime())
 			<< "    "
-			<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString((unsigned int)GetContent().size() * sizeof(unsigned char))
+			<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString((unsigned int)Content.Size() * sizeof(unsigned char))
 			<< " " << tool::stringtools::WStringToString(GetName())
 			<< std::endl;
 	}
-	void vssd_inode::PrintFoLiInfo() const
+	void vssd_inode::PrintFoLiInfo()
 	{
 		std::cout
-			<< tool::stringtools::GetTimeString(GetCreateTime()) << "    "
+			<< tool::stringtools::GetTimeString(Content.GetTime()) << "    "
 			<< std::setiosflags(std::ios::right)
 			<< "<" << tool::stringtools::WStringToString(GetTypeName()) << ">"
 			<< std::setfill(' ') << std::setw(10) << " "
@@ -84,6 +83,16 @@ namespace sjh {
 	void vssd_inode::SetLinkPath(tools_path& Path)
 	{
 		LinkPath = &Path;
+	}
+
+	void vssd_inode::SetName(std::wstring aName)
+	{
+		Name.Set(aName);
+	}
+
+	const std::wstring & vssd_inode::GetName() const 
+	{
+		return Name.Get();
 	}
 	
 	void vssd_inode::PrintAllSub( int pram, std::wstring now) const
@@ -286,60 +295,19 @@ namespace sjh {
 		Father = aFather;
 	}
 
-	void vssd_inode::AddContent(wchar_t Byte)		//追加字符
-	{
-		if (IsFile())
-		{
-			Content.push_back(Byte);
-		}
-		else
-		{
-			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
-		}
-	}
-	void vssd_inode::SetContentString(std::wstring str)		//追加字符
-	{
-		if (IsFile())
-		{
-			for (size_t i = 0; i < str.length(); i++)
-			{
-				Content.push_back(*((unsigned char*)&str[i] + 0));
-				Content.push_back(*((unsigned char*)&str[i] + 1));
-			}
-
-		}
-		else
-		{
-			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
-		}
-	}
+	
 	const std::vector<vssd_inode*>& vssd_inode::GetSubInodes()const
 	{
 		return SubInodes;
 	}
-	void vssd_inode::PrintContent()			//返回NULL 和 下一个字符
-	{
-		static int index = -1;
-		if (IsFile())
-		{
-			for (size_t i = 0; i < GetContent().size(); i++)
-			{
-				std::cout << GetContent()[i];
-			}
-			std::cout << std::endl;
-		}
-		else
-		{
-			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
-		}
-	}
+	
 
 	size_t vssd_inode::Serialize(std::vector<wchar_t>& Bytes)
 	{
 		size_t Start = Bytes.size();
 		tool::stringtools::PushString(GetName(), Bytes);
 		tool::stringtools::PushLengthValue(InodeTypeCode, Bytes);
-		tool::stringtools::PushWcharVector(Content, Bytes);
+		//tool::stringtools::PushWcharVector(Content, Bytes);
 		tool::stringtools::PushLengthValue((unsigned int)SubInodes.size(), Bytes);
 		if (InodeTypeCode == IS_FOLDER) {
 			for (size_t i = 0; i < SubInodes.size(); i++)
@@ -354,7 +322,7 @@ namespace sjh {
 	{
 		SetName(tool::stringtools::GetString(ByteVssd, Pos));
 		InodeTypeCode = tool::stringtools::GetLengthValue(ByteVssd, Pos);
-		tool::stringtools::GetWcharVector(Content, ByteVssd, Pos);
+		//tool::stringtools::GetWcharVector(Content, ByteVssd, Pos);
 		int SubSize = tool::stringtools::GetLengthValue(ByteVssd, Pos);
 
 		if (InodeTypeCode == IS_FOLDER) {
@@ -380,7 +348,43 @@ namespace sjh {
 	void vssd_inode::Display()
 	{
 		std::wcout << L"<vssd_inode class>" << std::endl;
-		std::wcout << L"\tName = " << Name << std::endl;
+		std::wcout << L"\tName = " << Name.Get() << std::endl;
 	}
-
+	void vssd_inode::AddContent(wchar_t Byte)		//追加字符
+	{
+		if (IsFile())
+		{
+			Content.Add(Byte);
+		}
+		else
+		{
+			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
+		}
+	}
+	void vssd_inode::SetContentString(std::wstring str)		//追加字符
+	{
+		if (IsFile())
+		{
+			for (size_t i = 0; i < str.length(); i++)
+			{
+				Content.SetString(str); 
+			} 
+		}
+		else
+		{
+			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
+		}
+	}
+	void vssd_inode::PrintContent()			//返回NULL 和 下一个字符
+	{
+		 
+		if (IsFile())
+		{
+			Content.Print();
+		}
+		else
+		{
+			std::cout << "Can not write to or read From a Inode or a Link" << std::endl;
+		}
+	}
 }

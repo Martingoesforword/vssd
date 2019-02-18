@@ -51,9 +51,9 @@ namespace sjh {
 
 
 	}
-	void vssdMove::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdMove::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
-		status = EXE_OK;
+		return EXE_OK;
 	}
 
 }

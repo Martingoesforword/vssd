@@ -12,6 +12,6 @@ namespace sjh {
 		void vCd(  VirtualDisk & MyVssd);
 		void vCd(  VirtualDisk & MyVssd,const std::wstring&  CdCommand);
 	public:
-		virtual void Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
+		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 	};
 }

@@ -35,24 +35,24 @@
       <FileName>base_serializable.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="sjh::base_timeable" Collapsed="true">
+  <Class Name="sjh::vssd_time" Collapsed="true">
     <Position X="7.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAAAAAAACAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>base_timeable.h</FileName>
+      <HashCode>AAAAAAAAAAAAAABAAAAEAAAAAAAAAAAAAAAgAAAAAQA=</HashCode>
+      <FileName>vssd_time.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="sjh::tools_path" Collapsed="true">
     <Position X="0.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAQGCICAAAAAgAAEAAAACACBIAAAAAEAABAhAAAA=</HashCode>
+      <HashCode>IAAAAQGDICAAAAAgAAEAAAACACBIAAAAAEAABAhAAAA=</HashCode>
       <FileName>tools_path.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="sjh::vssd_inode" Collapsed="true">
     <Position X="5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAMABQgBQiABEQAChEAABUEAlCDIBAABAAABAAAABAQ=</HashCode>
+      <HashCode>QAMABQgBQiABEQAChEAABUUAlCDIBAABAAABQAAABAQ=</HashCode>
       <FileName>vssd_inode.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -83,16 +83,8 @@
         <Position X="0.341" Y="0.079" />
       </InheritanceModifierLabel>
     </InheritanceLine>
-    <InheritanceLine Type="sjh::base_timeable" FixedToPoint="true">
-      <Path>
-        <Point X="8" Y="4.809" />
-        <Point X="8" Y="5.125" />
-        <Point X="5.625" Y="5.125" />
-        <Point X="5.625" Y="5.5" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAIAEAAAAQQAEAQAAAAAQAAACBAQhEAAAAAAAAAAAI=</HashCode>
+      <HashCode>AAAIAEAAAAQQAEAQAAAAAQQAACBAQhEAAAAAQAAABAI=</HashCode>
       <FileName>vssd_disk.h</FileName>
     </TypeIdentifier>
   </Class>

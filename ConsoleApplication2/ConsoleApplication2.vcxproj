@@ -167,13 +167,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="all.h" />
-    <ClInclude Include="base_contentable.h" />
+    <ClInclude Include="vssd_content.h" />
     <ClInclude Include="base_executable.h" />
-    <ClInclude Include="base_namedable.h" />
+    <ClInclude Include="vssd_name.h" />
     <ClInclude Include="base_operater.h" />
     <ClInclude Include="base_serializable.h" />
     <ClInclude Include="base_displayable.h" />
-    <ClInclude Include="base_timeable.h" />
+    <ClInclude Include="vssd_time.h" />
     <ClInclude Include="vssdCat.h" />
     <ClInclude Include="vssdCd.h" />
     <ClInclude Include="vssdCls.h" />
@@ -198,9 +198,10 @@
     <ClInclude Include="tools_vssd.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="base_timeable.cpp" />
+    <ClCompile Include="vssd_content.cpp" />
+    <ClCompile Include="vssd_time.cpp" />
     <ClCompile Include="ConsoleApplication2.cpp" />
-    <ClCompile Include="base_namedable.cpp" />
+    <ClCompile Include="vssd_name.cpp" />
     <ClCompile Include="tools_vssd.cpp" />
     <ClCompile Include="vssd_manager.cpp" />
     <ClCompile Include="vssd_structure.cpp" />

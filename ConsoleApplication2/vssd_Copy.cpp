@@ -23,7 +23,7 @@ namespace sjh {
 			else {
 				if (Inode->IsFile())
 				{
-					std::cout << "¸²¸Ç " << tool::stringtools::WStringToString(Inode->GetName()) << " Âð ? (Yes / No / All) :";
+					std::cout << "¸²¸Ç " << tool::stringtools::WStringToString(Inode->Get()) << " Âð ? (Yes / No / All) :";
 					std::string Answer;
 					while (1)
 					{
@@ -125,8 +125,8 @@ namespace sjh {
 
 
 	}
-	void vssdCopy::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
+	int vssdCopy::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
-		status = EXE_OK;
+		return EXE_OK;
 	}
 }
