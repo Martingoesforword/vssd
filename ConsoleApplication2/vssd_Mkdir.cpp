@@ -3,7 +3,7 @@
 namespace sjh {
 	vssd_inode * vssdMkdir::vMd(VirtualDisk & MyVssd, std::wstring & mdCommand)
 	{
-		tool::stringtools::Trim(mdCommand);
+		tool::string::Trim(mdCommand);
 
 		tools_path Path;
 		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, mdCommand, Path);

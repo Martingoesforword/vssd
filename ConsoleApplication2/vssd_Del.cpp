@@ -4,7 +4,7 @@ namespace sjh {
 	void vssdDel::vDel(VirtualDisk & MyVssd, std::wstring & DelCommand)
 	{
 		std::vector<std::wstring> Dirs;
-		tool::stringtools::Split(DelCommand, Dirs, L" ");
+		tool::string::Split(DelCommand, Dirs, L" ");
 		for (size_t i = EXE_OK; i < Dirs.size(); i++)
 		{
 			tools_path a;

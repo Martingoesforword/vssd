@@ -5,7 +5,7 @@ namespace sjh {
 	void vssdLoad::vLoad(VirtualDisk & MyVssd, std::wstring & GetFrom)
 	{
 		std::vector<wchar_t> aSerial;
-		tool::stringtools::GetFromRealfile(GetFrom, aSerial);
+		tool::string::GetFromRealfile(GetFrom, aSerial);
 		int Pos = EXE_OK;
 		MyVssd.DeSerialize(aSerial, Pos);
 		aSerial.clear();

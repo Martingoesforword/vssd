@@ -32,14 +32,14 @@ namespace sjh {
 		virtual void	Display();
 
 		//InodeTypeCode相关 
-		static const int IS_FILE = 0;
-		static const int IS_FOLDER = 1;
-		static const int IS_LINK = 2;
+		static const int	IS_FILE = 0;
+		static const int	IS_FOLDER = 1;
+		static const int	IS_LINK = 2;
 		static const std::wstring	VssdTypeName[3];
 		std::wstring	GetTypeName() const;
-		bool IsFile() const { return  InodeTypeCode == IS_FILE; }
-		bool IsFolder() const { return  InodeTypeCode == IS_FOLDER; }
-		bool IsLink() const{ return  InodeTypeCode == IS_LINK; }
+		bool IsFile()	const	{ return  InodeTypeCode == IS_FILE; }
+		bool IsFolder() const	{ return  InodeTypeCode == IS_FOLDER; }
+		bool IsLink()	const	{ return  InodeTypeCode == IS_LINK; }
 
 		//SubInodes相关   
 		void	LoadOneSub(vssd_inode * aLinkToSub);
@@ -48,7 +48,7 @@ namespace sjh {
 		void	DeleteOneSub(vssd_inode *aDeletInode);
 		const std::vector<vssd_inode *>&		GetSubInodes() const;
 
-		static const int NOT_FINDED = -1;
+		static const int	NOT_FINDED = -1;
 		size_t				FindSelfSubForNext(std::wstring& Inode, size_t StartIndex) const;
 		void				FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode *> & AllInode);
 		vssd_inode *		FindFolderByLink() const;
@@ -75,7 +75,7 @@ namespace sjh {
 		void	SetLinkPath(tools_path& Path);
 
 		//Name相关
-		void				SetName(std::wstring aName);
-		const std::wstring&	GetName() const;
+		void					SetName(std::wstring aName);
+		const std::wstring&		GetName() const;
 	};
 }

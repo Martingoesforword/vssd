@@ -6,7 +6,7 @@ namespace sjh {
 		std::vector<wchar_t> Serial;
 		MyVssd.Serialize(Serial);
 
-		tool::stringtools::PushToRealFile(JumpTo, Serial);
+		tool::string::PushToRealFile(JumpTo, Serial);
 		Serial.clear();
 	}
 

@@ -5,11 +5,11 @@ namespace sjh {
 	size_t tools_path::Serialize(std::vector<wchar_t>& Byte_Toptable)
 	{
 		size_t Start = Byte_Toptable.size();
-		tool::stringtools::PushLengthValue(PathTypeCode, Byte_Toptable);
-		tool::stringtools::PushLengthValue(Inodes.size(), Byte_Toptable);
+		tool::string::PushLengthValue(PathTypeCode, Byte_Toptable);
+		tool::string::PushLengthValue(Inodes.size(), Byte_Toptable);
 		for (size_t i = 0; i < Inodes.size(); i++)
 		{
-			tool::stringtools::PushString(Inodes[i], Byte_Toptable);
+			tool::string::PushString(Inodes[i], Byte_Toptable);
 		}
 		return Start;
 	}
@@ -18,11 +18,11 @@ namespace sjh {
 	{
 		Inodes.clear();
 		RealInodes.clear();
-		PathTypeCode = tool::stringtools::GetLengthValue(ByteVssd, Pos);
-		int InodesSize = tool::stringtools::GetLengthValue(ByteVssd, Pos);
+		PathTypeCode = tool::string::GetLengthValue(ByteVssd, Pos);
+		int InodesSize = tool::string::GetLengthValue(ByteVssd, Pos);
 		for (int i = 0; i < InodesSize; i++)
 		{
-			Inodes.push_back(tool::stringtools::GetString(ByteVssd, Pos));
+			Inodes.push_back(tool::string::GetString(ByteVssd, Pos));
 		}
 	}
 
@@ -49,20 +49,20 @@ namespace sjh {
 
 	void tools_path::SetInodesByWstring(std::wstring pathString)
 	{
-		tool::stringtools::Trim(pathString);
+		tool::string::Trim(pathString);
 		size_t Pos = 0;
 		size_t beForePos = 0;
 		std::wstring Nowstring;
 
 		while (Pos != std::wstring::npos)
 		{
+			tool::string::CheckQuotation(Nowstring);
 			if ((Pos = pathString.find('\\', beForePos)) != std::wstring::npos && beForePos <= Pos - 1)
 			{
 				Nowstring = pathString.substr(beForePos, Pos - beForePos);
-
+				tool::string::CheckQuotation(Nowstring);
 				if (Nowstring != L"." && Nowstring != L"..")
-				{
-					tool::stringtools::Trim(Nowstring);
+				{  
 					Inodes.push_back(Nowstring);
 					RealInodes.push_back(nullptr);
 				}
@@ -71,8 +71,7 @@ namespace sjh {
 					Inodes.pop_back();
 				}
 				else if (Nowstring == L"..")
-				{
-					tool::stringtools::Trim(Nowstring);
+				{ 
 					Inodes.push_back(Nowstring);
 					RealInodes.push_back(nullptr);
 				}
@@ -86,8 +85,7 @@ namespace sjh {
 					Nowstring = pathString.substr(beForePos, Pos - beForePos);
 
 					if (Nowstring != L"." && Nowstring != L"..")
-					{
-						tool::stringtools::Trim(Nowstring);
+					{ 
 						Inodes.push_back(Nowstring);
 						RealInodes.push_back(nullptr);
 					}
@@ -103,10 +101,11 @@ namespace sjh {
 		if (beForePos <= pathString.length() - 1)
 		{
 			Nowstring = pathString.substr(beForePos, pathString.length() - beForePos);
-			tool::stringtools::Trim(Nowstring);
+			tool::string::Trim(Nowstring);
+			tool::string::CheckQuotation(Nowstring);
 			if (Nowstring != L"." && Nowstring != L"..")
-			{
-				tool::stringtools::Trim(Nowstring);
+			{ 
+				 
 				Inodes.push_back(Nowstring);
 				RealInodes.push_back(nullptr);
 			}
@@ -121,7 +120,7 @@ namespace sjh {
 			}
 
 		}
-		if (Inodes[0].size() && Inodes[0].at(1) == ':') PathTypeCode = IS_ABSOLUTE_PATH;
+		if (Inodes.size() && Inodes[0].size() == 2 && Inodes[0].at(1) == ':') PathTypeCode = IS_ABSOLUTE_PATH;
 		else PathTypeCode = IS_RELATIVE_PATH;
 	}
 	std::wstring tools_path::GetPathWstring()  const

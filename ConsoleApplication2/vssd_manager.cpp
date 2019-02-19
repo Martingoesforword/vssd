@@ -12,9 +12,9 @@ namespace sjh {
 		vssd_inode *Genius = new vssd_inode(L"", vssd_inode::IS_FOLDER);
 		vssd_inode *c_pan = new vssd_inode(L"C:", vssd_inode::IS_FOLDER);
 
-		vssd_inode *Folder = new vssd_inode(L"sjh", vssd_inode::IS_FOLDER);
+		vssd_inode *Folder = new vssd_inode(L"s jh", vssd_inode::IS_FOLDER);
 		vssd_inode *File = new vssd_inode(L"sjh.txt", vssd_inode::IS_FILE);
-		vssd_inode *File1 = new vssd_inode(L"sjh1", vssd_inode::IS_FOLDER);
+		vssd_inode *File1 = new vssd_inode(L"sj h1", vssd_inode::IS_FOLDER);
 		vssd_inode *File2 = new vssd_inode(L"sjh2", vssd_inode::IS_FOLDER);
 		c_pan->LoadOneSub(Folder);
 		c_pan->LoadOneSub(File);
@@ -34,7 +34,7 @@ namespace sjh {
 	{ 
 		for (size_t i = 0; i < operators.size(); i++)
 		{
-			if(OptType == operators[i]->OptType) return operators[i]->ExeInterface(*disk);
+			if(OptType == operators[i]->OptType && nullptr != disk) return operators[i]->ExeInterface(*disk);
 		}  
 		return 1; 
 	}

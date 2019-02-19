@@ -72,7 +72,7 @@ namespace sjh {
 	size_t VirtualDisk::Serialize(std::vector<wchar_t> &ByteVssd)
 	{
 
-		tool::stringtools::PushString(Name.Get(), ByteVssd);
+		tool::string::PushString(Name.Get(), ByteVssd);
 		Genius->Serialize(ByteVssd);
 		return ByteVssd.size();
 	}
@@ -80,7 +80,7 @@ namespace sjh {
 	void VirtualDisk::DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos)
 	{
 
-		Name.Set(tool::stringtools::GetString(ByteVssd, Pos));
+		Name.Set(tool::string::GetString(ByteVssd, Pos));
 
 		vssd_inode *GeniusNow = new vssd_inode(L"", vssd_inode::IS_FOLDER);
 		GeniusNow->DeSerialize(ByteVssd, Pos);

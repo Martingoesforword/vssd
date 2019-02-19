@@ -23,7 +23,7 @@ namespace sjh {
 			else {
 				if (Inode->IsFile())
 				{
-					std::cout << "¸²¸Ç " << tool::stringtools::WStringToString(Inode->Get()) << " Âð ? (Yes / No / All) :";
+					std::cout << "¸²¸Ç " << tool::string::WStringToString(Inode->Get()) << " Âð ? (Yes / No / All) :";
 					std::string Answer;
 					while (1)
 					{

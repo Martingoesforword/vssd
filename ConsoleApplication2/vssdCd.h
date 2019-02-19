@@ -9,8 +9,8 @@ namespace sjh {
 	 
 	class vssdCd :public base_executable
 	{
-		void vCd(  VirtualDisk & MyVssd);
-		void vCd(  VirtualDisk & MyVssd,const std::wstring&  CdCommand);
+		void vCd(  VirtualDisk & MyVssd );
+		void vCd(  VirtualDisk & MyVssd,const std::wstring&  CdCommand );
 	public:
 		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 	};

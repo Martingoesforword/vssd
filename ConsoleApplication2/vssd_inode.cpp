@@ -29,25 +29,25 @@ namespace sjh {
 	void vssd_inode::PrintHead(std::wstring now) const
 	{
 		std::cout
-			<< "\n " << tool::stringtools::WStringToString(now) << " 的目录\n"
+			<< "\n " << tool::string::WStringToString(now) << " 的目录\n"
 			<< std::endl;
 		
 	}
 	void vssd_inode::PrintOTP() const
 	{
 		std::cout
-			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(Content.GetTime()))
+			<< tool::string::WStringToString(tool::string::GetTimeWString(Content.GetTime()))
 			<< "    "
 			<< std::setiosflags(std::ios::right)
-			<< "<" << tool::stringtools::WStringToString(GetTypeName()) << ">"
+			<< "<" << tool::string::WStringToString(GetTypeName()) << ">"
 			<< std::setfill(' ') << std::setw(10) << " "
 			<< "."
 			<< std::endl;
 		std::cout
-			<< tool::stringtools::WStringToString(tool::stringtools::GetTimeWString(GetFather()->Content.GetTime()))
+			<< tool::string::WStringToString(tool::string::GetTimeWString(GetFather()->Content.GetTime()))
 			<< "    "
 			<< std::setiosflags(std::ios::right)
-			<< "<" << tool::stringtools::WStringToString(GetFather()->GetTypeName()) << ">"
+			<< "<" << tool::string::WStringToString(GetFather()->GetTypeName()) << ">"
 			<< std::setfill(' ')
 			<< std::setw(10)
 			<< " "
@@ -58,20 +58,20 @@ namespace sjh {
 	void vssd_inode::PrintFileInfo()
 	{
 		std::cout
-			<< tool::stringtools::GetTimeString(Content.GetTime())
+			<< tool::string::GetTimeString(Content.GetTime())
 			<< "    "
-			<< std::setfill(' ') << std::setw(14) << tool::stringtools::GetSizeString((unsigned int)Content.Size() * sizeof(unsigned char))
-			<< " " << tool::stringtools::WStringToString(GetName())
+			<< std::setfill(' ') << std::setw(14) << tool::string::GetSizeString((unsigned int)Content.Size() * sizeof(unsigned char))
+			<< " " << tool::string::WStringToString(GetName())
 			<< std::endl;
 	}
 	void vssd_inode::PrintFoLiInfo()
 	{
 		std::cout
-			<< tool::stringtools::GetTimeString(Content.GetTime()) << "    "
+			<< tool::string::GetTimeString(Content.GetTime()) << "    "
 			<< std::setiosflags(std::ios::right)
-			<< "<" << tool::stringtools::WStringToString(GetTypeName()) << ">"
+			<< "<" << tool::string::WStringToString(GetTypeName()) << ">"
 			<< std::setfill(' ') << std::setw(10) << " "
-			<< tool::stringtools::WStringToString(GetName())
+			<< tool::string::WStringToString(GetName())
 			<< std::endl;
 	}
 
@@ -241,7 +241,7 @@ namespace sjh {
 		{
 			if (SubInodes.at(i) != NULL)
 			{
-				if (tool::stringtools::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0)
+				if (tool::string::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0)
 				{
 					return i;
 				}
@@ -305,10 +305,10 @@ namespace sjh {
 	size_t vssd_inode::Serialize(std::vector<wchar_t>& Bytes)
 	{
 		size_t Start = Bytes.size();
-		tool::stringtools::PushString(GetName(), Bytes);
-		tool::stringtools::PushLengthValue(InodeTypeCode, Bytes);
-		//tool::stringtools::PushWcharVector(Content, Bytes);
-		tool::stringtools::PushLengthValue((unsigned int)SubInodes.size(), Bytes);
+		tool::string::PushString(GetName(), Bytes);
+		tool::string::PushLengthValue(InodeTypeCode, Bytes);
+		//tool::string::PushWcharVector(Content, Bytes);
+		tool::string::PushLengthValue((unsigned int)SubInodes.size(), Bytes);
 		if (InodeTypeCode == IS_FOLDER) {
 			for (size_t i = 0; i < SubInodes.size(); i++)
 			{
@@ -320,10 +320,10 @@ namespace sjh {
 
 	void vssd_inode::DeSerialize(std::vector<wchar_t>& ByteVssd, int& Pos)
 	{
-		SetName(tool::stringtools::GetString(ByteVssd, Pos));
-		InodeTypeCode = tool::stringtools::GetLengthValue(ByteVssd, Pos);
-		//tool::stringtools::GetWcharVector(Content, ByteVssd, Pos);
-		int SubSize = tool::stringtools::GetLengthValue(ByteVssd, Pos);
+		SetName(tool::string::GetString(ByteVssd, Pos));
+		InodeTypeCode = tool::string::GetLengthValue(ByteVssd, Pos);
+		//tool::string::GetWcharVector(Content, ByteVssd, Pos);
+		int SubSize = tool::string::GetLengthValue(ByteVssd, Pos);
 
 		if (InodeTypeCode == IS_FOLDER) {
 			for (int i = 0; i < SubSize; i++)

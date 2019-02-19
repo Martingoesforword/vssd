@@ -32,6 +32,7 @@ namespace sjh {
 		//PathTypeCodeœ‡πÿ
 		bool IsAbsolutePath() { return PathTypeCode == IS_ABSOLUTE_PATH; }
 		bool IsRelativePath() { return PathTypeCode == IS_RELATIVE_PATH; }
+		bool IsAbsAndRoot() { return IsAbsolutePath() && Inodes.size() == 1; }
 		static const int IS_ABSOLUTE_PATH = 1;
 		static const int IS_RELATIVE_PATH = 2;
 		int		GetTypeCode();

@@ -10,10 +10,10 @@ namespace sjh {
 	{ 
 		 
 		vssd_pan * Pan = MyVssd.GetNooowPan();
-		if (0 == CdCommand.size()) { vCd(MyVssd); return; }
-		else if (CdCommand.compare(L"/") == 0 || CdCommand.compare(L"\\") == 0)
+		
+		if (CdCommand.compare(L"/") == 0 || CdCommand.compare(L"\\") == 0)
 		{
-			while (Pan->GetNowPath().Inodes.size() > 2) Pan->DeleteOneSub();
+			while (! Pan->GetNowPath().IsAbsAndRoot()) Pan->DeleteOneSub();
 			return;
 		}
 
@@ -42,8 +42,18 @@ namespace sjh {
 
 	int vssdCd::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{ 
-		vCd(MyVssd, Rear[1]);
-		return EXE_OK;
+		//Rear³¤¶È == 1 OR > 1 
+		if (1 == Rear.size())
+		{
+			vCd(MyVssd); 
+			return EXE_OK;
+		}
+		else
+		{
+			vCd(MyVssd, Rear[1]);
+			return EXE_OK;
+		}
+		
 	}
 	 
 }

@@ -5,13 +5,14 @@ namespace sjh {
 	 
 	vssd_inode * vssd_optcmd::v_FindPathForFirst(const VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
 	{
-		tool::stringtools::Trim(PathCommand);
+		tool::string::Trim(PathCommand);
 		//Nowpath  copy and swap策略 
 		tools_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
 		std::wstring pathstring = PathCommand;
 		 
 		tools_path path;
 		path.SetInodesByWstring(pathstring);
+
 		const vssd_inode * longNowf = Nowpath.GetNowPtr();
 
 		int flag_tofirstif = 1;
@@ -97,7 +98,7 @@ namespace sjh {
 		{
 			std::getline(std::cin, Command);
 		}
-		return tool::stringtools::StringToWString(Command);
+		return tool::string::StringToWString(Command);
 	}
 	int vssd_optcmd::TypeCode_UI(VirtualDisk & adisk)
 	{
@@ -107,7 +108,8 @@ namespace sjh {
 
 			TypeCode_UI_Guider(adisk, 0);
 			std::wstring Command = TypeCode_UI_GetCommandString();
-			if (sjh::tool::stringtools::WStringMatch(Command, L"exit")) 
+			tool::string::Trim(Command);
+			if (tool::string::WStringMatch(Command, L"exit")) 
 			{
 				break;
 			}
@@ -126,16 +128,11 @@ namespace sjh {
 
 	void vssd_optcmd::TypeCode_UI_Explainer(VirtualDisk & MyVssd,const std::wstring&  CmdCommand)
 	{
-		 
-		std::vector<std::wstring> Rears;
-		tool::stringtools::Split(CmdCommand, Rears, L" ");
+		if (CmdCommand.length() == 0) {} 
+		std::vector<std::wstring>	Rears;
+		tool::string::Split(CmdCommand, Rears, L" ");
 		//分析命令名与命令参数
-		if (CmdCommand.length() == 0) { } 
-		else if (CmdCommand.length() == 2 && CmdCommand.at(1) == ':')
-		{
-			v_jump(MyVssd, CmdCommand);
-			return;
-		} 
+		
 		if (0 != Rears.size())
 		{
 			base_executable *exe = GetTaskByName(Rears[0]);
@@ -146,7 +143,7 @@ namespace sjh {
 			}
 			else
 			{
-				std::string a = tool::stringtools::WStringToString(CmdCommand);
+				std::string a = tool::string::WStringToString(CmdCommand);
 				std::cout << "\'" << a << "\' 不是内部或外部命令，也不是可运行的程序\n或批处理文件。";
 			}
 		}
