@@ -11,7 +11,7 @@ namespace sjh {
 		
 		vssd_pan * Pan = MyVssd.GetNooowPan();
 		
-		if (CdCommand.compare(L"/") == 0 || CdCommand.compare(L"\\") == 0)
+		if ((CdCommand == (L"/"))  || (CdCommand == (L"\\")))
 		{
 			while (! Pan->GetNowPath().IsAbsAndRoot()) Pan->DeleteOneSub();
 			return;

@@ -44,7 +44,7 @@ namespace sjh {
 	{
 		for (size_t i = 0; i < Pans.size(); i++)
 		{
-			if (aName.compare(Pans[i]->GetRoot()->GetName()) == sjh::IS_SAMESTRING)
+			if ((aName == Pans[i]->GetRoot()->GetName()) == sjh::IS_SAMESTRING)
 			{
 				return Pans[i];
 			}

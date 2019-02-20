@@ -151,7 +151,7 @@ namespace sjh {
 
 	bool vssd_optcmd::v_match(const std::wstring & CmdCommand, const std::wstring&  MatchString)
 	{
-		return CmdCommand.compare(MatchString) == 0;
+		return CmdCommand == MatchString;
 	}
 
 	void vssd_optcmd::TypeCode_UI_Guider(const VirtualDisk & adisk, int GuiderCode)

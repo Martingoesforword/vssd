@@ -235,7 +235,7 @@ namespace sjh {
 
 			bool IsThisSwitch(const std::wstring & Str, const std::wstring& Pram)
 			{
-				return (Str.size() == Pram.size() + 1 && Str[0] == '/' && Str.substr(1, Pram.size()).compare(Pram) == 0);
+				return (Str.size() == Pram.size() + 1 && Str[0] == '/' && Str.substr(1, Pram.size()) == (Pram));
 
 			}
 
