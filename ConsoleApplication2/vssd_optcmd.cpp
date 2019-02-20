@@ -2,79 +2,141 @@
 #include "vssd_optcmd.h"
 const std::wstring sjh::vssd_optcmd::GUIDE_SYMBOL = L">";
 namespace sjh {  
-	 
-	vssd_inode * vssd_optcmd::v_FindPathForFirst(const VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path &aPath)
+	vssd_inode * vssd_optcmd::v_FindPathForFirst(const VirtualDisk & MyVssd,const std::wstring&  PathCommand)
 	{
-		tool::string::Trim(PathCommand);
-		//Nowpath  copy and swap策略 
-		tools_path Nowpath = MyVssd.GetNooowPan()->GetNowPath();
-		std::wstring pathstring = PathCommand;
-		 
-		tools_path path;
-		path.SetInodesByWstring(pathstring);
+		tools_path a;
+		return v_FindPathForFirst(MyVssd, PathCommand, a);
+	}
 
-		const vssd_inode * longNowf = Nowpath.GetNowPtr();
+	vssd_inode * vssd_optcmd::v_FindPathForFirst(const VirtualDisk & MyVssd, const std::wstring&  PathCommand, tools_path &aPath)
+	{
+		tools_path	 Path(PathCommand); 
+		tools_path	 NowPath(MyVssd.GetNooowPan()->GetNowPath());
+		//Nowpath  copy and swap策略  
 
-		int flag_tofirstif = 1;
-		for (size_t i = 0; i < path.Inodes.size(); i++)
+		const vssd_inode * longNowf(NowPath.GetNowPtr());
+
+		int flag_tofirstif(1);
+		for (size_t i = 0; i < Path.Inodes.size(); i++)
 		{
 			//说明是磁盘开头，则为绝对路径
-			if (flag_tofirstif && path.Inodes[i].length() == 2 && path.Inodes[i].at(1) == ':')
+			if (flag_tofirstif && Path.Inodes[i].size() == 2 && Path.Inodes[i].at(1) == ':')
 			{
-				Nowpath.Clear();
-				size_t Result = MyVssd.GetGenius()->FindSelfSubForNext(path.Inodes[i], 0);
-				if (Result != vssd_inode::NOT_FINDED) {
+				NowPath.Clear();
+				size_t Result = MyVssd.GetGenius()->FindSelfSubForNext(Path.Inodes[i], 0);
+				if (vssd_inode::IsFinded(Result) ) {
 					longNowf = MyVssd.GetGenius()->GetSubInodes()[Result];
 				}
 				else {
 					return nullptr;
 				}
-				Nowpath.LoadOneSub(longNowf);
-				flag_tofirstif = 0;
+				NowPath.LoadOneSub(longNowf); 
 			}
-			else if (path.Inodes.at(i) == L"..")
+			else if (Path.Inodes.at(i) == L"..")
 			{
-				if (Nowpath.RealInodes.size() < 2)
+				if (NowPath.RealInodes.size() < 2)
 				{
 					return nullptr;
 				}
 				else
 				{
-					Nowpath.DeleteOneSub();
+					NowPath.DeleteOneSub();
 				}
 
 			}
-			else if (path.Inodes.at(i) == L".")
-			{
-
-			} 
+			else if (Path.Inodes.at(i) == L".") { } 
 			else
 			{
-				size_t Result = longNowf->FindSelfSubForNext(path.Inodes[i], 0);
-				if (Result != vssd_inode::NOT_FINDED) {
-					longNowf = longNowf->GetSubInodes()[Result];
-				}
-				else {
-					return nullptr;
-				}
-				Nowpath.LoadOneSub(longNowf);
-				if (longNowf->IsLink() && (i + 1) == path.Inodes.size())
+				size_t Result = longNowf->FindSelfSubForNext(Path.Inodes[i], 0);
+				if (vssd_inode::IsFinded(Result))
 				{
-					aPath = Nowpath; return (vssd_inode *)longNowf;
+					longNowf = longNowf->GetSubInodes()[Result];
+					NowPath.LoadOneSub(longNowf);
+					if (longNowf->IsLink())
+					{
+						if ((i + 1) == Path.Inodes.size())
+						{
+							aPath = NowPath;
+							return (vssd_inode *)longNowf;
+						} 
+						else{
+							 longNowf = longNowf->CheckLink();
+						}
+					} 
 				}
-				longNowf = longNowf->FindFolderByLink();
+				else { return nullptr; } 
+				
 			}
+			flag_tofirstif = 0;
 		}
-		aPath = Nowpath;
-
+		aPath = NowPath; 
 		return const_cast< vssd_inode *>(longNowf);
 	}
 
-	void vssd_optcmd::v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, tools_path & aPath, std::vector<vssd_inode*>& sets)
+	void vssd_optcmd::v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, std::vector<vssd_inode*>& sets)
 	{
+		tools_path	 Path(PathCommand);
+		tools_path	 NowPath(MyVssd.GetNooowPan()->GetNowPath());
+		//Nowpath  copy and swap策略  
 
+		const vssd_inode * longNowf(NowPath.GetNowPtr());
+
+		int flag_tofirstif(1);
+		for (size_t i = 0; i < Path.Inodes.size()-1; i++)
+		{
+			//说明是磁盘开头，则为绝对路径
+			if (flag_tofirstif && Path.Inodes[i].size() == 2 && Path.Inodes[i].at(1) == ':')
+			{
+				NowPath.Clear();
+				size_t Result = MyVssd.GetGenius()->FindSelfSubForNext(Path.Inodes[i], 0);
+				if (vssd_inode::IsFinded(Result)) {
+					longNowf = MyVssd.GetGenius()->GetSubInodes()[Result];
+				}
+				else {
+					return;
+				}
+				NowPath.LoadOneSub(longNowf);
+			}
+			else if (Path.Inodes.at(i) == L"..")
+			{
+				if (NowPath.RealInodes.size() < 2)
+				{
+					return;
+				}
+				else
+				{
+					NowPath.DeleteOneSub();
+				}
+
+			}
+			else if (Path.Inodes.at(i) == L".") {}
+			else
+			{
+				size_t Result = longNowf->FindSelfSubForNext(Path.Inodes[i], 0);
+				if (vssd_inode::IsFinded(Result))
+				{
+					longNowf = longNowf->GetSubInodes()[Result];
+					NowPath.LoadOneSub(longNowf);
+					if (longNowf->IsLink())
+					{
+						if ((i + 1) == Path.Inodes.size())
+						{  
+							break;
+						}
+						else {
+							longNowf = longNowf->CheckLink();
+						}
+					}
+				}
+				else { return; }
+
+			}
+			flag_tofirstif = 0;
+		}
+		longNowf->FindSelfSubForAll(Path.Inodes[Path.Inodes.size() - 1], sets); 
+		return;
 	}
-
+	
 	vssd_optcmd::vssd_optcmd()
 	{
 		InitType();
@@ -136,7 +198,7 @@ namespace sjh {
 	{
 		using namespace tool::string;
 
-		if (CmdCommand.length() == 0) {} 
+		if (CmdCommand.size() == 0) {} 
 		std::vector<std::wstring>	Rears; 
 		Split(CmdCommand, Rears, L" ");
 		//分析命令名与命令参数

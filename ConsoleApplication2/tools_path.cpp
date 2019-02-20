@@ -28,7 +28,13 @@ namespace sjh {
 
 	tools_path::tools_path():PathTypeCode(tools_path::IS_ABSOLUTE_PATH)
 	{ 
-	} 
+	}
+	tools_path::tools_path(const std::wstring& pathString)
+	{
+		tools_path();
+		SetInodesByWstring(pathString);
+	}
+
 
 	const vssd_inode * tools_path::GetNowPtr() const
 	{
@@ -98,9 +104,9 @@ namespace sjh {
 			if (Pos != std::wstring::npos)
 				beForePos = Pos + 1;
 		}
-		if (beForePos <= pathString.length() - 1)
+		if (beForePos <= pathString.size() - 1)
 		{
-			Nowstring = pathString.substr(beForePos, pathString.length() - beForePos);
+			Nowstring = pathString.substr(beForePos, pathString.size() - beForePos);
 			tool::string::Trim(Nowstring);
 			tool::string::CheckQuotation(Nowstring);
 			if (Nowstring != L"." && Nowstring != L"..")

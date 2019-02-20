@@ -6,11 +6,12 @@ namespace sjh {
 		std::wstring mdCommand(Command);
 		tool::string::Trim(mdCommand);
 
-		tools_path Path;
-		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, mdCommand, Path);
+		
+		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, mdCommand);
 
 		if (nullptr == Inode)
 		{
+			tools_path Path;
 			Path.SetInodesByWstring(mdCommand);
 			if (Path.IsAbsolutePath())
 			{

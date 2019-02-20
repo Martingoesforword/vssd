@@ -8,7 +8,7 @@ namespace sjh {
 	}
 	void vssdCd::vCd(VirtualDisk & MyVssd, const std::wstring & CdCommand)
 	{ 
-		 
+		
 		vssd_pan * Pan = MyVssd.GetNooowPan();
 		
 		if (CdCommand.compare(L"/") == 0 || CdCommand.compare(L"\\") == 0)
@@ -18,7 +18,7 @@ namespace sjh {
 		}
 
 		tools_path a;
-		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, CdCommand, a);
+		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, CdCommand,a);
 
 		if (Inode && Inode->IsFile())
 		{

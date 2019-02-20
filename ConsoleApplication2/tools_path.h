@@ -12,6 +12,7 @@ namespace sjh {
 	public:
 		//原始构造
 		tools_path();
+		tools_path(const std::wstring& pathString);
 		~tools_path();
 
 		//基类相关

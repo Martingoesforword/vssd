@@ -10,7 +10,8 @@
 namespace sjh {
 	class vssdRd :public base_executable
 	{
-		void vRd(VirtualDisk & MyVssd, std::wstring & RdCommand);
+		void vRd(VirtualDisk & MyVssd, const std::vector<std::wstring>& Dels, int PosDel, int DEL_TYPE);
+		void vRd(VirtualDisk & MyVssd, const std::vector<std::wstring>& Dels);
 	public:
 		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 

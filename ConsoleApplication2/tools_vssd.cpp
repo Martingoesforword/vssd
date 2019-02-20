@@ -266,14 +266,14 @@ namespace sjh {
 
 			std::wstring StringToWString(const std::string &strSrc)
 			{
-				int nLen = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strSrc.c_str(), strSrc.length(), 0, 0);
+				int nLen = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strSrc.c_str(), strSrc.size(), 0, 0);
 				if (nLen <= 0) return std::wstring(L"");
 
 				WCHAR *pwszDst = new WCHAR[nLen + 1];
 				if (NULL == pwszDst) return std::wstring(L"");
 				memset(pwszDst, 0, nLen + 1);
 
-				MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strSrc.c_str(), strSrc.length(), pwszDst, nLen);
+				MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strSrc.c_str(), strSrc.size(), pwszDst, nLen);
 				pwszDst[nLen] = 0;
 
 				std::wstring wstrTemp(pwszDst);

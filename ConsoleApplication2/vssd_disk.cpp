@@ -130,9 +130,9 @@ namespace sjh {
 
 				size_t Result = 0;
 				Result = Now->FindSelfSubForNext(aPath.Inodes[i], 0);
-				if (CheckedFlag && Result != Now->NOT_FINDED)
+				if (CheckedFlag && vssd_inode::IsFinded(Result))
 				{
-					Now = Now->GetSubInodes()[Result]->FindFolderByLink();
+					Now = Now->GetSubInodes()[Result]->CheckLink();
 					CheckedFlag = false;
 				}
 				else

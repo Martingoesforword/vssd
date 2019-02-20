@@ -1,34 +1,60 @@
 #include "pch.h"
 #include "vssdRd.h"
-namespace sjh {
-	//当下文件夹下rd
+namespace sjh { 
+	void vssdRd::vRd(VirtualDisk & MyVssd, const std::vector<std::wstring>& Dels, int PosDel, int DEL_TYPE)
+	{
+		for (int ii = PosDel; ii < Dels.size(); ii++) {
+			tools_path a;
+			std::vector< vssd_inode *> Sets;
+			vssd_optcmd::v_FindPathForAll(MyVssd, Dels[ii], Sets);
+			if (Sets.size())
+			{
+				for (size_t i = 0; i < Sets.size(); i++)
+				{
+					if (Sets[i]->IsFolder()) {
+						if (DEL_TYPE == DEL_TYPE_TREE) {
+							Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
+						}
+						else if (DEL_TYPE == DEL_TYPE_SELF)
+						{
+							if (Sets[i]->SubSize() == 0)
+							{
+								Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
+							}
+							else
+							{
+								//失败
+							}
 
-	void vssdRd::vRd(VirtualDisk & MyVssd, std::wstring & RdCommand)
+						}
+					}
+				}
+			}
+			else
+			{
+				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+			}
+		}
+
+	}
+	void vssdRd::vRd(VirtualDisk & MyVssd, const std::vector<std::wstring>& Dels)
 	{
 
-		tools_path a;
-		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, RdCommand, a);
-		if (!Inode)
+		using namespace tool::string;
+		if (HasSwitch(Dels[1]) && IsThisSwitch(Dels[1], L"s"))
 		{
-			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
+			vRd(MyVssd, Dels, 2, DEL_TYPE_TREE);
 		}
-		if (Inode->IsFile())
+		else
 		{
-			std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
-			vssdDel vDel;
-			return;
+			vRd(MyVssd, Dels, 1, DEL_TYPE_SELF);
 		}
-		if (Inode && a.Inodes.size() >= 3)
-		{
-			a.RealInodes.at(a.RealInodes.size() - 2)->DeleteOneSub(Inode);
-		}
-
-
 
 	}
 	int vssdRd::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
+		vRd(MyVssd, Rear);
 		return EXE_OK;
-	}
+	} 
 
 }

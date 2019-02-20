@@ -2,10 +2,8 @@
 #include "vssdMove.h"
 namespace sjh {
 	void vssdMove::vMove(VirtualDisk & MyVssd, std::wstring & Des)
-	{
-
-		tools_path b;
-		vssd_inode * disInode = vssd_optcmd::v_FindPathForFirst(MyVssd, Des, b);
+	{ 
+		vssd_inode * disInode = vssd_optcmd::v_FindPathForFirst(MyVssd, Des);
 		if (disInode)
 		{
 			disInode->LoadOneSub(MyVssd.GetNooowPan()->GetNooowPos());

@@ -46,8 +46,9 @@ namespace sjh {
 		//toolsœ‡πÿ
 		static void					v_jump(VirtualDisk & MyVssd, const std::wstring & JumpTo);
 		static bool					v_match(const std::wstring & CmdCommand, const std::wstring &MatchString);
-		static vssd_inode*			v_FindPathForFirst(const VirtualDisk & MyVssd, std::wstring  PathCommand, tools_path & aPath);
-		static void					v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, tools_path & aPath, std::vector<vssd_inode*>& sets);
+		static vssd_inode *			v_FindPathForFirst(const VirtualDisk & MyVssd, const std::wstring& PathCommand);
+		static vssd_inode *			v_FindPathForFirst(const VirtualDisk & MyVssd, const std::wstring&  PathCommand, tools_path & aRetPath);
+		static void					v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, std::vector<vssd_inode*>& aRetSets);
 		static base_executable *	GetTaskByName(const std::wstring& Name);
 		 
 	};

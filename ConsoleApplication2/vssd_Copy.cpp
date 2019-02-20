@@ -6,11 +6,11 @@ namespace sjh {
 		if (rearSrc.at(EXE_OK) == L'@')
 		{
 
-			tools_path a;
-			vssd_inode *Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearDes, a);
+			
+			vssd_inode *Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearDes);
 			if (nullptr == Inode)
 			{
-				a.SetInodesByWstring(rearDes);
+				tools_path a(rearDes); 
 				if (a.IsAbsolutePath())
 				{
 					Inode = MyVssd.BuildPath(MyVssd.GetGenius(), a, vssd_inode::IS_FILE);
@@ -53,7 +53,7 @@ namespace sjh {
 				}
 			}
 
-			std::wstring RealSrc = rearSrc.substr(1, rearSrc.length() - 1);
+			std::wstring RealSrc = rearSrc.substr(1, rearSrc.size() - 1);
 
 			char ch;
 
@@ -80,11 +80,10 @@ namespace sjh {
 
 		}
 		else if (rearDes.at(EXE_OK) == L'@')
-		{
-			tools_path a;
-			vssd_inode *Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
+		{ 
+			vssd_inode *Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearSrc);
 
-			std::wstring RealDes = rearDes.substr(1, rearDes.length() - 1);
+			std::wstring RealDes = rearDes.substr(1, rearDes.size() - 1);
 			std::ofstream DesFile(RealDes, std::ios::binary);
 			if (DesFile.is_open())
 			{

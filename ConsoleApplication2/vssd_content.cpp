@@ -8,7 +8,7 @@ namespace sjh{
 	}
 	void vssd_content::SetString(std::wstring str)		//×·¼Ó×Ö·û
 	{
-		for (size_t i = 0; i < str.length(); i++)
+		for (size_t i = 0; i < str.size(); i++)
 		{
 			Content.push_back(*((unsigned char*)&str[i] + 0));
 			Content.push_back(*((unsigned char*)&str[i] + 1));

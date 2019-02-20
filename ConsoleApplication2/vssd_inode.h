@@ -41,17 +41,20 @@ namespace sjh {
 		bool IsFolder() const	{ return  InodeTypeCode == IS_FOLDER; }
 		bool IsLink()	const	{ return  InodeTypeCode == IS_LINK; }
 
-		//SubInodes相关   
+		//SubInodes相关 
+		int		SubSize() { return SubInodes.size(); };
 		void	LoadOneSub(vssd_inode * aLinkToSub);
 		void	UnloadOneSub(vssd_inode * aOffInode); 
 		void	DeleteWholeTree(); 
 		void	DeleteOneSub(vssd_inode *aDeletInode);
 		const std::vector<vssd_inode *>&		GetSubInodes() const;
 
-		static const int	NOT_FINDED = -1;
-		size_t				FindSelfSubForNext(std::wstring& Inode, size_t StartIndex) const;
-		void				FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode *> & AllInode);
-		vssd_inode *		FindFolderByLink() const;
+		static const int		NOT_FINDED = -1;
+		int						FindSelfSubForNext(std::wstring& Inode, size_t StartIndex) const;
+		void					FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode *> & AllInode) const;
+		static bool				IsFinded(int pos) { return  pos >= 0 ? true : false; }
+		static bool				IsNotFinded(int pos) { return  pos >= 0 ? false : true; }
+		vssd_inode *			CheckLink() const;
 		 
 		//Content相关
 		void	AddContent(wchar_t aByte);

@@ -235,13 +235,13 @@ namespace sjh {
 
 
 
-	size_t vssd_inode::FindSelfSubForNext(std::wstring& Inode, size_t StartIndex) const
+	int vssd_inode::FindSelfSubForNext(std::wstring& Inode, size_t StartIndex) const
 	{
 		for (size_t i = StartIndex; i < SubInodes.size(); i++)
 		{
 			if (SubInodes.at(i) != NULL)
 			{
-				if (tool::string::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0)
+				if (tool::string::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0 )
 				{
 					return i;
 				}
@@ -251,17 +251,17 @@ namespace sjh {
 				}
 			}
 		}
-		return (size_t)NOT_FINDED;
+		return NOT_FINDED;
 	}
 
-	void vssd_inode::FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode*>& AllInode)
+	void vssd_inode::FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode*>& AllInode) const
 	{
-		size_t Result = 0;
+		int Result = 0;
 		//循环体内语句控制循环的进行，非线性控制
 		while (1)
 		{
 			Result = FindSelfSubForNext(Inode, Result);
-			if (Result != NOT_FINDED)
+			if ( IsFinded(Result))
 			{
 				AllInode.push_back(SubInodes[Result]);
 				Result++;
@@ -273,7 +273,7 @@ namespace sjh {
 		return;
 	}
 
-	vssd_inode * vssd_inode::FindFolderByLink() const
+	vssd_inode * vssd_inode::CheckLink() const
 	{
 		const vssd_inode *Inode = this;
 		while (Inode->IsLink())
@@ -366,7 +366,7 @@ namespace sjh {
 	{
 		if (IsFile())
 		{
-			for (size_t i = 0; i < str.length(); i++)
+			for (size_t i = 0; i < str.size(); i++)
 			{
 				Content.SetString(str); 
 			} 
