@@ -243,7 +243,7 @@ namespace sjh {
 			{
 				if (tool::string::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0 )
 				{
-					return i;
+					return (int)i;
 				}
 				if (i > SubInodes.size())
 				{
@@ -256,8 +256,7 @@ namespace sjh {
 
 	void vssd_inode::FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode*>& AllInode) const
 	{
-		int Result = 0;
-		//循环体内语句控制循环的进行，非线性控制
+		int Result = 0;		
 		while (1)
 		{
 			Result = FindSelfSubForNext(Inode, Result);

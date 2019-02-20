@@ -11,7 +11,7 @@ namespace sjh {
 			{
 				for (size_t i = 0; i < Sets.size(); i++)
 				{
-					if (Sets[i]->IsFolder()) {
+					if (Sets[i]->IsFolder() || Sets[i]->IsLink()) {
 						if (DEL_TYPE == DEL_TYPE_TREE) {
 							Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
 						}

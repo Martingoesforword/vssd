@@ -42,7 +42,7 @@ namespace sjh {
 		bool IsLink()	const	{ return  InodeTypeCode == IS_LINK; }
 
 		//SubInodes相关 
-		int		SubSize() { return SubInodes.size(); };
+		size_t	SubSize() { return SubInodes.size(); };
 		void	LoadOneSub(vssd_inode * aLinkToSub);
 		void	UnloadOneSub(vssd_inode * aOffInode); 
 		void	DeleteWholeTree(); 
@@ -52,8 +52,8 @@ namespace sjh {
 		static const int		NOT_FINDED = -1;
 		int						FindSelfSubForNext(std::wstring& Inode, size_t StartIndex) const;
 		void					FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode *> & AllInode) const;
-		static bool				IsFinded(int pos) { return  pos >= 0 ? true : false; }
-		static bool				IsNotFinded(int pos) { return  pos >= 0 ? false : true; }
+		static bool				IsFinded(size_t pos) { return  pos+1 >= 1 ? true : false; }
+		static bool				IsNotFinded(size_t pos) { return  pos+1 >= 1 ? false : true; }
 		vssd_inode *			CheckLink() const;
 		 
 		//Content相关

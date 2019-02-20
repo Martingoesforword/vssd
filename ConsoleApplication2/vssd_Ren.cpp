@@ -2,23 +2,29 @@
 #include "vssdRen.h"
 namespace sjh {
 	 
-	void vssdRen::vRen(VirtualDisk & MyVssd, std::wstring & SrcCommand, std::wstring & DesName)
+	void vssdRen::vRen(VirtualDisk & MyVssd, const std::wstring  SrcCommand,const std::wstring  DesName)
 	{
 		tools_path a;
-		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, SrcCommand, a);
-		if (Inode && a.Inodes.size() > 2 && !(a.RealInodes.at(a.RealInodes.size() - 2)->FindSelfSubForNext(DesName, EXE_OK)))
+		std::wstring  sCommand(SrcCommand);
+		std::wstring  dCommand(DesName);
+		std::vector<vssd_inode *> sets;
+		vssd_optcmd::v_FindPathForAll(MyVssd, sCommand, sets);
+		for (size_t i = 0; i < sets.size(); i++)
 		{
-			Inode->Set(DesName);
-		}
-		else
-		{
-			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
-		}
-
+			if (sets[i]->GetFather()->FindSelfSubForNext(dCommand, 0) == vssd_inode::NOT_FINDED)
+			{
+				sets[i]->SetName(dCommand);
+			}
+			else
+			{
+				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+			}
+		} 
 	}
 
 	int vssdRen::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
+		vRen(MyVssd, Rear[1], Rear[2]);
 		return EXE_OK;
 	}
  

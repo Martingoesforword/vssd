@@ -9,7 +9,7 @@
 namespace sjh {
 	class vssdRen :public base_executable
 	{
-		void vRen(VirtualDisk & MyVssd, std::wstring & SrcCommand, std::wstring & DesName);
+		void vRen(VirtualDisk & MyVssd, const std::wstring SrcCommand, const std::wstring DesName);
 	public:
 		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 
