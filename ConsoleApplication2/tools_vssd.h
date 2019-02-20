@@ -25,7 +25,9 @@ namespace sjh {
 			std::string			GetTimeString(time_t tm);
 			std::string			GetSizeString(size_t Size);
 
-			void		CheckQuotation(std::wstring& Str);
+			void		CheckQuotation(  std::wstring& Str);
+			bool		IsThisSwitch(const std::wstring & Str, const std::wstring& Pram);
+			bool		HasSwitch(const std::wstring & Str);
 		}
 		namespace math 
 		{

@@ -1,8 +1,9 @@
 #include "pch.h" 
 #include "vssdMkdir.h" 
 namespace sjh {
-	vssd_inode * vssdMkdir::vMd(VirtualDisk & MyVssd, std::wstring & mdCommand)
+	vssd_inode * vssdMkdir::vMd(VirtualDisk & MyVssd, const std::wstring & Command) 
 	{
+		std::wstring mdCommand(Command);
 		tool::string::Trim(mdCommand);
 
 		tools_path Path;
@@ -11,7 +12,7 @@ namespace sjh {
 		if (nullptr == Inode)
 		{
 			Path.SetInodesByWstring(mdCommand);
-			if (Path.IsRelativePath())
+			if (Path.IsAbsolutePath())
 			{
 				return MyVssd.BuildPath(MyVssd.GetGenius(), Path, vssd_inode::IS_FOLDER);
 			}
@@ -29,6 +30,11 @@ namespace sjh {
 	}
 	int vssdMkdir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
+		for (size_t i = 1; i < Rear.size(); i++)
+		{
+			vMd(MyVssd, Rear[i]);
+		}
+		
 		return EXE_OK;
 	}
 }

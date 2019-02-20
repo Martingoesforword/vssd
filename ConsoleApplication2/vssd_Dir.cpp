@@ -23,8 +23,7 @@ namespace sjh {
 				return;
 			}
 			else
-			{ 
-				a.DeleteOneSub();
+			{  
 				Inode->PrintAllSub(Type, a.GetPathWstring());
 			}
 			 
@@ -35,9 +34,10 @@ namespace sjh {
 		
 		if (Dirs.size() == 1) { vDir(MyVssd, DIR_TYPE_SELF); return; }
 		//ÅÐ¶Ï¿ª¹Ø
-		if (Dirs[1][0] == '/' && Dirs[1].size() >= 2)
+		using namespace tool::string;
+		if (HasSwitch(Dirs[1]))
 		{
-			if (Dirs[1].size() == 2 && Dirs[1][1] == 's' )
+			if (IsThisSwitch(Dirs[1],L"s"))
 			{
 				if (Dirs.size() == 2)
 				{
@@ -46,10 +46,9 @@ namespace sjh {
 				else
 				{
 					vDir(MyVssd, Dirs, 2, DIR_TYPE_TREE);
-				}
-				
+				}	
 			}
-			else if (Dirs[1].size() == 3 && Dirs[1][1] == 'a' && Dirs[1][2] == 'd')
+			else if (IsThisSwitch(Dirs[1], L"ad"))
 			{
 				if (Dirs.size() == 2)
 				{

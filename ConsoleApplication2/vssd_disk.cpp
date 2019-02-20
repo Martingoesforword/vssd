@@ -115,11 +115,8 @@ namespace sjh {
 
 	vssd_inode *VirtualDisk::BuildPath(vssd_inode *NowFolder, tools_path &aPath, int aType)
 	{
-		if (aPath.IsAbsolutePath())
-		{
-			return BuildPath(GetGenius(), aPath, aType);
-		}
-		else if (NowFolder->IsLink())
+		
+		if (NowFolder->IsLink())
 		{
 			return BuildPath(NowFolder->GetSubInodes()[0], aPath, aType);
 		}

@@ -124,7 +124,7 @@ namespace sjh {
 				else
 				{
 					std::wstring a = now;
-					a.append(L"\\");
+					if(a[a.size()-1] != '\\') a.append(L"\\");
 					a.append(SubInodes[i]->GetName());
 					
 
@@ -285,11 +285,12 @@ namespace sjh {
 
 
 
-
-	const vssd_inode *  vssd_inode::GetFather() const
+	//获取father之后，修改father内容
+	vssd_inode *  vssd_inode::GetFather() const
 	{
 		return Father;
 	}
+	//修改father值
 	void vssd_inode::SetFather(vssd_inode * aFather)
 	{
 		Father = aFather;

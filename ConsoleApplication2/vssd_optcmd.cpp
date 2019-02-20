@@ -66,7 +66,13 @@ namespace sjh {
 			}
 		}
 		aPath = Nowpath;
+
 		return const_cast< vssd_inode *>(longNowf);
+	}
+
+	void vssd_optcmd::v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, tools_path & aPath, std::vector<vssd_inode*>& sets)
+	{
+
 	}
 
 	vssd_optcmd::vssd_optcmd()
@@ -128,9 +134,11 @@ namespace sjh {
 
 	void vssd_optcmd::TypeCode_UI_Explainer(VirtualDisk & MyVssd,const std::wstring&  CmdCommand)
 	{
+		using namespace tool::string;
+
 		if (CmdCommand.length() == 0) {} 
-		std::vector<std::wstring>	Rears;
-		tool::string::Split(CmdCommand, Rears, L" ");
+		std::vector<std::wstring>	Rears; 
+		Split(CmdCommand, Rears, L" ");
 		//分析命令名与命令参数
 		
 		if (0 != Rears.size())
@@ -143,7 +151,7 @@ namespace sjh {
 			}
 			else
 			{
-				std::string a = tool::string::WStringToString(CmdCommand);
+				std::string a = WStringToString(CmdCommand);
 				std::cout << "\'" << a << "\' 不是内部或外部命令，也不是可运行的程序\n或批处理文件。";
 			}
 		}

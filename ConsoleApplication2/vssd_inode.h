@@ -60,7 +60,7 @@ namespace sjh {
 
 		//Father相关  
 		void				SetFather(vssd_inode * aFather) ;
-		const vssd_inode *	GetFather() const;
+		vssd_inode *		GetFather()  const;
 		
 
 		//Print相关

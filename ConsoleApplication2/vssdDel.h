@@ -9,7 +9,7 @@
 namespace sjh {
 	class vssdDel :public base_executable
 	{
-		void vDel(VirtualDisk & MyVssd, std::wstring & DelCommand);
+		void vDel(VirtualDisk & MyVssd, const std::wstring & DelCommand);
 	public:
 
 		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
