@@ -1,12 +1,12 @@
 #include "pch.h" 
-#include "vssdMkdir.h" 
+#include "vssdMkdir.h"  
 namespace sjh {
-	vssd_inode * vssdMkdir::vMd(VirtualDisk & MyVssd, const std::wstring & Command) 
+	vssd_inode* vssdMkdir::vMd(VirtualDisk & MyVssd, const std::wstring & Command)
 	{
 		std::wstring mdCommand(Command);
 		tool::string::Trim(mdCommand);
 
-		
+
 		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, mdCommand);
 
 		if (nullptr == Inode)
@@ -24,11 +24,12 @@ namespace sjh {
 		}
 		else
 		{
-			std::wcout << L"子目录或文件 " << Inode->Get() << " 已经存在。";
+			std::wcout << L"子目录或文件 " << Inode->GetName() << " 已经存在。";
 			return nullptr;
 		}
 
-	}
+	} 
+	
 	int vssdMkdir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
 		for (size_t i = 1; i < Rear.size(); i++)

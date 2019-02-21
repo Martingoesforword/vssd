@@ -1,5 +1,6 @@
 #include "pch.h"  
 #include "tools_path.h"
+#include "vssd_inode.h" 
 namespace sjh {
 
 	size_t tools_path::Serialize(std::vector<wchar_t>& Byte_Toptable)

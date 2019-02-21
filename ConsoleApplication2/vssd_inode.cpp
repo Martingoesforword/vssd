@@ -1,9 +1,9 @@
 #include "pch.h"  
-#include "vssd_inode.h"
-
+#include "vssd_inode.h" 
+#include "tools_path.h"  
 namespace sjh {
 
-	const std::wstring vssd_inode::VssdTypeName[3] = { L"FILE",L"DIR", L"SYMLINKD" };
+	const std::wstring vssd_inode::VssdTypeName[4] = { L"FILE",L"DIR", L"SYMLINKD",L"SYMLINK" };
 
 
 	std::wstring vssd_inode::GetTypeName() const
@@ -18,7 +18,7 @@ namespace sjh {
 
 	void vssd_inode::LoadOneSub(vssd_inode *LinktoSub)
 	{
-		LinktoSub->SetFather(this);
+		if(IsFolder()) LinktoSub->SetFather(this);
 		SubInodes.push_back(LinktoSub);
 
 	}
@@ -116,19 +116,21 @@ namespace sjh {
 		{
 			for (size_t i = 0; i < SubInodes.size(); i++)
 			{ 
+				if (SubInodes[i]->IsLinkF()) { }
 				if (SubInodes[i]->IsFile())
 				{
 					PrintHead(now); 
 					SubInodes[i]->PrintFileInfo();
-				}
+				} 
 				else
 				{
+					
 					std::wstring a = now;
 					if(a[a.size()-1] != '\\') a.append(L"\\");
 					a.append(SubInodes[i]->GetName());
-					
-
-					SubInodes[i]->PrintAllSub(pram, a);
+					vssd_inode* aa = SubInodes[i]; 
+					while (aa->IsLinkD()) aa = aa->GetSubInodes()[0];
+					aa->PrintAllSub(pram, a);
 				}
 				
 			}
@@ -275,7 +277,7 @@ namespace sjh {
 	vssd_inode * vssd_inode::CheckLink() const
 	{
 		const vssd_inode *Inode = this;
-		while (Inode->IsLink())
+		while (Inode->IsLinkD())
 		{
 			Inode = Inode->SubInodes[0];
 		}

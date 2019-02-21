@@ -52,7 +52,7 @@ namespace sjh {
 				{
 					longNowf = longNowf->GetSubInodes()[Result];
 					NowPath.LoadOneSub(longNowf);
-					if (longNowf->IsLink())
+					if (longNowf->IsLinkD())
 					{
 						if ((i + 1) == Path.Inodes.size())
 						{
@@ -117,7 +117,7 @@ namespace sjh {
 				{
 					longNowf = longNowf->GetSubInodes()[Result];
 					NowPath.LoadOneSub(longNowf);
-					if (longNowf->IsLink())
+					if (longNowf->IsLinkD())
 					{
 						if ((i + 1) == Path.Inodes.size())
 						{  

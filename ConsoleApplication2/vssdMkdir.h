@@ -9,8 +9,11 @@
 namespace sjh { 
 	class vssdMkdir :public sjh::base_executable
 	{
-		vssd_inode* vMd(VirtualDisk & MyVssd, const std::wstring & mdCommand);
+		
+ 		//friend vssd_inode*  (* vssdMklink::friendfunc(vssdMkdir& taskMd))(VirtualDisk & MyVssd, const std::wstring & mdCommand);
+
 	public: 
+		vssd_inode* vMd(VirtualDisk & MyVssd, const std::wstring & mdCommand);
 		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 
 	};

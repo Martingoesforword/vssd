@@ -26,7 +26,7 @@ namespace sjh {
 			return;
 		}
 
-		if (Inode && ((!Inode->IsLink()) || (Inode->IsLink() && Inode->GetSubInodes()[EXE_OK])))
+		if (Inode && ((!Inode->IsLinkD()) || (Inode->IsLinkD() && Inode->GetSubInodes()[EXE_OK])))
 		{
 			MyVssd.GetNooowPan()->SetNowPath(a);
 		}
@@ -41,8 +41,8 @@ namespace sjh {
 	}
 
 	int vssdCd::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
-	{ 
-		//Rear长度 == 1 OR > 1 
+	{
+		//Rear长度 == 1 OR > 1
 		if (1 == Rear.size())
 		{
 			vCd(MyVssd); 

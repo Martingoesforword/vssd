@@ -29,7 +29,7 @@ namespace sjh {
 			 
 		}
 	}
-	void vssdDir::vDir(const VirtualDisk & MyVssd, std::vector<std::wstring> Dirs)
+	void vssdDir::vDirSwitch(const VirtualDisk & MyVssd, std::vector<std::wstring> Dirs)
 	{
 		
 		if (Dirs.size() == 1) { vDir(MyVssd, DIR_TYPE_SELF); return; }
@@ -69,7 +69,7 @@ namespace sjh {
 	}
 	int vssdDir::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
-		vDir(MyVssd, Rear);
+		vDirSwitch(MyVssd, Rear);
 		return EXE_OK;
 	}
 }

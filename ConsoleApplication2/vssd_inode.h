@@ -6,23 +6,20 @@
 #include "base_serializable.h"  
 #include "vssd_time.h"    
 #include "tools_vssd.h"  
-#include "tools_path.h"  
 
 namespace sjh {   
 	class tools_path;
-	class vssd_inode :public vssd_name, public  base_displayable, public base_serializable 
+	class vssd_inode : public  base_displayable, public base_serializable 
 	{
-	private:
-
+	private: 
 		unsigned int				InodeTypeCode;
 		std::vector<vssd_inode *>	SubInodes;
 		vssd_inode*					Father;
 		tools_path*					LinkPath;
 		vssd_content				Content;
-		vssd_name					Name;
+		vssd_name					Name; 
 	public:
-		//原始构造
-
+		//原始构造 
 		vssd_inode(std::wstring aName, int aCode);
 		~vssd_inode(); 
 
@@ -34,13 +31,15 @@ namespace sjh {
 		//InodeTypeCode相关 
 		static const int	IS_FILE = 0;
 		static const int	IS_FOLDER = 1;
-		static const int	IS_LINK = 2;
-		static const std::wstring	VssdTypeName[3];
+		static const int	IS_LINKD = 2;
+		static const int	IS_LINKF = 3;
+		static const std::wstring	VssdTypeName[4];
 		std::wstring	GetTypeName() const;
+		void			SetTypeName(int a) { InodeTypeCode = a <= 3 && a >= 0 ? a : 1; };
 		bool IsFile()	const	{ return  InodeTypeCode == IS_FILE; }
 		bool IsFolder() const	{ return  InodeTypeCode == IS_FOLDER; }
-		bool IsLink()	const	{ return  InodeTypeCode == IS_LINK; }
-
+		bool IsLinkD()	const	{ return  InodeTypeCode == IS_LINKD; }
+		bool IsLinkF()	const { return  InodeTypeCode == IS_LINKF; }
 		//SubInodes相关 
 		size_t	SubSize() { return SubInodes.size(); };
 		void	LoadOneSub(vssd_inode * aLinkToSub);

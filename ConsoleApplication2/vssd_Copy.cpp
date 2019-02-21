@@ -23,7 +23,7 @@ namespace sjh {
 			else {
 				if (Inode->IsFile())
 				{
-					std::cout << "覆盖 " << tool::string::WStringToString(Inode->Get()) << " 吗 ? (Yes / No / All) :";
+					std::cout << "覆盖 " << tool::string::WStringToString(Inode->GetName()) << " 吗 ? (Yes / No / All) :";
 					std::string Answer;
 					while (1)
 					{
@@ -48,7 +48,7 @@ namespace sjh {
 				else if (Inode->IsFolder()) {
 					//处理文件夹      但最终要产生Inode指针
 				}
-				else if (Inode->IsLink()) {
+				else if (Inode->IsLinkD()) {
 
 				}
 			}
