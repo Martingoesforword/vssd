@@ -31,7 +31,8 @@ namespace sjh {
 			//将Link文件第一个子文件放入指向文件 
 
 			//同时把路径放入
-			Inode->SetLinkPath(a);
+			tools_path *aa = new tools_path(a);
+			Inode->SetLinkPath(*aa);
 		}
 		else
 		{

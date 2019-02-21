@@ -89,7 +89,7 @@ namespace sjh {
 			{
 				unsigned int LengthValue = 0;
 				LengthValue += ByteVssd.at(Pos) * 256 * 256;  Pos++;
-				LengthValue += ByteVssd.at(Pos);				Pos++;
+				LengthValue += ByteVssd.at(Pos);			Pos++;
 
 				return LengthValue;
 			}
@@ -141,7 +141,7 @@ namespace sjh {
 
 			}
 
-			void GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t> aSerial)
+			void GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t>& aSerial)
 			{
 				std::ifstream Vssdfile(GetFrom, std::ios::binary);
 				if (!Vssdfile.is_open())

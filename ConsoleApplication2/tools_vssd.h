@@ -1,7 +1,6 @@
 #pragma once   
 #include "pch.h"
-namespace sjh {
-	const int IS_SAMESTRING = 0;
+namespace sjh { 
 	namespace tool {
 		namespace string {
 			void				Split(std::wstring str, std::vector<std::wstring> &ret, std::wstring pattern);
@@ -19,7 +18,7 @@ namespace sjh {
 			std::wstring		GetString(const std::vector<wchar_t>& ByteVssd, int &Pos);
 			void				GetWcharVector(std::vector<wchar_t> &WcharVector, std::vector<wchar_t> &ByteVssd, int &Pos);
 			unsigned int		GetLengthValue(const std::vector<wchar_t>& ByteVssd, int &Pos);
-			void				GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t> aSerial);
+			void				GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t>& aSerial);
 			std::wstring		GetTimeWString(time_t tm);
 			std::wstring		GetSizeWString(size_t Size);
 			std::string			GetTimeString(time_t tm);

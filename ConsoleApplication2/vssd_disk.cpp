@@ -44,7 +44,7 @@ namespace sjh {
 	{
 		for (size_t i = 0; i < Pans.size(); i++)
 		{
-			if ((aName == Pans[i]->GetRoot()->GetName()) == sjh::IS_SAMESTRING)
+			if ((aName == Pans[i]->GetRoot()->GetName()) )
 			{
 				return Pans[i];
 			}
@@ -72,7 +72,7 @@ namespace sjh {
 	size_t VirtualDisk::Serialize(std::vector<wchar_t> &ByteVssd)
 	{
 
-		tool::string::PushString(Name.Get(), ByteVssd);
+		tool::string::PushString(GetName(), ByteVssd);
 		Genius->Serialize(ByteVssd);
 		return ByteVssd.size();
 	}
@@ -80,7 +80,7 @@ namespace sjh {
 	void VirtualDisk::DeSerialize(std::vector<wchar_t>& ByteVssd, int &Pos)
 	{
 
-		Name.Set(tool::string::GetString(ByteVssd, Pos));
+		SetName(tool::string::GetString(ByteVssd, Pos));
 
 		vssd_inode *GeniusNow = new vssd_inode(L"", vssd_inode::IS_FOLDER);
 		GeniusNow->DeSerialize(ByteVssd, Pos);
@@ -113,12 +113,12 @@ namespace sjh {
 		std::wcout << L"<VirtualDisk class>" << std::endl;
 	}
 
-	vssd_inode *VirtualDisk::BuildPath(vssd_inode *NowFolder, tools_path &aPath, int aType)
+	vssd_inode *VirtualDisk::BuildPath(VirtualDisk & vd,vssd_inode *NowFolder, tools_path &aPath, int aType)
 	{
 		
 		if (NowFolder->IsLinkD())
 		{
-			return BuildPath(NowFolder->GetSubInodes()[0], aPath, aType);
+			return BuildPath(vd,NowFolder->GetSubInodes()[0], aPath, aType);
 		}
 		else if (NowFolder->IsFolder())
 		{
@@ -132,7 +132,7 @@ namespace sjh {
 				Result = Now->FindSelfSubForNext(aPath.Inodes[i], 0);
 				if (CheckedFlag && vssd_inode::IsFinded(Result))
 				{
-					Now = Now->GetSubInodes()[Result]->CheckLink();
+					Now = vssd_optcmd::CheckLink(vd,Now->GetSubInodes()[Result]);
 					CheckedFlag = false;
 				}
 				else

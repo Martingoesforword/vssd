@@ -6,7 +6,7 @@
 namespace sjh {
 	class vssdLoad :public base_executable
 	{
-		void vLoad(VirtualDisk & MyVssd, std::wstring & GetFrom);
+		void vLoad(VirtualDisk & MyVssd, const std::wstring & GetFrom);
 
 	public:
 

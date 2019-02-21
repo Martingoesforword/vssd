@@ -9,6 +9,7 @@
 
 namespace sjh {   
 	class tools_path;
+	class VirtualDisk;
 	class vssd_inode : public  base_displayable, public base_serializable 
 	{
 	private: 
@@ -53,7 +54,7 @@ namespace sjh {
 		void					FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode *> & AllInode) const;
 		static bool				IsFinded(size_t pos) { return  pos+1 >= 1 ? true : false; }
 		static bool				IsNotFinded(size_t pos) { return  pos+1 >= 1 ? false : true; }
-		vssd_inode *			CheckLink() const;
+		
 		 
 		//Content相关
 		void	AddContent(wchar_t aByte);
@@ -75,7 +76,7 @@ namespace sjh {
 		//LinkPath相关
 		void	SetLinkPath(std::wstring PathWString);
 		void	SetLinkPath(tools_path& Path);
-
+		tools_path*	GetLinkPath() { return LinkPath; };
 		//Name相关
 		void					SetName(std::wstring aName);
 		const std::wstring&		GetName() const;

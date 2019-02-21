@@ -2,7 +2,7 @@
 #include "vssdLoad.h"
 
 namespace sjh {
-	void vssdLoad::vLoad(VirtualDisk & MyVssd, std::wstring & GetFrom)
+	void vssdLoad::vLoad(VirtualDisk & MyVssd, const std::wstring & GetFrom)
 	{
 		std::vector<wchar_t> aSerial;
 		tool::string::GetFromRealfile(GetFrom, aSerial);
@@ -12,6 +12,7 @@ namespace sjh {
 	}
 	int vssdLoad::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
+		vLoad(MyVssd, Rear[1]);
 		return EXE_OK;
 	}
 }

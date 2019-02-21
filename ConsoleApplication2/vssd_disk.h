@@ -37,7 +37,7 @@ namespace sjh {
 
 		//Genius相关 
 		vssd_inode *	GetGenius() const;
-		vssd_inode *	BuildPath(vssd_inode *NowFolder, tools_path & aPath, int aType);  
+		vssd_inode *	BuildPath(VirtualDisk & vd, vssd_inode *NowFolder, tools_path & aPath, int aType);
 		
 		//Pans相关
 		vssd_pan *		GetNooowPan() const;

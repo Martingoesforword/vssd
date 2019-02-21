@@ -13,11 +13,11 @@ namespace sjh {
 				tools_path a(rearDes); 
 				if (a.IsAbsolutePath())
 				{
-					Inode = MyVssd.BuildPath(MyVssd.GetGenius(), a, vssd_inode::IS_FILE);
+					Inode = MyVssd.BuildPath(MyVssd,MyVssd.GetGenius(), a, vssd_inode::IS_FILE);
 				}
 				else
 				{
-					Inode = MyVssd.BuildPath(MyVssd.GetNooowPan()->GetNooowPos(), a, vssd_inode::IS_FILE);
+					Inode = MyVssd.BuildPath(MyVssd,MyVssd.GetNooowPan()->GetNooowPos(), a, vssd_inode::IS_FILE);
 				}
 			}
 			else {

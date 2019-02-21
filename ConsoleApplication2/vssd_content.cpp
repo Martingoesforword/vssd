@@ -1,6 +1,17 @@
 #include "pch.h"
 #include "vssd_content.h"
+#include "tools_vssd.h"
 namespace sjh{
+	size_t vssd_content::Serialize(std::vector<wchar_t>& Byte)
+	{
+		size_t a = Byte.size();
+		tool::string::PushWcharVector(Content, Byte);
+		return a;
+	}
+	void vssd_content::DeSerialize(std::vector<wchar_t>& ByteVssd, int & Pos)
+	{
+		tool::string::GetWcharVector(Content, ByteVssd, Pos);
+	}
 	void vssd_content::Add(wchar_t Byte)		//×·¼Ó×Ö·û
 	{ 
 		Content.push_back(Byte); 

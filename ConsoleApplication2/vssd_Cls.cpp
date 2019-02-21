@@ -7,6 +7,7 @@ namespace sjh {
 	}
 	int vssdCls::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
+		vCls();
 		return EXE_OK;
 	}
 }

@@ -141,7 +141,7 @@ namespace sjh {
 		else
 		{
 			size_t i = 0;
-			for (i = 0; i < Inodes.size() - 1; i++)
+			for (i = 0; i+1 < Inodes.size(); i++)
 			{
 				Path.append(Inodes.at(i));
 				Path.append(L"\\");

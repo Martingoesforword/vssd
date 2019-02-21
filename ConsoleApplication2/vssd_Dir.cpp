@@ -17,7 +17,12 @@ namespace sjh {
 			{
 				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl; continue;
 			}
-			if (Inode->IsFile())
+			else if (Inode->IsFile())
+			{
+				std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
+				return;
+			}
+			else if (Inode->IsLinkD())
 			{
 				std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
 				return;

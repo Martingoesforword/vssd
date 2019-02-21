@@ -15,11 +15,11 @@ namespace sjh {
 			Path.SetInodesByWstring(mdCommand);
 			if (Path.IsAbsolutePath())
 			{
-				return MyVssd.BuildPath(MyVssd.GetGenius(), Path, vssd_inode::IS_FOLDER);
+				return MyVssd.BuildPath(MyVssd,MyVssd.GetGenius(), Path, vssd_inode::IS_FOLDER);
 			}
 			else
 			{
-				return MyVssd.BuildPath(MyVssd.GetNooowPan()->GetNooowPos(), Path, vssd_inode::IS_FOLDER);
+				return MyVssd.BuildPath(MyVssd,MyVssd.GetNooowPan()->GetNooowPos(), Path, vssd_inode::IS_FOLDER);
 			}
 		}
 		else

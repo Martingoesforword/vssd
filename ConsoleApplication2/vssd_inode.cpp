@@ -1,6 +1,7 @@
 #include "pch.h"  
 #include "vssd_inode.h" 
 #include "tools_path.h"  
+#include "vssd_disk.h"
 namespace sjh {
 
 	const std::wstring vssd_inode::VssdTypeName[4] = { L"FILE",L"DIR", L"SYMLINKD",L"SYMLINK" };
@@ -139,38 +140,15 @@ namespace sjh {
 	}
 
 	void vssd_inode::DeleteOneSub(vssd_inode * deletInode)
-	{
-		size_t j = 0;
+	{ 
 		for (size_t i = 0; i < SubInodes.size(); i++)
-		{
-
-			for (; j < SubInodes.max_size(); j++)
-			{
-				if (SubInodes.at(j) == NULL)
-				{
-					continue;
-				}
-				else
-				{
-
-					break;
-				}
-			}
-
-			if ((SubInodes.at(j)->GetName() == deletInode->GetName()) == sjh::IS_SAMESTRING)
-			{
-				SubInodes.at(j)->DeleteWholeTree();
-				SubInodes.at(j)->~vssd_inode();
-				std::vector<vssd_inode *>::iterator it = SubInodes.begin();
-
-				SubInodes.erase(it + j);
+		{ 
+			if ((SubInodes.at(i)->GetName() == deletInode->GetName()) )
+			{ 
+				delete SubInodes.at(i); 
+				SubInodes.erase(SubInodes.begin() + i);
 				return;
-			}
-			else
-			{
-				j++;
-			}
-
+			}  
 		}
 	}
 
@@ -192,7 +170,7 @@ namespace sjh {
 				}
 			}
 
-			if ((SubInodes.at(j)->GetName() == deletInode->GetName()) == sjh::IS_SAMESTRING)
+			if ((SubInodes.at(j)->GetName() == deletInode->GetName()) )
 			{
 				std::vector<vssd_inode*>::iterator it = SubInodes.begin();
 				SubInodes.erase(it + j);
@@ -273,19 +251,8 @@ namespace sjh {
 		}
 		return;
 	}
-
-	vssd_inode * vssd_inode::CheckLink() const
-	{
-		const vssd_inode *Inode = this;
-		while (Inode->IsLinkD())
-		{
-			Inode = Inode->SubInodes[0];
-		}
-		return (vssd_inode *)Inode;
-	}
-
-
-
+ 
+	 
 	//获取father之后，修改father内容
 	vssd_inode *  vssd_inode::GetFather() const
 	{
@@ -309,7 +276,7 @@ namespace sjh {
 		size_t Start = Bytes.size();
 		tool::string::PushString(GetName(), Bytes);
 		tool::string::PushLengthValue(InodeTypeCode, Bytes);
-		//tool::string::PushWcharVector(Content, Bytes);
+		Content.Serialize(Bytes);
 		tool::string::PushLengthValue((unsigned int)SubInodes.size(), Bytes);
 		if (InodeTypeCode == IS_FOLDER) {
 			for (size_t i = 0; i < SubInodes.size(); i++)
@@ -324,7 +291,7 @@ namespace sjh {
 	{
 		SetName(tool::string::GetString(ByteVssd, Pos));
 		InodeTypeCode = tool::string::GetLengthValue(ByteVssd, Pos);
-		//tool::string::GetWcharVector(Content, ByteVssd, Pos);
+		Content.DeSerialize(ByteVssd, Pos); 
 		int SubSize = tool::string::GetLengthValue(ByteVssd, Pos);
 
 		if (InodeTypeCode == IS_FOLDER) {

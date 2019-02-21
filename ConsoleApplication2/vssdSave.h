@@ -9,9 +9,8 @@
 namespace sjh {
 	class vssdSave :public base_executable
 	{
-		void vSave(VirtualDisk & MyVssd, std::wstring & JumpTo);
+		void vSave(VirtualDisk & MyVssd, const std::wstring & JumpTo);
 	public:
-		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
-
+		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear); 
 	};
 }

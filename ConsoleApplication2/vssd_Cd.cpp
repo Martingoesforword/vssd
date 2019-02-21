@@ -19,16 +19,31 @@ namespace sjh {
 
 		tools_path a;
 		vssd_inode * Inode = vssd_optcmd::v_FindPathForFirst(MyVssd, CdCommand,a);
-
-		if (Inode && Inode->IsFile())
+		if (Inode) 
 		{
-			std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
-			return;
-		}
-
-		if (Inode && ((!Inode->IsLinkD()) || (Inode->IsLinkD() && Inode->GetSubInodes()[EXE_OK])))
-		{
-			MyVssd.GetNooowPan()->SetNowPath(a);
+			if (Inode->IsFile())
+			{
+				std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
+				return;
+			} 
+			else if (Inode->IsFolder())
+			{
+				MyVssd.GetNooowPan()->SetNowPath(a);
+			}
+			else if (Inode->IsLinkD())
+			{
+				vssd_inode * aInode = vssd_optcmd::CheckLink(MyVssd, Inode);
+				if (aInode != nullptr)
+				{
+					MyVssd.GetNooowPan()->GetNowPath().LoadOneSub(aInode);
+					MyVssd.GetNooowPan()->GetNowPath().Inodes[MyVssd.GetNooowPan()->GetNowPath().Inodes.size() - 1] = Inode->GetName();
+				}
+				else 
+				{
+					std::cout << "VSSD ERROR : The Folder for this Link is not exist!" << std::endl;
+				}
+			}
+			
 		}
 		else
 		{

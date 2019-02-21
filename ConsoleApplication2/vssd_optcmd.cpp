@@ -60,7 +60,7 @@ namespace sjh {
 							return (vssd_inode *)longNowf;
 						} 
 						else{
-							 longNowf = longNowf->CheckLink();
+							 longNowf = CheckLink(MyVssd, (vssd_inode*)longNowf);
 						}
 					} 
 				}
@@ -73,7 +73,7 @@ namespace sjh {
 		return const_cast< vssd_inode *>(longNowf);
 	}
 
-	void vssd_optcmd::v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, std::vector<vssd_inode*>& sets)
+	void vssd_optcmd::v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, std::vector<vssd_inode*>& sets)  
 	{
 		tools_path	 Path(PathCommand);
 		tools_path	 NowPath(MyVssd.GetNooowPan()->GetNowPath());
@@ -124,7 +124,7 @@ namespace sjh {
 							break;
 						}
 						else {
-							longNowf = longNowf->CheckLink();
+							longNowf = CheckLink(MyVssd, (vssd_inode*)longNowf);
 						}
 					}
 				}
@@ -217,6 +217,15 @@ namespace sjh {
 				std::cout << "\'" << a << "\' 不是内部或外部命令，也不是可运行的程序\n或批处理文件。";
 			}
 		}
+	}
+	vssd_inode * vssd_optcmd::CheckLink(const VirtualDisk& a,  vssd_inode *aInode)
+	{
+		vssd_inode *Inode = aInode;
+		while (Inode && Inode->IsLinkD())
+		{
+			Inode = v_FindPathForFirst(a, Inode->GetLinkPath()->GetPathWstring());
+		}  
+		return Inode;
 	}
 	base_executable * vssd_optcmd::GetTaskByName(const std::wstring& Name)
 	{
