@@ -9,7 +9,7 @@ namespace sjh {
 			vssd_optcmd::v_FindPathForAll(MyVssd, Dels[ii], Sets);
 			if (Sets.size())
 			{
-				for (size_t i = 0; i < Sets.size(); i++)
+				for (size_t i = 0; i < Sets.size() ; i++)
 				{
 					if (Sets[i]->IsFolder() || Sets[i]->IsLinkD()) {
 						if (DEL_TYPE == DEL_TYPE_TREE) {

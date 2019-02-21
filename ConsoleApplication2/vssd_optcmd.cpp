@@ -133,6 +133,7 @@ namespace sjh {
 			}
 			flag_tofirstif = 0;
 		}
+		longNowf = NowPath.GetNowPtr();
 		longNowf->FindSelfSubForAll(Path.Inodes[Path.Inodes.size() - 1], sets); 
 		return;
 	}

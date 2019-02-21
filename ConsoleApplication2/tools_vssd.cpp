@@ -241,7 +241,7 @@ namespace sjh {
 
 			bool HasSwitch(const std::wstring & Str)
 			{
-				return (Str[0] == '/' && Str.size() >= 2);
+				return (Str.size() && Str[0] == '/' && Str.size() >= 2);
 			}
 
 
