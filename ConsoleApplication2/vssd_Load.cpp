@@ -6,7 +6,7 @@ namespace sjh {
 	{
 		std::vector<wchar_t> aSerial;
 		tool::string::GetFromRealfile(GetFrom, aSerial);
-		int Pos = EXE_OK;
+		int Pos = 0; 
 		MyVssd.DeSerialize(aSerial, Pos);
 		aSerial.clear();
 	}

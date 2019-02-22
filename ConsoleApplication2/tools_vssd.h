@@ -1,5 +1,6 @@
 #pragma once   
 #include "pch.h"
+#include "vssd_time.h"
 namespace sjh { 
 	namespace tool {
 		namespace string {
@@ -11,6 +12,7 @@ namespace sjh {
 			std::wstring		StringToWString(const std::string &strSrc);
 
 			void				PushString(std::wstring Str, std::vector<wchar_t> &Byte);
+			void				PushTime(std::time_t time, std::vector<wchar_t> &Byte);
 			void				PushWcharVector(std::vector<wchar_t> &StringArray, std::vector<wchar_t> &Byte);
 			size_t				PushLengthValue(size_t Uint4, std::vector<wchar_t> &Byte);
 			void				PushToRealFile(std::wstring JumpTo, std::vector<wchar_t> aSerial);
@@ -18,6 +20,7 @@ namespace sjh {
 			std::wstring		GetString(const std::vector<wchar_t>& ByteVssd, int &Pos);
 			void				GetWcharVector(std::vector<wchar_t> &WcharVector, std::vector<wchar_t> &ByteVssd, int &Pos);
 			unsigned int		GetLengthValue(const std::vector<wchar_t>& ByteVssd, int &Pos);
+			void				GetTime(std::vector<wchar_t> &Byte,std::time_t& time, int &Pos);
 			void				GetFromRealfile(std::wstring GetFrom, std::vector<wchar_t>& aSerial);
 			std::wstring		GetTimeWString(time_t tm);
 			std::wstring		GetSizeWString(size_t Size);
@@ -25,9 +28,9 @@ namespace sjh {
 			std::string			GetSizeString(size_t Size);
 
 			void				GetWString(const std::vector<wchar_t>& ByteVssd, std::wstring& a);
-			void		CheckQuotation(  std::wstring& Str);
-			bool		IsThisSwitch(const std::wstring & Str, const std::wstring& Pram);
-			bool		HasSwitch(const std::wstring & Str);
+			void				CheckQuotation(  std::wstring& Str);
+			bool				IsThisSwitch(const std::wstring & Str, const std::wstring& Pram);
+			bool				HasSwitch(const std::wstring & Str);
 		}
 		namespace math 
 		{

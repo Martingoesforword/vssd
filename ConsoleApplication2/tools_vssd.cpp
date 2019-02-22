@@ -61,7 +61,7 @@ namespace sjh {
 			{
 				size_t Start = Byte.size();
 				Byte.push_back((Uint4 >> 16) & 0x0FFFF);
-				Byte.push_back((Uint4) & 0xE0FFFF);
+				Byte.push_back((Uint4) & 0xE0FFFF); 
 				return Start;
 			}
 			void PushString(std::wstring Str, std::vector<wchar_t> &Byte)
@@ -72,6 +72,11 @@ namespace sjh {
 					Byte.push_back(Str[i]);
 				}
 				return;
+			}
+			void PushTime(std::time_t time, std::vector<wchar_t>& Byte)
+			{
+				PushLengthValue(time / 4294967296, Byte);
+				PushLengthValue(time % 4294967296, Byte);
 			}
 			void PushWcharVector(std::vector<wchar_t> &StringArray, std::vector<wchar_t> &Byte)
 			{
@@ -92,7 +97,14 @@ namespace sjh {
 				LengthValue += ByteVssd.at(Pos);			Pos++;
 
 				return LengthValue;
-			}
+			} 
+			void GetTime(std::vector<wchar_t>& Byte, std::time_t & time, int & Pos)
+			{
+				std::time_t a = 0;
+				a += GetLengthValue(Byte, Pos) * 4294967296;
+				a += GetLengthValue(Byte, Pos);
+				time = a;
+			} 
 			std::wstring GetString(const std::vector<wchar_t>& ByteVssd, int &Pos)
 			{
 				unsigned int LengthValue = GetLengthValue(ByteVssd, Pos);
@@ -174,7 +186,7 @@ namespace sjh {
 						Vssdfile.read(&chp, 1);
 						Vssdfile.read(&chq, 1);
 
-						wchar_t ch = chp + chq * 256 * 256;
+						wchar_t ch = chp + chq * 256;
 						aSerial.push_back(ch);
 					}
 

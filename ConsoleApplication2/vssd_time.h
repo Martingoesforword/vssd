@@ -7,6 +7,7 @@ namespace sjh {
 		std::time_t		Time;
 	public:
 		std::time_t		Get() const;
+		void			Set(std::time_t	aTime);
 		void			Fresh();
 		vssd_time(); 
 	};

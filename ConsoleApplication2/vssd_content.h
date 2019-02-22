@@ -20,6 +20,7 @@ namespace sjh {
 
 		//Timeœ‡πÿ 
 		std::time_t		GetTime() const;
+		void			SetTime(std::time_t) ;
 		void			FreshTime();
 	};
 

@@ -22,6 +22,7 @@ namespace sjh {
 		vssd_inode *	Genius;
 		std::vector <vssd_pan *>	Pans;  
 		vssd_name					Name; 
+		
 	public: 
 		//原始构造
 		VirtualDisk(vssd_pan * aNow, vssd_inode * aGenius, std::wstring aName);
@@ -49,6 +50,6 @@ namespace sjh {
 		const std::wstring&	GetName();
 
 		//Time相关
-
+		 
 	};
 }

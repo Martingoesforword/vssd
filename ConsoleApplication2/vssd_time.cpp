@@ -8,8 +8,14 @@ namespace sjh {
 		return Time;
 	}
 
+	void vssd_time::Set(std::time_t	aTime)
+	{
+		Time = aTime;
+	}
+
 	void vssd_time::Fresh()
 	{
+		
 		Time = std::time(0);
 	}
 
