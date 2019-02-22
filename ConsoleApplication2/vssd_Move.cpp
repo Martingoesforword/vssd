@@ -1,21 +1,8 @@
 #include "pch.h"
 #include "vssdMove.h"
-namespace sjh {
-	void vssdMove::vMove(VirtualDisk & MyVssd, std::wstring & Des)
-	{ 
-		vssd_inode * disInode = vssd_optcmd::v_FindPathForFirst(MyVssd, Des);
-		if (disInode)
-		{
-			disInode->LoadOneSub(MyVssd.GetNooowPan()->GetNooowPos());
-		}
-		else
-		{
-			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
-		}
-
-	}
+namespace sjh { 
 	//ÒÆ¶¯ÎÄ¼þ¼Ð
-	void vssdMove::vMove(VirtualDisk & MyVssd, std::wstring & Src, std::wstring & Des)
+	void vssdMove::vMove(VirtualDisk & MyVssd, const std::wstring & Src, const std::wstring & Des)
 	{
 
 		tools_path a;
@@ -31,9 +18,10 @@ namespace sjh {
 			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;  return;
 		}
 		if (SrcInode->IsFile())
-		{
-			std::cout << "VSSD WORRING : Please use 'del fileName' next time!" << std::endl;
+		{ 
 			vssdCopy vCopy;
+			vCopy.vCopy(MyVssd, Src, Des);
+			SrcInode->GetFather()->UnloadOneSub(SrcInode);
 			return;
 		}
 		if (SrcInode && disInode && a.Inodes.size() >= 3 && b.Inodes.size() >= 2)
@@ -51,6 +39,7 @@ namespace sjh {
 	}
 	int vssdMove::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)
 	{
+		vMove(MyVssd, Rear[1], Rear[2]);
 		return EXE_OK;
 	}
 

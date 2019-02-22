@@ -9,8 +9,9 @@
 namespace sjh {
 	class vssdCopy :public base_executable
 	{
-		void vCopy(VirtualDisk & MyVssd, const std::wstring & Src, const std::wstring & Des);
+		
 	public: 
+		void vCopy(VirtualDisk & MyVssd, const std::wstring & rearSrc, const std::wstring & rearDes);
 		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
 	};
 }
