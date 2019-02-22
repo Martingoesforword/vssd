@@ -21,7 +21,7 @@ namespace sjh {
 		vssd_name					Name; 
 	public:
 		//原始构造 
-		vssd_inode(std::wstring aName, int aCode);
+		vssd_inode(std::wstring aName, int aCode); 
 		~vssd_inode(); 
 
 		//基类相关
@@ -55,12 +55,13 @@ namespace sjh {
 		static bool				IsFinded(size_t pos) { return  pos+1 >= 1 ? true : false; }
 		static bool				IsNotFinded(size_t pos) { return  pos+1 >= 1 ? false : true; }
 		
+		void CopyFolder(const VirtualDisk & a,vssd_inode* src);
 		 
 		//Content相关
 		void	AddContent(wchar_t aByte);
 		void	SetContentString(std::wstring aStr);
 		void	PrintContent();
-
+		std::vector<wchar_t>&	GetContent() { return Content.GetContent(); }
 		//Father相关  
 		void				SetFather(vssd_inode * aFather) ;
 		vssd_inode *		GetFather()  const;

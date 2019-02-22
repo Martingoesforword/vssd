@@ -13,13 +13,15 @@ namespace sjh {
 	}
 
 	vssd_inode::vssd_inode(std::wstring aName, int aCode) :Name(vssd_name(aName)), InodeTypeCode(aCode)
-	{ 
+	{
 	}
+
+
 
 
 	void vssd_inode::LoadOneSub(vssd_inode *LinktoSub)
 	{
-		if(IsFolder()) LinktoSub->SetFather(this);
+		if (IsFolder()) LinktoSub->SetFather(this);
 		SubInodes.push_back(LinktoSub);
 
 	}
@@ -32,7 +34,7 @@ namespace sjh {
 		std::cout
 			<< "\n " << tool::string::WStringToString(now) << " 的目录\n"
 			<< std::endl;
-		
+
 	}
 	void vssd_inode::PrintOTP() const
 	{
@@ -54,7 +56,7 @@ namespace sjh {
 			<< " "
 			<< ".."
 			<< std::endl;
-		
+
 	}
 	void vssd_inode::PrintFileInfo()
 	{
@@ -91,64 +93,64 @@ namespace sjh {
 		Name.Set(aName);
 	}
 
-	const std::wstring & vssd_inode::GetName() const 
+	const std::wstring & vssd_inode::GetName() const
 	{
 		return Name.Get();
 	}
-	
-	void vssd_inode::PrintAllSub( int pram, std::wstring now) const
-	{ 
-		  
+
+	void vssd_inode::PrintAllSub(int pram, std::wstring now) const
+	{
+
 		PrintHead(now);
-		PrintOTP();  
+		PrintOTP();
 
 		for (size_t i = 0; i < SubInodes.size(); i++)
-		{  
+		{
 			if (SubInodes[i]->IsFile())
 			{
 				SubInodes[i]->PrintFileInfo();
 			}
 			else {
 				SubInodes[i]->PrintFoLiInfo();
-			} 
+			}
 		}
 
-		if (pram == DIR_TYPE_TREE) 
+		if (pram == DIR_TYPE_TREE)
 		{
 			for (size_t i = 0; i < SubInodes.size(); i++)
-			{ 
-				if (SubInodes[i]->IsLinkF()) { }
+			{
+				if (SubInodes[i]->IsLinkF()) {}
 				if (SubInodes[i]->IsFile())
 				{
-					PrintHead(now); 
+					PrintHead(now);
 					SubInodes[i]->PrintFileInfo();
-				} 
+				}
 				else
 				{
-					
+
 					std::wstring a = now;
-					if(a[a.size()-1] != '\\') a.append(L"\\");
+					if (a[a.size() - 1] != '\\') a.append(L"\\");
 					a.append(SubInodes[i]->GetName());
-					vssd_inode* aa = SubInodes[i]; 
+					vssd_inode* aa = SubInodes[i];
 					while (aa->IsLinkD()) aa = aa->GetSubInodes()[0];
 					aa->PrintAllSub(pram, a);
 				}
-				
+
 			}
 		}
 
 	}
 
 	void vssd_inode::DeleteOneSub(vssd_inode * deletInode)
-	{ 
+	{
 		for (size_t i = 0; i < SubInodes.size(); i++)
-		{ 
-			if ((SubInodes.at(i)->GetName() == deletInode->GetName()) )
-			{ 
-				delete SubInodes.at(i); 
+		{
+			if ((SubInodes.at(i)->GetName() == deletInode->GetName()))
+			{
+				delete SubInodes.at(i);
 				SubInodes.erase(SubInodes.begin() + i);
 				return;
-			}  
+			}
 		}
 	}
 
@@ -170,7 +172,7 @@ namespace sjh {
 				}
 			}
 
-			if ((SubInodes.at(j)->GetName() == deletInode->GetName()) )
+			if ((SubInodes.at(j)->GetName() == deletInode->GetName()))
 			{
 				std::vector<vssd_inode*>::iterator it = SubInodes.begin();
 				SubInodes.erase(it + j);
@@ -221,7 +223,7 @@ namespace sjh {
 		{
 			if (SubInodes.at(i) != NULL)
 			{
-				if (tool::string::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0 )
+				if (tool::string::WStringMatch(SubInodes.at(i)->GetName(), Inode) != 0)
 				{
 					return (int)i;
 				}
@@ -236,11 +238,11 @@ namespace sjh {
 
 	void vssd_inode::FindSelfSubForAll(std::wstring Inode, std::vector<vssd_inode*>& AllInode) const
 	{
-		int Result = 0;		
+		int Result = 0;
 		while (1)
 		{
 			Result = FindSelfSubForNext(Inode, Result);
-			if ( IsFinded(Result))
+			if (IsFinded(Result))
 			{
 				AllInode.push_back(SubInodes[Result]);
 				Result++;
@@ -251,8 +253,8 @@ namespace sjh {
 		}
 		return;
 	}
- 
-	 
+
+
 	//获取father之后，修改father内容
 	vssd_inode *  vssd_inode::GetFather() const
 	{
@@ -264,12 +266,12 @@ namespace sjh {
 		Father = aFather;
 	}
 
-	
+
 	const std::vector<vssd_inode*>& vssd_inode::GetSubInodes()const
 	{
 		return SubInodes;
 	}
-	
+
 
 	size_t vssd_inode::Serialize(std::vector<wchar_t>& Bytes)
 	{
@@ -291,7 +293,7 @@ namespace sjh {
 	{
 		SetName(tool::string::GetString(ByteVssd, Pos));
 		InodeTypeCode = tool::string::GetLengthValue(ByteVssd, Pos);
-		Content.DeSerialize(ByteVssd, Pos); 
+		Content.DeSerialize(ByteVssd, Pos);
 		int SubSize = tool::string::GetLengthValue(ByteVssd, Pos);
 
 		if (InodeTypeCode == IS_FOLDER) {
@@ -319,6 +321,46 @@ namespace sjh {
 		std::wcout << L"<vssd_inode class>" << std::endl;
 		std::wcout << L"\tName = " << Name.Get() << std::endl;
 	}
+	void vssd_inode::CopyFolder(const  VirtualDisk & a, vssd_inode * src)
+	{
+		if (IsFile()) {
+			Content = *new vssd_content(src->Content);
+		}
+		else if (IsFolder()) {
+			SubInodes.clear();
+			for (size_t i = 0; i < src->SubSize(); i++)
+			{
+				vssd_inode * sub = new vssd_inode(src->SubInodes[i]->GetName(), src->SubInodes[i]->InodeTypeCode);
+
+				sub->CopyFolder(a,src->SubInodes[i]);
+			}
+			return;
+		}
+		else if (IsLinkD()) {
+			vssd_inode * sub = this;
+			sub = vssd_optcmd::CheckLink(a, sub);
+			if (sub) 
+			{
+				sub->SubInodes.clear();
+				for (size_t i = 0; i < sub->SubSize(); i++)
+				{
+					vssd_inode * sub1 = new vssd_inode(sub->SubInodes[i]->GetName(), sub->SubInodes[i]->InodeTypeCode);
+
+					sub1->CopyFolder(a, sub->SubInodes[i]);
+				}
+				return;
+			}
+			else
+			{
+				//链接地址不存在
+			}
+		}
+		else if (IsLinkF()) {
+			 
+		}
+		
+
+	}
 	void vssd_inode::AddContent(wchar_t Byte)		//追加字符
 	{
 		if (IsFile())
@@ -336,8 +378,8 @@ namespace sjh {
 		{
 			for (size_t i = 0; i < str.size(); i++)
 			{
-				Content.SetString(str); 
-			} 
+				Content.SetString(str);
+			}
 		}
 		else
 		{
@@ -346,7 +388,7 @@ namespace sjh {
 	}
 	void vssd_inode::PrintContent()			//返回NULL 和 下一个字符
 	{
-		 
+
 		if (IsFile())
 		{
 			Content.Print();

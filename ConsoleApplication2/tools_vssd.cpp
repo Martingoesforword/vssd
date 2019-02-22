@@ -228,6 +228,14 @@ namespace sjh {
 				return WStringToString(GetSizeWString(Size));
 			}
 
+			void GetWString(const std::vector<wchar_t>& ByteVssd,std::wstring& a)
+			{
+				for (size_t i = 0; i < ByteVssd.size(); i++)
+				{
+					a.push_back(ByteVssd[i]);
+				}
+			}
+
 			void CheckQuotation(std::wstring& Str)
 			{
 				if (Str[0] == '\"') Str = Str.substr(1, Str.size() - 2);

@@ -14,6 +14,7 @@ namespace sjh {
 
 		void	Add(wchar_t aByte);
 		void	SetString(std::wstring aStr);
+		std::vector<wchar_t>&	GetContent() { return Content; }
 		void	Print();
 		size_t	Size();
 
