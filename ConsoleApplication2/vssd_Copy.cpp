@@ -100,21 +100,25 @@ namespace sjh {
 		else
 		{
 
-			tools_path		a;
+			std::vector<vssd_inode	* > a;
 			tools_path		b;
-			vssd_inode	* SrcInode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearSrc, a);
+			vssd_optcmd::v_FindPathForAll(MyVssd, rearSrc, a);
 			vssd_inode	* disInode = vssd_optcmd::v_FindPathForFirst(MyVssd, rearDes, b);
-			if (SrcInode && disInode && a.Inodes.size() >= 2 && b.Inodes.size() >= 1)
+			for (size_t i = 0; i < a.size(); i++)
 			{
-				vssd_inode	* inode = new vssd_inode(SrcInode->GetName(), vssd_inode::IS_FILE);
-				inode->CopyFolder(MyVssd, SrcInode);
-				disInode->LoadOneSub(inode); 
+				if (a[i] && disInode /*&& a.Inodes.size() >= 2 && b.Inodes.size() >= 1*/)
+				{
+					vssd_inode	* inode = new vssd_inode(a[i]->GetName(), vssd_inode::IS_FILE);
+					inode->CopyFolder(MyVssd, a[i]);
+					disInode->LoadOneSub(inode);
 
+				}
+				else
+				{
+					std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+				}
 			}
-			else
-			{
-				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
-			}
+			
 		}
 		 
 	}
