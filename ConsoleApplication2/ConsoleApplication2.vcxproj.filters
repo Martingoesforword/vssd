@@ -37,6 +37,9 @@
     <Filter Include="头文件\resource">
       <UniqueIdentifier>{f05a0824-7907-4010-a4d1-91e97c245f42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\test">
+      <UniqueIdentifier>{d8ae618b-2abd-481f-83d3-d26d3ea642ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="vssd_content.h">
       <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>头文件\test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -199,15 +199,16 @@ namespace sjh {
 
 			std::wstring GetTimeWString(time_t tm)
 			{
-				std::tm *ltm = new std::tm();
-				localtime_s(ltm, &tm);
+				std::tm ltm;
+
+				localtime_s(&ltm, &tm);
 				std::wstringstream oss;
-				oss << std::setfill(L'0') << std::setw(4) << ltm->tm_year + 1900
-					<< "/" << std::setfill(L'0') << std::setw(2) << ltm->tm_mon + 1
-					<< "/" << std::setfill(L'0') << std::setw(2) << ltm->tm_mday
+				oss << std::setfill(L'0') << std::setw(4) << ltm.tm_year + 1900
+					<< "/" << std::setfill(L'0') << std::setw(2) << ltm.tm_mon + 1
+					<< "/" << std::setfill(L'0') << std::setw(2) << ltm.tm_mday
 					<< "  "
-					<< std::setfill(L'0') << std::setw(2) << ltm->tm_hour
-					<< ":" << std::setfill(L'0') << std::setw(2) << ltm->tm_min;
+					<< std::setfill(L'0') << std::setw(2) << ltm.tm_hour
+					<< ":" << std::setfill(L'0') << std::setw(2) << ltm.tm_min; 
 				return oss.str();
 			}
 

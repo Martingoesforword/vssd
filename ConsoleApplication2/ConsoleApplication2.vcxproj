@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="all.h" />
+    <ClInclude Include="test.h" />
     <ClInclude Include="vssd_content.h" />
     <ClInclude Include="base_executable.h" />
     <ClInclude Include="vssd_name.h" />

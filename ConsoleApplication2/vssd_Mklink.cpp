@@ -27,7 +27,9 @@ namespace sjh {
 			//vssd_inode *Link = new vssd_inode(L"", vssd_inode::IS_LINKD);
 			//InodeOfLink->LoadOneSub(Link);
 			//找到创建的Link文件
-			Inode->LoadOneSub(SrcInode);
+			void(*p)(vssd_inode * aOffInode) = Inode->p;
+			 
+			Inode->LoadOneSub(SrcInode,p);
 			//将Link文件第一个子文件放入指向文件 
 
 			//同时把路径放入
@@ -59,6 +61,7 @@ namespace sjh {
 			vssd_inode *Link = new vssd_inode(L"", vssd_inode::IS_LINKD);
 			//InodeOfLink->LoadOneSub(Link);
 			//找到创建的Link文件
+
 			Link->LoadOneSub(SrcInode);
 			//将Link文件第一个子文件放入指向文件 
 

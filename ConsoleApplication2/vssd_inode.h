@@ -19,6 +19,7 @@ namespace sjh {
 		tools_path*					LinkPath;
 		vssd_content				Content;
 		vssd_name					Name; 
+		
 	public:
 		//原始构造 
 		vssd_inode(std::wstring aName, int aCode); 
@@ -43,7 +44,7 @@ namespace sjh {
 		bool IsLinkF()	const { return  InodeTypeCode == IS_LINKF; }
 		//SubInodes相关 
 		size_t	SubSize() { return SubInodes.size(); };
-		void	LoadOneSub(vssd_inode * aLinkToSub);
+		void	LoadOneSub(vssd_inode * aLinkToSub, void(*p)(vssd_inode * aOffInode));
 		void	UnloadOneSub(vssd_inode * aOffInode); 
 		void	DeleteWholeTree(); 
 		void	DeleteOneSub(vssd_inode *aDeletInode);
@@ -75,6 +76,7 @@ namespace sjh {
 		void	PrintFoLiInfo();
 		
 		//LinkPath相关
+		void(*p)(vssd_inode * aOffInode);
 		void	SetLinkPath(std::wstring PathWString);
 		void	SetLinkPath(tools_path& Path);
 		tools_path*	GetLinkPath() { return LinkPath; };
