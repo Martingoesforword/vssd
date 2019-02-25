@@ -313,7 +313,9 @@ namespace sjh {
 		for (size_t i = 0; i < SubInodes.size(); i++)
 		{
 			delete SubInodes[i];
-		}
+		} 
+		if (LinkPath)
+			delete LinkPath;
 	}
 
 	void vssd_inode::Display()
