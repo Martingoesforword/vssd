@@ -19,12 +19,11 @@ namespace sjh {
 
 
 
-	void vssd_inode::LoadOneSub(vssd_inode *LinktoSub, void(*a)(vssd_inode * aOffInode))
+	void vssd_inode::LoadOneSub(vssd_inode *LinktoSub )
 	{
 		
 		if (IsFolder()) LinktoSub->SetFather(this);
-		SubInodes.push_back(LinktoSub);
-		if (IsLinkD())  LinktoSub->p = a;
+		SubInodes.push_back(LinktoSub); 
 	}
 
 

@@ -44,7 +44,7 @@ namespace sjh {
 		bool IsLinkF()	const { return  InodeTypeCode == IS_LINKF; }
 		//SubInodes相关 
 		size_t	SubSize() { return SubInodes.size(); };
-		void	LoadOneSub(vssd_inode * aLinkToSub, void(*p)(vssd_inode * aOffInode));
+		void	LoadOneSub(vssd_inode * aLinkToSub );
 		void	UnloadOneSub(vssd_inode * aOffInode); 
 		void	DeleteWholeTree(); 
 		void	DeleteOneSub(vssd_inode *aDeletInode);
@@ -75,8 +75,7 @@ namespace sjh {
 		void	PrintFileInfo();
 		void	PrintFoLiInfo();
 		
-		//LinkPath相关
-		void(*p)(vssd_inode * aOffInode);
+		//LinkPath相关 
 		void	SetLinkPath(std::wstring PathWString);
 		void	SetLinkPath(tools_path& Path);
 		tools_path*	GetLinkPath() { return LinkPath; };
