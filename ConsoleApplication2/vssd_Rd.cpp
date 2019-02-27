@@ -23,6 +23,11 @@ namespace sjh {
 							}
 							else
 							{
+								if (Sets[i]->IsLinkD())
+								{
+									Sets[i]->UnloadOneSub(Sets[i]->GetSubInodes()[0]);
+									Sets[i]->GetFather()->DeleteOneLink(Sets[i]);
+								}
 								//Ê§°Ü
 							}
 

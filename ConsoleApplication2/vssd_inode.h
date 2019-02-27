@@ -22,9 +22,8 @@ namespace sjh {
 		
 	public:
 		//原始构造 
-		vssd_inode(std::wstring aName, int aCode); 
-		~vssd_inode(); 
-
+		vssd_inode(std::wstring aName, int aCode);  
+		~vssd_inode();  
 		//基类相关
 		virtual size_t	Serialize(std::vector<wchar_t>& aByte);
 		virtual void	DeSerialize(std::vector<wchar_t>& aByteVssd, int & aPos);
@@ -45,9 +44,12 @@ namespace sjh {
 		//SubInodes相关 
 		size_t	SubSize() { return SubInodes.size(); };
 		void	LoadOneSub(vssd_inode * aLinkToSub );
-		void	UnloadOneSub(vssd_inode * aOffInode); 
+		void	UnloadOneSub(vssd_inode * aOffInode);
+		void	DeleteAllFile();
+
 		void	DeleteWholeTree(); 
 		void	DeleteOneSub(vssd_inode *aDeletInode);
+		void	DeleteOneLink(vssd_inode * deletInode);
 		const std::vector<vssd_inode *>&		GetSubInodes() const;
 
 		static const int		NOT_FINDED = -1;

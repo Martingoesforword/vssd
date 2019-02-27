@@ -15,7 +15,7 @@ namespace sjh {
 	vssd_inode::vssd_inode(std::wstring aName, int aCode) :Name(vssd_name(aName)), InodeTypeCode(aCode)
 	{
 	}
-
+	 
 
 
 
@@ -153,7 +153,18 @@ namespace sjh {
 			}
 		}
 	}
-
+	void vssd_inode::DeleteOneLink(vssd_inode * deletInode)
+	{
+		for (size_t i = 0; i < SubInodes.size(); i++)
+		{
+			if ((SubInodes.at(i)->GetName() == deletInode->GetName()))
+			{
+				delete SubInodes.at(i);
+				SubInodes.erase(SubInodes.begin() + i);
+				return;
+			}
+		}
+	}
 	void vssd_inode::UnloadOneSub(vssd_inode * deletInode)
 	{
 		size_t j = 0;
@@ -186,6 +197,30 @@ namespace sjh {
 		}
 	}
 
+	void vssd_inode::DeleteAllFile()
+	{
+		 
+		for (size_t i = 0; i < SubInodes.size(); i++)
+		{
+			if (SubInodes[i]->IsFile())
+			{
+				delete SubInodes[i];
+			} 
+			else if(SubInodes[i]->IsFolder())
+			{
+				SubInodes[i]->DeleteAllFile();
+			}
+			else if (SubInodes[i]->IsLinkD())
+			{
+				SubInodes[i]->LinkPath->RealInodes[SubInodes[i]->LinkPath->RealInodes.size() - 1]->DeleteAllFile();
+			}
+		}
+		if (IsFile())
+		{
+			delete this;
+		}
+	}
+
 	void vssd_inode::DeleteWholeTree()
 	{
 		size_t j = 0;
@@ -212,8 +247,6 @@ namespace sjh {
 
 		}
 	}
-
-
 
 
 
@@ -309,11 +342,7 @@ namespace sjh {
 	}
 
 	vssd_inode::~vssd_inode()
-	{
-		for (size_t i = 0; i < SubInodes.size(); i++)
-		{
-			delete SubInodes[i];
-		} 
+	{ 
 		if (LinkPath)
 			delete LinkPath;
 	}

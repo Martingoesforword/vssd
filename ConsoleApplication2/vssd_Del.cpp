@@ -3,25 +3,56 @@
 namespace sjh {
 	void vssdDel::vDel(VirtualDisk & MyVssd, const std::vector<std::wstring>& Dels, int PosDel, int DEL_TYPE)
 	{
-		for (int ii = PosDel; ii < Dels.size(); ii++) {
-			tools_path a;
-			std::vector< vssd_inode *> Sets;
-			vssd_optcmd::v_FindPathForAll(MyVssd, Dels[ii], Sets);
-			if (Sets.size())
-			{
-				for (size_t i = 0; i < Sets.size(); i++)
+		if (DEL_TYPE == 1)
+		{
+			for (int ii = PosDel; ii < Dels.size(); ii++) {
+				tools_path a;
+				std::vector< vssd_inode *> Sets;
+				vssd_optcmd::v_FindPathForAll(MyVssd, Dels[ii], Sets);
+				if (Sets.size())
 				{
-					if (Sets[i]->IsFile())
+					for (size_t i = 0; i < Sets.size(); i++)
 					{
-						Sets[i]->GetFather()->DeleteOneSub(Sets[i]); 
+						if (Sets[i]->IsFile())
+						{
+							Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
+						}
 					}
 				}
-			}
-			else
-			{
-				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+				else
+				{
+					std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+				}
 			}
 		}
+		else if(DEL_TYPE == 2)
+		{
+			for (int ii = PosDel; ii < Dels.size(); ii++) {
+				tools_path a;
+				std::vector< vssd_inode *> Sets;
+				vssd_optcmd::v_FindPathForAll(MyVssd, Dels[ii], Sets);
+				if (Sets.size())
+				{
+					for (size_t i = 0; i < Sets.size(); i++)
+					{
+						if (Sets[i]->IsFile())
+						{
+							Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
+						}
+						else if(Sets[i]->IsFolder())
+						{ 
+							Sets[i]DeleteAllFile
+						}
+						
+					}
+				}
+				else
+				{
+					std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+				}
+			}
+		}
+		
 
 	}
 	void vssdDel::vDel(VirtualDisk & MyVssd, const std::vector<std::wstring>& Dels)
