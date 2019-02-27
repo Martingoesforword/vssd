@@ -18,7 +18,7 @@ namespace sjh {
 						else if (DEL_TYPE == DEL_TYPE_SELF)
 						{
 							if (Sets[i]->SubSize() == 0)
-							{
+							{ 
 								Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
 							}
 							else
