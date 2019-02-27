@@ -45,7 +45,7 @@ namespace sjh {
 
 			}
 			else if (Path.Inodes.at(i) == L".") { } 
-			else
+			else 
 			{
 				size_t Result = longNowf->FindSelfSubForNext(Path.Inodes[i], 0);
 				if (vssd_inode::IsFinded(Result))
