@@ -16,11 +16,15 @@ namespace sjh {
 		vssd_inode *File11 = new vssd_inode(L"sjhs.txt", vssd_inode::IS_FILE);
 		vssd_inode *File1 = new vssd_inode(L"sj h1", vssd_inode::IS_FOLDER);
 		vssd_inode *File2 = new vssd_inode(L"sjh2", vssd_inode::IS_FOLDER);
+		vssd_inode *File22= new vssd_inode(L"s1.txt", vssd_inode::IS_FILE);
+		vssd_inode *File23 = new vssd_inode(L"s2.txt", vssd_inode::IS_FILE);
 		c_pan->LoadOneSub(Folder);
 		c_pan->LoadOneSub(File);
 		c_pan->LoadOneSub(File11);
 		Folder->LoadOneSub(File1);
 		Folder->LoadOneSub(File2);
+		File2->LoadOneSub(File22);
+		File2->LoadOneSub(File23);
 		vssd_pan *MyTopcpan = new vssd_pan(c_pan, Genius);//¼ÓÔØ¸ùÄ¿Â¼
 		VirtualDisk *MyVssd = new VirtualDisk(MyTopcpan, Genius, L"firstVssd");
 

@@ -10,7 +10,7 @@ namespace sjh {
 
 	vssd_inode * vssd_optcmd::v_FindPathForFirst(const VirtualDisk & MyVssd, const std::wstring&  PathCommand, tools_path &aPath)
 	{
-		tools_path	 Path(PathCommand); 
+		tools_path	 Path(PathCommand);  
 		tools_path	 NowPath(MyVssd.GetNooowPan()->GetNowPath());
 		//Nowpath  copy and swap²ßÂÔ  
 
@@ -32,6 +32,12 @@ namespace sjh {
 				}
 				NowPath.LoadOneSub(longNowf); 
 			}
+			else if (flag_tofirstif && Path.Inodes.at(i) == L"\\")
+			{
+				NowPath.Clear();
+				NowPath.LoadOneSub(MyVssd.GetNooowPan()->GetRoot());
+				longNowf = MyVssd.GetNooowPan()->GetRoot();
+			}
 			else if (Path.Inodes.at(i) == L"..")
 			{
 				if (NowPath.RealInodes.size() < 2)
@@ -41,6 +47,7 @@ namespace sjh {
 				else
 				{
 					NowPath.DeleteOneSub();
+					longNowf = NowPath.GetNowPtr();
 				}
 
 			}
@@ -115,8 +122,15 @@ namespace sjh {
 				size_t Result = longNowf->FindSelfSubForNext(Path.Inodes[i], 0);
 				if (vssd_inode::IsFinded(Result))
 				{
-					longNowf = longNowf->GetSubInodes()[Result];
-					NowPath.LoadOneSub(longNowf);
+					longNowf = longNowf->GetSubInodes()[Result]; 
+					if (longNowf->IsLinkD())
+					{
+						NowPath.LoadOneSub(CheckLink(MyVssd, (vssd_inode*)longNowf));
+					}
+					else
+					{
+						NowPath.LoadOneSub(longNowf);
+					} 
 					if (longNowf->IsLinkD())
 					{
 						if ((i + 1) == Path.Inodes.size())
@@ -226,6 +240,15 @@ namespace sjh {
 		{
 			Inode = v_FindPathForFirst(a, Inode->GetLinkPath()->GetPathWstring());
 		}  
+		return Inode;
+	}
+	vssd_inode * vssd_optcmd::CheckLinkF(const VirtualDisk& a, vssd_inode *aInode)
+	{
+		vssd_inode *Inode = aInode;
+		while (Inode && Inode->IsLinkF())
+		{
+			Inode = v_FindPathForFirst(a, Inode->GetLinkPath()->GetPathWstring());
+		}
 		return Inode;
 	}
 	base_executable * vssd_optcmd::GetTaskByName(const std::wstring& Name)

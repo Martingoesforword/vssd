@@ -19,12 +19,13 @@ namespace sjh {
 			}
 			else if (Inode->IsFile())
 			{
-				std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
+				Inode->PrintFileInfo();
 				return;
-			}
-			else if (Inode->IsLinkD())
-			{
-				std::cout << "VSSD ERROR : This Inode is not exist!" << std::endl;
+			} 
+			else if (Inode->IsLinkF())
+			{ 
+				Inode = vssd_optcmd::CheckLinkF(MyVssd,Inode); 
+				Inode->PrintFileInfo();
 				return;
 			}
 			else
@@ -68,7 +69,14 @@ namespace sjh {
 		}
 		else 
 		{
-			//ÎÞ¿ª¹Ø
+			if (Dirs.size() == 1)
+			{
+				vDir(MyVssd, DIR_TYPE_SELF);
+			}
+			else
+			{
+				vDir(MyVssd, Dirs, 1, DIR_TYPE_SELF);
+			}
 		}
 
 	}

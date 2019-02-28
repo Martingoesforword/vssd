@@ -13,9 +13,26 @@ namespace sjh {
 				{
 					for (size_t i = 0; i < Sets.size(); i++)
 					{
-						if (Sets[i]->IsFile())
+						if (Sets[i]->IsFile() || Sets[i]->IsLinkF())
 						{
 							Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
+						}
+						else if (Sets[i]->IsFolder())
+						{
+							Sets[i]->DeleteTreeFiles();
+						} 
+						else if (Sets[i]->IsLinkD())
+						{
+							vssd_inode * a = vssd_optcmd::CheckLink(MyVssd,Sets[i]);
+							if(a)
+							{
+								a->DeleteTreeFiles();
+							}
+							else
+							{
+								std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+							}
+							
 						}
 					}
 				}
@@ -35,15 +52,27 @@ namespace sjh {
 				{
 					for (size_t i = 0; i < Sets.size(); i++)
 					{
-						if (Sets[i]->IsFile())
+						if (Sets[i]->IsFile() || Sets[i]->IsLinkF())
 						{
 							Sets[i]->GetFather()->DeleteOneSub(Sets[i]);
 						}
 						else if(Sets[i]->IsFolder())
 						{ 
-							Sets[i]DeleteAllFile
+							Sets[i]->DeleteFiles();
 						}
-						
+						else if (Sets[i]->IsLinkD())
+						{
+							vssd_inode * a = vssd_optcmd::CheckLink(MyVssd, Sets[i]);
+							if (a)
+							{
+								a->DeleteFiles();
+							}
+							else
+							{
+								std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+							}
+
+						}
 					}
 				}
 				else
@@ -59,9 +88,14 @@ namespace sjh {
 	{
 
 		using namespace tool::string;
-		if (HasSwitch(Dels[1]) && IsThisSwitch(Dels[1], L"s"))
+		if (HasSwitch(Dels[1]))
 		{
-			vDel(MyVssd, Dels, 2, DEL_TYPE_TREE);
+			if(IsThisSwitch(Dels[1], L"s"))
+				vDel(MyVssd, Dels, 2, DEL_TYPE_TREE);
+			else
+			{
+				std::cout << "VSSD ERROR : error " << std::endl;
+			}
 		}
 		else
 		{

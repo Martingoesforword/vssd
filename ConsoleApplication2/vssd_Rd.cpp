@@ -23,15 +23,23 @@ namespace sjh {
 							}
 							else
 							{
+								
 								if (Sets[i]->IsLinkD())
 								{
 									Sets[i]->UnloadOneSub(Sets[i]->GetSubInodes()[0]);
 									Sets[i]->GetFather()->DeleteOneLink(Sets[i]);
 								}
-								//Ê§°Ü
+								else
+								{
+									std::cout << "VSSD ERROR : This Inode is not empty! " << std::endl;
+								} 
 							}
 
 						}
+					}
+					else
+					{
+						std::cout << "VSSD ERROR : This Inode is not folder! " << std::endl;
 					}
 				}
 			}

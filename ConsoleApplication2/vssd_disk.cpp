@@ -124,8 +124,9 @@ namespace sjh {
 		{
 			vssd_inode *Now = NowFolder;
 			bool CheckedFlag = true;
-
-			for (size_t i = 0; i < aPath.Inodes.size(); i++)
+			int a = 0;
+			if (aPath.Inodes[0] == L"\\") { a = 1; Now = vd.GetNooowPan()->GetRoot(); }
+			for (size_t i = a; i < aPath.Inodes.size(); i++)
 			{
 
 				size_t Result = 0;

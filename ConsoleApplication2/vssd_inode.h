@@ -10,8 +10,9 @@
 namespace sjh {   
 	class tools_path;
 	class VirtualDisk;
-	class vssd_inode : public  base_displayable, public base_serializable 
+	 class vssd_inode : public  base_displayable, public base_serializable 
 	{
+
 	private: 
 		unsigned int				InodeTypeCode;
 		std::vector<vssd_inode *>	SubInodes;
@@ -48,6 +49,7 @@ namespace sjh {
 		void	DeleteAllFile();
 
 		void	DeleteWholeTree(); 
+		void	DeleteFiles();
 		void	DeleteOneSub(vssd_inode *aDeletInode);
 		void	DeleteOneLink(vssd_inode * deletInode);
 		const std::vector<vssd_inode *>&		GetSubInodes() const;
@@ -72,6 +74,7 @@ namespace sjh {
 
 		//Printœ‡πÿ
 		void	PrintAllSub(int pram, std::wstring now) const;
+		void	DeleteTreeFiles();
 		void	PrintOTP() const;
 		void	PrintHead(std::wstring now) const;
 		void	PrintFileInfo();

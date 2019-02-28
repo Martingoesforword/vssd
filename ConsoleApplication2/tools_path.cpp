@@ -60,7 +60,12 @@ namespace sjh {
 		size_t Pos = 0;
 		size_t beForePos = 0;
 		std::wstring Nowstring;
-
+		if (pathString[0] == L'\\')
+		{
+			Inodes.push_back(L"\\");
+			RealInodes.push_back(nullptr);
+			beForePos += 1;
+		}
 		while (Pos != std::wstring::npos)
 		{
 			tool::string::CheckQuotation(Nowstring);
@@ -73,9 +78,10 @@ namespace sjh {
 					Inodes.push_back(Nowstring);
 					RealInodes.push_back(nullptr);
 				}
-				else if (Nowstring == L".." &&Inodes.size() > 0 && Inodes.at(Inodes.size() - 1) != L"..")
+				else if (Nowstring == L".." &&Inodes.size() > 0 && Inodes.at(Inodes.size() - 1) != L".." && Inodes.at(Inodes.size() - 1) != L"\\")
 				{
 					Inodes.pop_back();
+					RealInodes.pop_back();
 				}
 				else if (Nowstring == L"..")
 				{ 

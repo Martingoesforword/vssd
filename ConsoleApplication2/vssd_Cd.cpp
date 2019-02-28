@@ -43,6 +43,10 @@ namespace sjh {
 					std::cout << "VSSD ERROR : The Folder for this Link is not exist!" << std::endl;
 				}
 			}
+			else if (Inode->IsLinkF())
+			{
+				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+			}
 			
 		}
 		else

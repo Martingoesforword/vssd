@@ -57,15 +57,11 @@ namespace sjh {
 			vssdMkdir taskMd; 
 			vssd_inode *InodeOfLink = taskMd.vMd(MyVssd, LinkName);
 			//创建Link文件
-			vssd_inode *Link = new vssd_inode(L"", vssd_inode::IS_LINKD);
-			//InodeOfLink->LoadOneSub(Link);
-			//找到创建的Link文件
-
-			Link->LoadOneSub(SrcInode);
-			//将Link文件第一个子文件放入指向文件 
-
+			InodeOfLink->SetTypeName(vssd_inode::IS_LINKF);
+			InodeOfLink->LoadOneSub(SrcInode); 
+			//将Link文件第一个子文件放入指向文件  
 			//同时把路径放入
-			Link->SetLinkPath(a);
+			InodeOfLink->SetLinkPath(a);
 		}
 		else
 		{
@@ -88,7 +84,7 @@ namespace sjh {
 		else
 		{
 			//无开关
-			vMklinkF(MyVssd, Dirs[3], Dirs[2]);
+			vMklinkF(MyVssd, Dirs[2], Dirs[1]);
 		}
 		 
 	}

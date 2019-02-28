@@ -97,13 +97,15 @@ namespace sjh {
 	{
 		return Name.Get();
 	}
-
+	//bool comp(const vssd_inode* a, const vssd_inode* b) {
+	//	return a->GetName() < b->GetName();
+	//}
 	void vssd_inode::PrintAllSub(int pram, std::wstring now) const
 	{
 
 		PrintHead(now);
 		PrintOTP();
-
+		//std::sort(SubInodes.begin(), SubInodes.end(), comp);
 		for (size_t i = 0; i < SubInodes.size(); i++)
 		{
 			if (SubInodes[i]->IsFile())
@@ -140,7 +142,31 @@ namespace sjh {
 		}
 
 	}
-
+	void vssd_inode::DeleteTreeFiles()
+	{
+		for (size_t i = SubInodes.size(); i >= 1; i--)
+		{
+			if (SubInodes[i-1]->IsFolder())
+			{
+				SubInodes[i - 1]->DeleteTreeFiles();
+			}
+			else if (SubInodes[i - 1]->IsFile() || SubInodes[i- 1]->IsLinkF())
+			{
+				DeleteOneSub(SubInodes[i -1]);
+			}
+		}
+	}
+	void vssd_inode::DeleteFiles()
+	{
+		for (size_t i = SubInodes.size(); i >= 1; i--)
+		{
+			if (SubInodes[i - 1]->IsFile() || SubInodes[i - 1]->IsLinkF())
+			{
+				delete SubInodes.at(i - 1);
+				SubInodes.erase(SubInodes.begin() + i - 1);
+			}
+		}
+	}
 	void vssd_inode::DeleteOneSub(vssd_inode * deletInode)
 	{
 		for (size_t i = 0; i < SubInodes.size(); i++)

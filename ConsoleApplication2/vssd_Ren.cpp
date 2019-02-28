@@ -13,6 +13,7 @@ namespace sjh {
 		{
 			if (sets[i]->GetFather()->FindSelfSubForNext(dCommand, 0) == vssd_inode::NOT_FINDED)
 			{
+				tool::string::CheckQuotation(dCommand);
 				sets[i]->SetName(dCommand);
 			}
 			else
@@ -20,6 +21,10 @@ namespace sjh {
 				std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
 			}
 		} 
+		if (sets.size() == 0)
+		{
+			std::cout << "VSSD ERROR : This Inode is not exist! " << std::endl;
+		}
 	}
 
 	int vssdRen::Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear)

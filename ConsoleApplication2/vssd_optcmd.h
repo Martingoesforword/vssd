@@ -51,6 +51,7 @@ namespace sjh {
 		static void					v_FindPathForAll(const VirtualDisk & MyVssd, std::wstring PathCommand, std::vector<vssd_inode*>& aRetSets)  ;
 		static base_executable *	GetTaskByName(const std::wstring& Name);
 		static vssd_inode *			CheckLink(const VirtualDisk& a, vssd_inode *aInode)  ;
+		static vssd_inode *			CheckLinkF(const VirtualDisk & a, vssd_inode * aInode);
 		
 	};
 }
