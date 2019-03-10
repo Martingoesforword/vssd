@@ -11,6 +11,6 @@ namespace sjh {
 	public:
 
 		virtual int Execute(VirtualDisk & MyVssd, const std::vector<std::wstring>& Rear);
-
+		
 	};
 }

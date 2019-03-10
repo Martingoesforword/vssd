@@ -34,7 +34,7 @@ namespace sjh {
 
 	
 	VirtualDisk::VirtualDisk(vssd_pan * Now, vssd_inode * aGenius, std::wstring aName) :Name(vssd_name(aName)), NowPan(Now), Genius(aGenius)
-	{ 
+	{  
 	}
 
 	
@@ -56,6 +56,7 @@ namespace sjh {
 
 	void VirtualDisk::SetName(std::wstring aName)
 	{
+		
 		Name.Set(aName);
 	}
 
